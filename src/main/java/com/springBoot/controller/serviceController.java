@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.springBoot.utils.MessageUtil;
+import com.springBoot.utils.StringUtil;
 import com.springBoot.utils.configs.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,12 @@ public class serviceController {
 
 	/**
 	 * 注解RequestMapping中produces属性可以设置返回数据的类型以及编码，可以是json或者xml
+	 *
+	 * @param request     请求
+	 * @param response    响应
+	 * @param serviceName 请求服务名
+	 * @param funcName    请求方法名
+	 * @return 执行方法返回值 转为json字符串
 	 */
 	@RequestMapping(
 			value = {"/service/{serviceName}/{funcName}"},
@@ -105,41 +112,48 @@ public class serviceController {
 		}
 	}
 
-	// 方法参数赋值 方法参数名: arg0,arg1,..  将json字符串参数转为方法对应参数对象
+	/**
+	 * 方法参数赋值 方法参数名: arg0,arg1,..  将json字符串参数转为方法对应参数对象
+	 *
+	 * @param paramMap   request请求方法传入参数
+	 * @param parameters 所请求的方法参数名数组
+	 * @return 参数转为Object[]数组
+	 * @throws Exception
+	 */
 	private Object[] getMethodParams(Map<String, String> paramMap, Parameter[] parameters) throws Exception {
 		Object[] params = null;
 		if (parameters.length > 0 && paramMap.size() > 0) {
 			params = new Object[parameters.length];
 			for (int i = 0; i < parameters.length; i++) {
+				if (!paramMap.containsKey(parameters[i].getName())) {
+					throw new Exception("方法要求参数" + parameters[i].getName() + "未找到");
+				}
 				Class clazz = parameters[i].getType();
 				String value = paramMap.get(parameters[i].getName());
-				if (value == null) {
-					throw new Exception("获取的方法参数名错误，参数" + parameters[i].getName() + "无法赋值");
-				}
 				// 判断方法参数类型
 				if (isBaseType(clazz)) {
 					// 基本数据类型
 					try {
-						String jsonStr = new JsonParser().parse(value).getAsString();
+						String jsonStr = StringUtil.isNullOrEmpty(value) ? value : new JsonParser().parse(value).getAsString();
 						params[i] = gson.fromJson(gson.toJson(jsonStr), clazz);
 					} catch (Exception e) {
-						throw new Exception("json反序列化失败", e);
+						throw new Exception("json反序列化失败.value=" + value, e);
 					}
 				} else if (List.class.equals(clazz) && parameters[i].getParameterizedType() instanceof Class) {
 					// 集合
 					try {
-						JsonArray jsonArray = new JsonParser().parse(value).getAsJsonArray();
+						JsonArray jsonArray = StringUtil.isNullOrEmpty(value) ? null : new JsonParser().parse(value).getAsJsonArray();
 						params[i] = gson.fromJson(gson.toJson(jsonArray), parameters[i].getParameterizedType());
 					} catch (Exception e) {
-						throw new Exception("json反序列化失败", e);
+						throw new Exception("json反序列化失败.value=" + value, e);
 					}
 				} else {
 					// 对象
 					try {
-						JsonObject jsonObject = new JsonParser().parse(value).getAsJsonObject();
+						JsonObject jsonObject = StringUtil.isNullOrEmpty(value) ? null : new JsonParser().parse(value).getAsJsonObject();
 						params[i] = gson.fromJson(gson.toJson(jsonObject), clazz);
 					} catch (Exception e) {
-						throw new Exception("json反序列化失败", e);
+						throw new Exception("json反序列化失败.value=" + value, e);
 					}
 				}
 			}
@@ -147,7 +161,12 @@ public class serviceController {
 		return params;
 	}
 
-	// 判断是否基本数据类型
+	/**
+	 * 判断是否基本数据类型
+	 *
+	 * @param clazz Class类型
+	 * @return boolean
+	 */
 	private boolean isBaseType(Class clazz) {
 		return String.class.equals(clazz) ||
 				Long.class.equals(clazz) || Long.TYPE.equals(clazz) ||

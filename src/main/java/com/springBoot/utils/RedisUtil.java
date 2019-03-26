@@ -1,5 +1,6 @@
 package com.springBoot.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,17 @@ public class RedisUtil {
 				redisTemplate.delete(CollectionUtils.arrayToList(key));
 			}
 		}
+	}
+
+	/**
+	 * 模糊查询所有key，prefix为空时查询所有，prefix不为空时查询以prefix为前缀的所有key
+	 *
+	 * @param prefix 模糊查询key前缀
+	 * @return Set<String>
+	 */
+	public Set<String> getKeysByPrefix(String prefix) {
+		prefix = StringUtils.isEmpty(prefix) ? "*" : prefix.concat("*");
+		return redisTemplate.keys(prefix);
 	}
 
 	// ============================String=============================

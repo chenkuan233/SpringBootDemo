@@ -12,6 +12,8 @@ public class StringUtil {
 
 	/**
 	 * 将null或空字符串转为null,并去掉末尾空格
+	 *
+	 * @param str 字符串
 	 */
 	public static String convertToNull(String str) {
 		if (StringUtils.isBlank(str)) {
@@ -25,7 +27,6 @@ public class StringUtil {
 	 *
 	 * @param str       字符串
 	 * @param strLength 长度
-	 * @return
 	 */
 	public static String stringFormat(String str, int strLength) {
 		if (null == str || "".equals(str) || "".equals(str.trim()) || 0 == strLength) return null;
@@ -40,4 +41,12 @@ public class StringUtil {
 		return str;
 	}
 
+	/**
+	 * 判断字符串是和为空，包括"null"
+	 *
+	 * @param str 字符串
+	 */
+	public static boolean isNullOrEmpty(String str) {
+		return StringUtils.isEmpty(str) || "null".equalsIgnoreCase(str);
+	}
 }
