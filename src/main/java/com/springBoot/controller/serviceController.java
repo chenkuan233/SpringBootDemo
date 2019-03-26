@@ -73,7 +73,7 @@ public class serviceController {
 			Object service = SpringContextUtil.getBean(serviceName);
 
 			// 获取指定方法(null：忽略参数; 不能存在方法的重载)
-			Method method = ReflectionUtils.findMethod(service.getClass(), funcName, null);
+			Method method = ReflectionUtils.findMethod(service.getClass(), funcName, (Class<?>[]) null);
 			if (method == null) {
 				logger.error("请求无对应方法 " + funcName);
 				response.setHeader("error_code", "104");
