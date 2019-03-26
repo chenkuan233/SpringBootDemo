@@ -5,7 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.springBoot.utils.MessageUtil;
-import com.springBoot.utils.systemUtils.SpringContextUtil;
+import com.springBoot.utils.configs.SpringContextUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

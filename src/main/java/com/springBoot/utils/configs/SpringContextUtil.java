@@ -1,4 +1,4 @@
-package com.springBoot.utils.systemUtils;
+package com.springBoot.utils.configs;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
