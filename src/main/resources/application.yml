@@ -1,0 +1,86 @@
+server:
+  port: 8081
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  # 数据源
+  datasource:
+    # 数据库地址
+    url: jdbc:mysql://106.14.119.3:3306/chen?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
+    # 登录用户名
+    username: root
+    # 登录密码
+    password: youqu
+    # 驱动包
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 数据源平台
+    platform: mysql
+    # alibaba连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 连接池配置
+    druid:
+      # 初始化连接池数量
+      initial-size: 3
+      # 最小连接池数量
+      min-idle: 5
+      # 最大连接池数量
+      max-active: 50
+      # 获取连接时最大等待时间
+      max-wait: 60000
+      # 是否缓存preparedStatement，也就是PSCache
+      pool-prepared-statements: false
+      # 要启用PSCache，必须配置大于0
+      max-open-prepared-statements: -1
+      # 保证安全性，申请连接的时候检测
+      test-while-idle: true
+      # 监控统计扩展插件
+      filters: slf4j,stat,wall
+  jpa:
+    # 数据库类型
+    database: mysql
+    # 数据库平台
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    # 显示sql
+    show-sql: true
+    hibernate:
+      # 没有则创建，有则更新
+      ddl-auto: update
+    # 禁用视图
+    open-in-view: false
+  jackson:
+    # 时间格式
+    date-format: yyyy-MM-dd HH:mm:ss
+    # 时间区域
+    time-zone: Asia/Chongqing
+  http:
+    converters:
+      # 用于HTTP消息转换的首选JSON映射器
+      preferred-json-mapper: gson
+  gson:
+    # 时间格式
+    date-format: yyyy-MM-dd HH:mm:ss
+
+mybatis:
+  # mybatis配置文件路径
+  config-location: classpath:mybatis-config.xml
+  # 扫描实体类所在包
+  type-aliases-package: com.springBoot.entity
+  # 编译后的mapper.xml扫描路径
+  mapper-locations: classpath:*Mapper.xml
+
+pagehelper:
+  # 数据库方言
+  helper-dialect: mysql
+  # 分页的合理化数据
+  reasonable: true
+  # 支持通过 Mapper 接口参数来传递分页参数
+  support-methods-arguments: true
+  # 为了支持 startPage(Object params) 方法，增加了该参数来配置参数映射，用于从对象中根据属性名取值
+  params: count=countSql
+
+mapper:
+  # 通用mapper类所在接口名称
+  mappers: com.springBoot.commonMapper.MyMapper
+  # 数据库
+  identity: mysql
