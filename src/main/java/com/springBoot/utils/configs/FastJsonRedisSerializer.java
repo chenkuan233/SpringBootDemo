@@ -2,6 +2,8 @@ package com.springBoot.utils.configs;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 
@@ -36,7 +38,11 @@ public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 		if (bytes == null || bytes.length <= 0) {
 			return null;
 		}
+		// 将字节数组转为字符串
 		String str = new String(bytes, DEFAULT_CHARSET);
+		// 格式化字符串为json字符串
+		str = new Gson().toJson(new JsonParser().parse(str));
+		// json字符串转为相应clazz对象
 		return (T) JSON.parseObject(str, clazz);
 	}
 }
