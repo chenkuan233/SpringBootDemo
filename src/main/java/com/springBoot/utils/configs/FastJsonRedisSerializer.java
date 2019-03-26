@@ -25,7 +25,7 @@ public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 
 	@Override
 	public byte[] serialize(T t) throws SerializationException {
-		if (null == t) {
+		if (t == null) {
 			return new byte[0];
 		}
 		return JSON.toJSONString(t, SerializerFeature.WriteClassName).getBytes(DEFAULT_CHARSET);
@@ -33,7 +33,7 @@ public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 
 	@Override
 	public T deserialize(byte[] bytes) throws SerializationException {
-		if (null == bytes || bytes.length <= 0) {
+		if (bytes == null || bytes.length <= 0) {
 			return null;
 		}
 		String str = new String(bytes, DEFAULT_CHARSET);

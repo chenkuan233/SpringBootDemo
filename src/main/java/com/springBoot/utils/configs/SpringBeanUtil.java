@@ -17,7 +17,7 @@ import java.util.Map;
  */
 @Component
 @SuppressWarnings({"rawtypes", "unchecked"})
-public class SpringContextUtil implements ApplicationContextAware {
+public class SpringBeanUtil implements ApplicationContextAware {
 
 	private static ApplicationContext applicationContext;
 

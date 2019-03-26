@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.springBoot.utils.MessageUtil;
 import com.springBoot.utils.StringUtil;
-import com.springBoot.utils.configs.SpringContextUtil;
+import com.springBoot.utils.configs.SpringBeanUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -56,7 +56,7 @@ public class serviceController {
 	public String doService(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) {
 		try {
 			// 判断serviceBean是否存在
-			List<String> beanNames = SpringContextUtil.getAllBeanNames();
+			List<String> beanNames = SpringBeanUtil.getAllBeanNames();
 			if (!beanNames.contains(serviceName)) {
 				logger.error("请求无对应服务 " + serviceName + "." + funcName);
 				response.setHeader("error_code", "104");
@@ -77,7 +77,7 @@ public class serviceController {
 			}
 
 			// 获取serviceBean
-			Object service = SpringContextUtil.getBean(serviceName);
+			Object service = SpringBeanUtil.getBean(serviceName);
 
 			// 获取指定方法(null：忽略参数; 不能存在方法的重载)
 			Method method = ReflectionUtils.findMethod(service.getClass(), funcName, (Class<?>[]) null);
