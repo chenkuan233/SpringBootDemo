@@ -2,40 +2,13 @@ server:
   port: 8081
   tomcat:
     uri-encoding: UTF-8
+    max-threads: 200
+    min-spare-threads: 10
 
 spring:
-  # 数据源
-  datasource:
-    # 数据库地址
-    url: jdbc:mysql://106.14.119.3:3306/chen?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
-    # 登录用户名
-    username: root
-    # 登录密码
-    password: youqu
-    # 驱动包
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    # 数据源平台
-    platform: mysql
-    # alibaba连接池
-    type: com.alibaba.druid.pool.DruidDataSource
-    # 阿里连接池配置
-    druid:
-      # 初始化连接池数量
-      initial-size: 3
-      # 最小连接池数量
-      min-idle: 5
-      # 最大连接池数量
-      max-active: 50
-      # 获取连接时最大等待时间
-      max-wait: 60000
-      # 是否缓存preparedStatement，也就是PSCache
-      pool-prepared-statements: false
-      # 要启用PSCache，必须配置大于0
-      max-open-prepared-statements: -1
-      # 保证安全性，申请连接的时候检测
-      test-while-idle: true
-      # 监控统计扩展插件
-      filters: slf4j,stat,wall
+  # 运行环境 dev:开发环境；test:测试环境；prod:生产环境
+  profiles:
+    active: dev
   jpa:
     # 数据库类型
     database: mysql
@@ -60,35 +33,6 @@ spring:
   gson:
     # 时间格式
     date-format: yyyy-MM-dd HH:mm:ss
-  cache:
-    type: redis
-    redis:
-      # 缓存超时时间ms
-      # time-to-live: 20000
-      # 是否缓存空值
-      cache-null-values: false
-  redis:
-    # Redis数据库索引（默认为0）
-    database: 0
-    # Redis服务器地址
-    host: 127.0.0.1
-    # Redis服务器连接端口
-    port: 6379
-    # Redis服务器连接密码（默认为空）
-    password:
-    # 使用lettuce连接池连接redis
-    lettuce:
-      pool:
-        # 连接池最大连接数（使用负值表示没有限制）
-        max-active: 200
-        # 连接池最大阻塞等待时间（使用负值表示没有限制）
-        max-wait: -1
-        # 连接池中的最大空闲连接
-        max-idle: 8
-        # 连接池中的最小空闲连接
-        min-idle: 0
-    # 连接超时时间（毫秒）
-    timeout: 2000
 
 mybatis:
   # mybatis配置文件路径
