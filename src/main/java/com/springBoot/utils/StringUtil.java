@@ -41,12 +41,4 @@ public class StringUtil {
 		return str;
 	}
 
-	/**
-	 * 判断字符串是和为空，包括"null"
-	 *
-	 * @param str 字符串
-	 */
-	public static boolean isNullOrEmpty(String str) {
-		return StringUtils.isEmpty(str) || "null".equalsIgnoreCase(str);
-	}
 }

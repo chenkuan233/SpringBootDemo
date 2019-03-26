@@ -1,11 +1,8 @@
 package com.springBoot.controller;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.springBoot.utils.MessageUtil;
-import com.springBoot.utils.StringUtil;
 import com.springBoot.utils.configs.SpringBeanUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -130,31 +127,14 @@ public class serviceController {
 				}
 				Class clazz = parameters[i].getType();
 				String value = paramMap.get(parameters[i].getName());
-				// 判断方法参数类型
-				if (isBaseType(clazz)) {
-					// 基本数据类型
-					try {
-						String jsonStr = StringUtil.isNullOrEmpty(value) ? value : new JsonParser().parse(value).getAsString();
-						params[i] = gson.fromJson(gson.toJson(jsonStr), clazz);
-					} catch (Exception e) {
-						throw new Exception("json反序列化失败.value=" + value, e);
-					}
-				} else if (List.class.equals(clazz) && parameters[i].getParameterizedType() instanceof Class) {
-					// 集合
-					try {
-						JsonArray jsonArray = StringUtil.isNullOrEmpty(value) ? null : new JsonParser().parse(value).getAsJsonArray();
-						params[i] = gson.fromJson(gson.toJson(jsonArray), parameters[i].getParameterizedType());
-					} catch (Exception e) {
-						throw new Exception("json反序列化失败.value=" + value, e);
-					}
-				} else {
-					// 对象
-					try {
-						JsonObject jsonObject = StringUtil.isNullOrEmpty(value) ? null : new JsonParser().parse(value).getAsJsonObject();
-						params[i] = gson.fromJson(gson.toJson(jsonObject), clazz);
-					} catch (Exception e) {
-						throw new Exception("json反序列化失败.value=" + value, e);
-					}
+				// 方法参数反序列化
+				try {
+					// 将字符串格式化为json字符串
+					String jsonStr = gson.toJson(new JsonParser().parse(value));
+					// 反序列化为对象clazz
+					params[i] = gson.fromJson(jsonStr, clazz);
+				} catch (Exception e) {
+					throw new Exception("json反序列化失败.value=" + value, e);
 				}
 			}
 		}
