@@ -1,10 +1,14 @@
 package com.springBoot.utils.configs;
 
 import com.alibaba.fastjson.parser.ParserConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.interceptor.CacheErrorHandler;
 import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +33,8 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
+
+	private static final Logger logger = LoggerFactory.getLogger(RedisConfig.class);
 
 	/**
 	 * 重写Redis序列化方式，使用Json方式:
@@ -141,5 +147,36 @@ public class RedisConfig extends CachingConfigurerSupport {
 				return sb.toString();
 			}
 		};
+	}
+
+	/**
+	 * 异常处理，当Redis发生异常时，打印日志，但是程序正常走
+	 */
+	@Bean
+	@Override
+	public CacheErrorHandler errorHandler() {
+		logger.info("初始化 -> [{}]", "Redis CacheErrorHandler");
+		CacheErrorHandler cacheErrorHandler = new CacheErrorHandler() {
+			@Override
+			public void handleCacheGetError(RuntimeException e, Cache cache, Object key) {
+				logger.error("Redis occur handleCacheGetError：key -> [{}]", key, e);
+			}
+
+			@Override
+			public void handleCachePutError(RuntimeException e, Cache cache, Object key, Object value) {
+				logger.error("Redis occur handleCachePutError：key -> [{}]；value -> [{}]", key, value, e);
+			}
+
+			@Override
+			public void handleCacheEvictError(RuntimeException e, Cache cache, Object key) {
+				logger.error("Redis occur handleCacheEvictError：key -> [{}]", key, e);
+			}
+
+			@Override
+			public void handleCacheClearError(RuntimeException e, Cache cache) {
+				logger.error("Redis occur handleCacheClearError：", e);
+			}
+		};
+		return cacheErrorHandler;
 	}
 }
