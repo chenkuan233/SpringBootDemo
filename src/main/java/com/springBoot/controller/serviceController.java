@@ -81,7 +81,7 @@ public class serviceController {
 			if (method == null) {
 				logger.error("请求无对应方法 " + funcName);
 				response.setHeader("error_code", "104");
-				return gson.toJson(MessageUtil.message(-1, "请求无对应方法 " + funcName));
+				return gson.toJson(MessageUtil.message(-1, "请求无对应方法: " + funcName));
 			}
 
 			// 获取该方法的参数, 校验参数
@@ -90,6 +90,12 @@ public class serviceController {
 				logger.error("参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length);
 				return gson.toJson(MessageUtil.message(-1, "参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length));
 			}
+
+			// 根据Parameter[]获取该方法的参数类型数组
+			/*Class<?>[] paramTypes = new Class<?>[parameters.length];
+			for (int i = 0; i < parameters.length; i++) {
+				paramTypes[i] = parameters[i].getType();
+			}*/
 
 			// 请求参数赋值给方法参数
 			Object[] params = getMethodParams(paramMap, parameters);
@@ -127,6 +133,16 @@ public class serviceController {
 				}
 				Class clazz = parameters[i].getType();
 				String value = paramMap.get(parameters[i].getName());
+				/*if (List.class.equals(clazz)) {
+					// 如果是List类型，获得泛型类型参数
+					Method method = UserServiceImpl.class.getMethod(funcName, paramTypes);
+					Type[] types = method.getGenericParameterTypes();
+					// 取对应的参数
+					ParameterizedType parameterizedType = (ParameterizedType) types[i];
+					// 获得实际参数类型
+					Type type = parameterizedType.getActualTypeArguments()[0];
+					logger.info(gson.toJson(type));
+				}*/
 				// 方法参数反序列化
 				try {
 					// 将字符串格式化为json字符串
@@ -141,18 +157,4 @@ public class serviceController {
 		return params;
 	}
 
-	/**
-	 * 判断是否基本数据类型
-	 *
-	 * @param clazz Class类型
-	 * @return boolean
-	 */
-	private boolean isBaseType(Class clazz) {
-		return String.class.equals(clazz) ||
-				Long.class.equals(clazz) || Long.TYPE.equals(clazz) ||
-				Integer.class.equals(clazz) || Integer.TYPE.equals(clazz) ||
-				Double.class.equals(clazz) || Double.TYPE.equals(clazz) ||
-				Float.class.equals(clazz) || Float.TYPE.equals(clazz) ||
-				Short.class.equals(clazz) || Short.TYPE.equals(clazz);
-	}
 }
