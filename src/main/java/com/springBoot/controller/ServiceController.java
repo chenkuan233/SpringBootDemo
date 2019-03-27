@@ -31,27 +31,57 @@ import java.util.Map;
  */
 @SuppressWarnings("unchecked")
 @Controller
-public class serviceController {
+public class ServiceController {
 
-	private static final Logger logger = LoggerFactory.getLogger(serviceController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ServiceController.class);
 
 	private Gson gson = new Gson();
 
 	/**
-	 * 注解RequestMapping中produces属性可以设置返回数据的类型以及编码，可以是json或者xml
+	 * POST请求
 	 *
 	 * @param request     请求
 	 * @param response    响应
 	 * @param serviceName 请求服务名
 	 * @param funcName    请求方法名
-	 * @return 执行方法返回值 转为json字符串
+	 * @return 执行方法返回值
 	 */
 	@RequestMapping(
 			value = {"/service/{serviceName}/{funcName}"},
 			method = {RequestMethod.POST},
 			produces = {"text/plain;charset=UTF-8"})
 	@ResponseBody
-	public String doService(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) {
+	public String doPost(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) {
+		return doService(request, response, serviceName, funcName, RequestMethod.POST);
+	}
+
+	/**
+	 * GET请求
+	 *
+	 * @param request     请求
+	 * @param response    响应
+	 * @param serviceName 请求服务名
+	 * @param funcName    请求方法名
+	 * @return 执行方法返回值
+	 */
+	@RequestMapping(
+			value = {"/service/{serviceName}/{funcName}"},
+			method = {RequestMethod.GET},
+			produces = {"text/plain;charset=UTF-8"})
+	@ResponseBody
+	public String doGet(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) {
+		return doService(request, response, serviceName, funcName, RequestMethod.GET);
+	}
+
+	/**
+	 * @param request       请求
+	 * @param response      响应
+	 * @param serviceName   请求服务名
+	 * @param funcName      请求方法名
+	 * @param requestMethod 请求类型
+	 * @return 方法返回值的json字符串
+	 */
+	private String doService(HttpServletRequest request, HttpServletResponse response, String serviceName, String funcName, RequestMethod requestMethod) {
 		try {
 			// 判断serviceBean是否存在
 			List<String> beanNames = SpringBeanUtil.getBeanNames();
@@ -101,7 +131,7 @@ public class serviceController {
 			Object obj = ReflectionUtils.invokeMethod(method, service, params);
 			// 处理返回数据
 			String returnData = gson.toJson(obj);
-			logger.info("离开服务: " + serviceName + "." + funcName + " POST return: " + (returnData == null ? null : returnData.length() > 300 ? returnData.substring(0, 300) + "..." : returnData));
+			logger.info("离开服务: " + serviceName + "." + funcName + " " + requestMethod + " return: " + (returnData == null ? null : returnData.length() > 300 ? returnData.substring(0, 300) + "..." : returnData));
 
 			response.setHeader("error_code", "200");
 			return returnData;
