@@ -1,4 +1,4 @@
-package com.springBoot.utils.configs;
+package com.springBoot.utils.config.redis;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;

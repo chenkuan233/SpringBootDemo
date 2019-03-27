@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
     <!--自定义颜色配置-->
-    <conversionRule conversionWord="customColor" converterClass="com.springBoot.utils.configs.LogbackColorful"/>
+    <conversionRule conversionWord="customColor" converterClass="com.springBoot.utils.config.log.LogbackColorful"/>
 
     <!-- 输出信息到控制抬 -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">

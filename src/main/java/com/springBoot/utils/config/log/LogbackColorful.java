@@ -1,4 +1,4 @@
-package com.springBoot.utils.configs;
+package com.springBoot.utils.config.log;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;

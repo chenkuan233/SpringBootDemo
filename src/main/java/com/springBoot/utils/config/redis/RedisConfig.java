@@ -1,4 +1,4 @@
-package com.springBoot.utils.configs;
+package com.springBoot.utils.config.redis;
 
 import com.alibaba.fastjson.parser.ParserConfig;
 import org.slf4j.Logger;

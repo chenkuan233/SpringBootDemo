@@ -1,4 +1,4 @@
-package com.springBoot.utils.security;
+package com.springBoot.utils.config.security;
 
 import com.springBoot.entity.Role;
 import com.springBoot.entity.User;

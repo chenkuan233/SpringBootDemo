@@ -1,4 +1,4 @@
-package com.springBoot.utils.configs;
+package com.springBoot.utils.config.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
