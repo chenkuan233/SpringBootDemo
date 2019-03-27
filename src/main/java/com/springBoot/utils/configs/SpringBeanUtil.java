@@ -21,9 +21,12 @@ public class SpringBeanUtil implements ApplicationContextAware {
 
 	private static ApplicationContext applicationContext;
 
+	private static List<String> beanNames;
+
 	@Override
 	public void setApplicationContext(ApplicationContext app) throws BeansException {
 		applicationContext = app;
+		beanNames = getAllBeanNames();
 	}
 
 	/**
@@ -36,7 +39,7 @@ public class SpringBeanUtil implements ApplicationContextAware {
 	/**
 	 * 获取所有BeanNames
 	 */
-	public static List<String> getAllBeanNames() {
+	private static List<String> getAllBeanNames() {
 		return Arrays.asList(applicationContext.getBeanDefinitionNames());
 	}
 
@@ -66,5 +69,9 @@ public class SpringBeanUtil implements ApplicationContextAware {
 	 */
 	public static <T> Map<String, T> getBeansByClass(Class c) {
 		return applicationContext.getBeansOfType(c);
+	}
+
+	public static List<String> getBeanNames() {
+		return beanNames;
 	}
 }

@@ -26,6 +26,7 @@ import java.util.Map;
  * @author chenkuan
  * @version v1.0
  * @desc 通用serviceController
+ * 注：该controller暂不支持调用参数中有List<>类型的方法(可支持List<String>)
  * @date 2019/3/1 001 14:21
  */
 @SuppressWarnings("unchecked")
@@ -53,11 +54,11 @@ public class serviceController {
 	public String doService(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) {
 		try {
 			// 判断serviceBean是否存在
-			List<String> beanNames = SpringBeanUtil.getAllBeanNames();
+			List<String> beanNames = SpringBeanUtil.getBeanNames();
 			if (!beanNames.contains(serviceName)) {
-				logger.error("请求无对应服务 " + serviceName + "." + funcName);
+				logger.error("请求无对应服务: " + serviceName + "." + funcName);
 				response.setHeader("error_code", "104");
-				return gson.toJson(MessageUtil.message(-1, "请求无对应服务 " + serviceName + "." + funcName));
+				return gson.toJson(MessageUtil.message(-1, "请求无对应服务: " + serviceName + "." + funcName));
 			}
 
 			// 获取request请求方法参数
@@ -79,7 +80,7 @@ public class serviceController {
 			// 获取指定方法(null：忽略参数; 不能存在方法的重载)
 			Method method = ReflectionUtils.findMethod(service.getClass(), funcName, (Class<?>[]) null);
 			if (method == null) {
-				logger.error("请求无对应方法 " + funcName);
+				logger.error("请求无对应方法: " + funcName);
 				response.setHeader("error_code", "104");
 				return gson.toJson(MessageUtil.message(-1, "请求无对应方法: " + funcName));
 			}
@@ -91,17 +92,11 @@ public class serviceController {
 				return gson.toJson(MessageUtil.message(-1, "参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length));
 			}
 
-			// 根据Parameter[]获取该方法的参数类型数组
-			/*Class<?>[] paramTypes = new Class<?>[parameters.length];
-			for (int i = 0; i < parameters.length; i++) {
-				paramTypes[i] = parameters[i].getType();
-			}*/
-
 			// 请求参数赋值给方法参数
 			Object[] params = getMethodParams(paramMap, parameters);
 
 			// 反射执行方法并获取返回结果
-			logger.info("进入方法：" + serviceName + "." + funcName + " 参数：" + gson.toJson(params));
+			logger.info("进入方法: " + serviceName + "." + funcName + " 参数: " + gson.toJson(params));
 			Object obj = ReflectionUtils.invokeMethod(method, service, params);
 			String returnData = gson.toJson(obj);
 			logger.info(serviceName + "." + funcName + " POST return: " + (returnData == null ? null : returnData.length() > 300 ? returnData.substring(0, 300) + "..." : returnData));
@@ -110,7 +105,7 @@ public class serviceController {
 			return gson.toJson(obj);
 		} catch (Exception e) {
 			logger.error("serviceController出错", e);
-			response.setHeader("error_code", "405");
+			response.setHeader("error_code", "500");
 			return gson.toJson(MessageUtil.message(-1, "serviceController出错" + e));
 		}
 	}
@@ -133,16 +128,6 @@ public class serviceController {
 				}
 				Class clazz = parameters[i].getType();
 				String value = paramMap.get(parameters[i].getName());
-				/*if (List.class.equals(clazz)) {
-					// 如果是List类型，获得泛型类型参数
-					Method method = UserServiceImpl.class.getMethod(funcName, paramTypes);
-					Type[] types = method.getGenericParameterTypes();
-					// 取对应的参数
-					ParameterizedType parameterizedType = (ParameterizedType) types[i];
-					// 获得实际参数类型
-					Type type = parameterizedType.getActualTypeArguments()[0];
-					logger.info(gson.toJson(type));
-				}*/
 				// 方法参数反序列化
 				try {
 					// 将字符串格式化为json字符串
