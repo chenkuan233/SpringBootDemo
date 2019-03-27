@@ -1,9 +1,29 @@
 server:
-  port: 8081
+  port: 443
   tomcat:
+    # 编码
     uri-encoding: UTF-8
-    max-threads: 200
+    # Tomcat可创建的最大的线程数，每一个线程处理一个请求
+    max-threads: 500
+    # 最小备用线程数，tomcat启动时的初始化的线程数
     min-spare-threads: 10
+  # 启用https
+  ssl:
+    # 秘钥证书路径
+    key-store: classpath:https.keystore
+    # 密钥库密码
+    key-store-password: 123456
+    # 密钥证书类型
+    key-store-type: JKS
+    # 秘钥别名(配置https会导致端口占用)
+    key-alias: tomcat
+  servlet:
+    # 打开注释，则通过【http://localhost/springBootDemo】访问
+    context-path: /springBootDemo
+
+# 自定义属性，配置http端口号
+http:
+  port: 80
 
 spring:
   # 运行环境 dev:开发环境；test:测试环境；prod:生产环境；c3p0:数据库配置
