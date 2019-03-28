@@ -9,13 +9,13 @@ server:
     min-spare-threads: 10
   # 启用https
   ssl:
-    # 秘钥证书路径
+    # 密钥证书路径
     key-store: classpath:https.keystore
     # 密钥库密码
     key-store-password: 123456
     # 密钥证书类型
     key-store-type: JKS
-    # 秘钥别名(配置https会导致端口占用)
+    # 密钥别名(配置https会导致端口占用)
     key-alias: tomcat
   servlet:
     # 打开注释，则通过【http://localhost/springBootDemo】访问
