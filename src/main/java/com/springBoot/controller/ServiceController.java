@@ -74,6 +74,8 @@ public class ServiceController {
 	}
 
 	/**
+	 * doService 请求处理
+	 *
 	 * @param request       请求
 	 * @param response      响应
 	 * @param serviceName   请求服务名
@@ -111,7 +113,7 @@ public class ServiceController {
 			Method method = ReflectionUtils.findMethod(service.getClass(), funcName, (Class<?>[]) null);
 			if (method == null) {
 				logger.error("请求无对应方法: " + funcName);
-				response.setHeader("error_code", "104");
+				response.setHeader("error_code", "105");
 				return gson.toJson(MessageUtil.message(-1, "请求无对应方法: " + funcName));
 			}
 

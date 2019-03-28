@@ -13,17 +13,13 @@ server:
     key-store: classpath:https.keystore
     # 密钥库密码
     key-store-password: 123456
-    # 密钥证书类型
+    # 密钥库类型
     key-store-type: JKS
-    # 密钥别名(配置https会导致端口占用)
+    # 密钥别名
     key-alias: tomcat
   servlet:
     # 打开注释，则通过【http://localhost/springBootDemo】访问
     context-path: /springBootDemo
-
-# 自定义属性，配置http端口号
-http:
-  port: 80
 
 spring:
   # 运行环境 dev:开发环境；test:测试环境；prod:生产环境；c3p0:数据库配置
@@ -82,6 +78,19 @@ spring:
         min-idle: 0
     # 连接超时时间（毫秒）
     timeout: 2000
+  thymeleaf:
+    # html具有缓存的特点，热部署文件，页面不产生缓存，及时更新
+    cache: true
+    # 目标路径
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+  # 热启动
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: classpath:/
 
 mybatis:
   # mybatis配置文件路径

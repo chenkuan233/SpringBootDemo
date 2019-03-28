@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import javax.servlet.Filter;
@@ -27,19 +28,20 @@ import java.util.Map;
  * @desc Shiro集成Cas配置
  * @date 2019/3/25 025 10:17
  */
-// @Configuration
+//@SuppressWarnings("unchecked")
+//@Configuration
 public class ShiroCasConfiguration {
 
 	private static final Logger logger = LoggerFactory.getLogger(ShiroCasConfiguration.class);
 
 	// CasServerUrlPrefix
-	public static final String casServerUrlPrefix = "https://localhost:8081/cas";
+	public static final String casServerUrlPrefix = "https://localhost:443/cas";
 	// Cas登录页面地址
 	public static final String casLoginUrl = casServerUrlPrefix + "/login";
 	// Cas登出页面地址
 	public static final String casLogoutUrl = casServerUrlPrefix + "/logout";
 	// 当前工程对外提供的服务地址
-	public static final String shiroServerUrlPrefix = "http://localhost:9090/myspringboot";
+	public static final String shiroServerUrlPrefix = "https://localhost:443/springBootDemo";
 	// casFilter UrlPattern
 	public static final String casFilterUrlPattern = "/shiro-cas";
 	// 登录地址
@@ -66,8 +68,8 @@ public class ShiroCasConfiguration {
 	public FilterRegistrationBean filterRegistrationBean() {
 		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
 		filterRegistration.setFilter(new DelegatingFilterProxy("shiroFilter"));
-		//  该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由ServletContainer管理
-		filterRegistration.addInitParameter("targetFilterLifecycle", "true");
+		// 该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由ServletContainer管理
+		filterRegistration.addInitParameter("targetFilterLifecycle", "false");
 		filterRegistration.setEnabled(true);
 		filterRegistration.addUrlPatterns("/*");
 		return filterRegistration;
@@ -107,7 +109,7 @@ public class ShiroCasConfiguration {
 	 * 加载shiroFilter权限控制规则（从数据库读取然后配置）
 	 */
 	private void loadShiroFilterChain(ShiroFilterFactoryBean shiroFilterFactoryBean, UserService userService, UserMapper userMapper) {
-		/////////////////////// 下面这些规则配置最好配置到配置文件中 ///////////////////////
+		// 下面这些规则配置最好配置到配置文件中
 		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
 		filterChainDefinitionMap.put(casFilterUrlPattern, "casFilter"); // shiro集成cas后，首先添加该规则
