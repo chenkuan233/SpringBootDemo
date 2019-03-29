@@ -15,6 +15,7 @@ import com.springBoot.service.UserService;
 import com.springBoot.utils.DateUtil;
 import com.springBoot.utils.MD5Util;
 import com.springBoot.utils.MessageUtil;
+import com.springBoot.utils.UserEncrypt;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +53,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private PermissionMapper permissionMapper;
 
+	@Autowired
+	private UserEncrypt userEncrypt;
+
 	@Override
 	public List<User> findAllUser() {
 		return (List<User>) userRepository.findAll();
@@ -74,16 +78,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findByUserNameAndPassword(String userName, String password) {
-		return userRepository.findByUserNameAndPassword(userName, MD5Util.md5(password));
-	}
-
-	@Override
 	public void saveOrUpdateUser(User user) {
 		if (user.getId() == null) {
 			user.setRegDate(DateUtil.date());
 			user.setRegTime(DateUtil.time());
-			user.setPassword(MD5Util.md5(user.getPassword())); // MD5加密
+			// 加密
+			user = userEncrypt.encrypt(user);
 			logger.info("新增用户:" + user.getUserName());
 		} else {
 			logger.info("更新用户:" + user.getUserName());
@@ -109,7 +109,9 @@ public class UserServiceImpl implements UserService {
 	// mybatis查询 ByUserNameAndPassword
 	@Override
 	public User findByUserNameAndPasswordMapper(String userName, String password) {
-		return userMapper.findByUserNameAndPassword(userName, MD5Util.md5(password));
+		User user = userCommonMapper.selectOne(new User(userName));
+		password = userEncrypt.encryptPassword(password, user.getCredentialsSalt());
+		return userMapper.findByUserNameAndPassword(userName, password);
 	}
 
 	// 通用mapper 查询，PageHelper分页
@@ -127,7 +129,8 @@ public class UserServiceImpl implements UserService {
 		if (user != null) {
 			user.setRegDate(DateUtil.date());
 			user.setRegTime(DateUtil.time());
-			user.setPassword(MD5Util.md5(user.getPassword())); // MD5加密
+			// 加密
+			user = userEncrypt.encrypt(user);
 			userCommonMapper.insert(user);
 			logger.info("新增用户:" + user.getUserName());
 		}
@@ -142,25 +145,20 @@ public class UserServiceImpl implements UserService {
 
 	// 通用mapper 修改用户密码
 	@Override
-	public Map<String, String> updatePasswordMyMapper(Long id, String oldPassword, String newPassword) {
-		User user = userCommonMapper.selectByPrimaryKey(id);
+	public Map<String, String> updatePasswordMyMapper(String userName, String oldPassword, String newPassword) {
+		User user = userCommonMapper.selectOne(new User(userName));
 		if (user == null) {
 			logger.error("密码修改失败：用户不存在");
 			return MessageUtil.message("1", "用户不存在");
 		}
 		// 校验原密码
-		if (!user.getPassword().equals(MD5Util.md5(oldPassword))) {
+		oldPassword = userEncrypt.encryptPassword(oldPassword, user.getCredentialsSalt());
+		if (!user.getPassword().equals(oldPassword)) {
 			logger.error("密码修改失败：用户原密码校验错误");
 			return MessageUtil.message("2", "用户原密码校验错误");
 		}
-		// 原密码与新密码是否相同
-		newPassword = MD5Util.md5(newPassword);
-		if (user.getPassword().equals(newPassword)) {
-			logger.error("密码修改失败：用户密码未改变");
-			return MessageUtil.message("3", "用户密码未改变");
-		}
-		// 修改为新密码
-		user.setPassword(newPassword);
+		// 重新加密
+		user = userEncrypt.encrypt(user, newPassword);
 		userCommonMapper.updateByPrimaryKey(user);
 		logger.info("用户" + user.getUserName() + "密码修改成功");
 		return MessageUtil.message("0", "密码修改成功");

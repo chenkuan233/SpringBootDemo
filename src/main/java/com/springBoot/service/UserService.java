@@ -23,8 +23,6 @@ public interface UserService {
 
 	User findByUserName(String userCode);
 
-	User findByUserNameAndPassword(String userName, String password);
-
 	void saveOrUpdateUser(User user);
 
 	// mapper查询，PageHelper分页
@@ -46,7 +44,7 @@ public interface UserService {
 	void updateUserMyMapper(User user);
 
 	// 通用mapper 更新User
-	Map<String, String> updatePasswordMyMapper(Long id, String oldPassword, String newPassword);
+	Map<String, String> updatePasswordMyMapper(String userName, String oldPassword, String newPassword);
 
 	// mybatis查询 ByUserNameAndPassword
 	Long findRoleIdByUserId(Long userId);

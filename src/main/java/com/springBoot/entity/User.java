@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @date 2019/1/17 017 11:45
  */
 @Entity
-@Table(name = "t_user")
+@Table(name = "t_user", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_name"})})
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -36,6 +36,18 @@ public class User implements Serializable {
 	@Column(name = "reg_time", nullable = false)
 	@NotNull
 	private String regTime;
+
+	// 加密盐值
+	@Column(name = "credentials_salt")
+	@NotNull
+	private String credentialsSalt;
+
+	public User() {
+	}
+
+	public User(@NotNull String userName) {
+		this.userName = userName;
+	}
 
 	public Long getId() {
 		return id;
@@ -75,5 +87,13 @@ public class User implements Serializable {
 
 	public void setRegTime(String regTime) {
 		this.regTime = regTime;
+	}
+
+	public String getCredentialsSalt() {
+		return credentialsSalt;
+	}
+
+	public void setCredentialsSalt(String credentialsSalt) {
+		this.credentialsSalt = credentialsSalt;
 	}
 }
