@@ -48,7 +48,7 @@ public class ShiroCasConfig {
 	 * MyShiroCasRealm
 	 */
 	@Bean
-	public MyShiroCasRealm shiroCasRealm(@Value("${credentialsMatcher.algorithmName}") String algorithmName,
+	public MyShiroCasRealm myShiroCasRealm(@Value("${credentialsMatcher.algorithmName}") String algorithmName,
 										 @Value("${credentialsMatcher.iterations}") int iterations) {
 		MyShiroCasRealm shiroCasRealm = new MyShiroCasRealm();
 		// 启用身份验证缓存，即缓存AuthenticationInfo信息，默认false

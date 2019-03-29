@@ -142,7 +142,7 @@
 
         <!--shiro权限管理-->
         <!--shiro-cas 依赖 shiro-web，shiro-web 依赖 shiro-core，所以添加shiro-cas后shiro-web.jar和shiro-core.jar会自动被引用-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-core</artifactId>
             <version>1.4.0</version>
@@ -151,7 +151,7 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-web</artifactId>
             <version>1.4.0</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
@@ -170,17 +170,25 @@
             <artifactId>shiro-cas</artifactId>
             <version>1.4.0</version>
         </dependency>
-        <!--<dependency>
-            <groupId>org.pac4j</groupId>
-            <artifactId>pac4j-cas</artifactId>
-            <version>3.6.1</version>
-            <scope>runtime</scope>
+        <dependency>
+            <groupId>org.jasig.cas.client</groupId>
+            <artifactId>cas-client-core</artifactId>
+            <version>3.3.3</version>
         </dependency>
         <dependency>
-            <groupId>io.buji</groupId>
-            <artifactId>buji-pac4j</artifactId>
-            <version>4.1.0</version>
-        </dependency>-->
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.opensaml</groupId>
+            <artifactId>opensaml</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.santuario</groupId>
+            <artifactId>xmlsec</artifactId>
+            <version>1.4.3</version>
+        </dependency>
 
         <!--使用lettuce pool，保证redis多线程环境下是线程安全的-->
         <dependency>
