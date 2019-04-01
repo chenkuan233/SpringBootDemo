@@ -10,7 +10,7 @@ server:
   # 启用https
   ssl:
     # 密钥证书路径
-    key-store: classpath:https.keystore
+    key-store: classpath:tomcat.keystore
     # 密钥库密码
     key-store-password: 123456
     # 密钥库类型

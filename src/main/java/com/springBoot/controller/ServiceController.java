@@ -49,7 +49,8 @@ public class ServiceController {
 	@RequestMapping(
 			value = {"/service/{serviceName}/{funcName}"},
 			method = {RequestMethod.POST},
-			produces = {"text/plain;charset=UTF-8"})
+			produces = {"text/plain;charset=UTF-8"}
+	)
 	@ResponseBody
 	public String doPost(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) {
 		return doService(request, response, serviceName, funcName, RequestMethod.POST);

@@ -5,12 +5,15 @@
     <title>login</title>
 </head>
 <body>
-
-<form action="/springBootDemo/login" method="post">
-    用户名<input type="text" name="username"/>
-    密码<input type="password" name="password"/>
-    <input type="submit" value="登录"/>
-</form>
-
+<div>
+    <form action="/springBootDemo/login" method="post">
+        用户名<input type="text" name="username"/>
+        密码<input type="password" name="password"/>
+        <input type="submit" value="登录"/>
+    </form>
+    <p>
+        <span style="color: red;" th:text="${errMsg}"></span>
+    </p>
+</div>
 </body>
 </html>

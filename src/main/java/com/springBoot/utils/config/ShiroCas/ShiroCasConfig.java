@@ -18,6 +18,8 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.Ordered;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import javax.servlet.Filter;
@@ -49,7 +51,7 @@ public class ShiroCasConfig {
 	 */
 	@Bean
 	public MyShiroCasRealm myShiroCasRealm(@Value("${credentialsMatcher.algorithmName}") String algorithmName,
-										 @Value("${credentialsMatcher.iterations}") int iterations) {
+										   @Value("${credentialsMatcher.iterations}") int iterations) {
 		MyShiroCasRealm shiroCasRealm = new MyShiroCasRealm();
 		// 启用身份验证缓存，即缓存AuthenticationInfo信息，默认false
 		shiroCasRealm.setAuthenticationCachingEnabled(true);
@@ -68,9 +70,8 @@ public class ShiroCasConfig {
 	public ServletListenerRegistrationBean singleSignOutHttpSessionListener() {
 		ServletListenerRegistrationBean bean = new ServletListenerRegistrationBean();
 		bean.setListener(new SingleSignOutHttpSessionListener());
-		// bean.setName(""); // 默认为bean name
+		bean.setOrder(Ordered.HIGHEST_PRECEDENCE); // 设置优先级,优先级需要高于Cas的Filter
 		bean.setEnabled(true);
-		// bean.setOrder(Ordered.HIGHEST_PRECEDENCE); // 设置优先级
 		return bean;
 	}
 
@@ -101,22 +102,31 @@ public class ShiroCasConfig {
 		return filterRegistration;
 	}
 
+	/**
+	 * 该类可以保证实现了org.apache.shiro.util.Initializable接口的shiro对象的init或者是destory方法被自动调用，
+	 * 而不用手动指定init-method或者是destory-method方法
+	 * 注意：如果使用了该类，则不需要手动指定初始化方法和销毁方法，否则会出错
+	 */
 	@Bean(name = "lifecycleBeanPostProcessor")
 	public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
 		return new LifecycleBeanPostProcessor();
 	}
 
+	/**
+	 * 下面两个配置主要用来开启shiro aop注解支持. 使用代理方式;所以需要开启代码支持
+	 */
 	@Bean
+	@DependsOn("lifecycleBeanPostProcessor")
 	public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
 		DefaultAdvisorAutoProxyCreator daap = new DefaultAdvisorAutoProxyCreator();
 		daap.setProxyTargetClass(true);
-		// daap.setUsePrefix(false);
 		return daap;
 	}
 
 	@Bean(name = "securityManager")
 	public DefaultWebSecurityManager getDefaultWebSecurityManager(MyShiroCasRealm myShiroCasRealm) {
 		DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
+		// 设置realm
 		manager.setRealm(myShiroCasRealm);
 		// 用户授权/认证信息Cache, 采用EhCache 缓存
 		manager.setCacheManager(getEhCacheManager());
@@ -131,6 +141,14 @@ public class ShiroCasConfig {
 		aasa.setSecurityManager(securityManager);
 		return aasa;
 	}
+
+	/**
+	 * ShiroDialect，为了在thymeleaf里使用shiro的标签的bean
+	 */
+	/*@Bean
+	public ShiroDialect shiroDialect() {
+		return new ShiroDialect();
+	}*/
 
 	/**
 	 * CAS过滤器
@@ -175,7 +193,7 @@ public class ShiroCasConfig {
 											  @Value("${cas.service.unauthorizedUrl}") String unauthorizedUrl) {
 
 		logger.info("##################读取权限规则，加载到shiroFilter中##################");
-
+		// String loginUrl = casServerUrlPrefix + "/login?service=" + shiroServerUrlPrefix + "/cas";
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		// 必须设置 SecurityManager
 		shiroFilterFactoryBean.setSecurityManager(securityManager);
