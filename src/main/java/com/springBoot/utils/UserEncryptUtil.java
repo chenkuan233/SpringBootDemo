@@ -5,21 +5,17 @@ import com.springBoot.utils.config.ShiroCas.ByteSourceUtil;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
  * @author chenkuan
  * @version v1.0
- * @desc Shiro密码加密 对用户密码进行加密
+ * @desc Shiro密码加密 对密码进行加盐加密
  * @date 2019/3/29 029 10:02
  */
 @Component
-public class UserEncrypt {
-
-	private static final Logger logger = LoggerFactory.getLogger(UserEncrypt.class);
+public class UserEncryptUtil {
 
 	// 随机数生成器
 	private static RandomNumberGenerator randomNumber = new SecureRandomNumberGenerator();
@@ -36,7 +32,6 @@ public class UserEncrypt {
 	 * 生成随机盐值对密码进行加密
 	 *
 	 * @param user 登录用户
-	 * @return
 	 */
 	public User encrypt(User user) {
 		user.setCredentialsSalt(randomNumber.nextBytes().toHex());
@@ -50,7 +45,6 @@ public class UserEncrypt {
 	 *
 	 * @param user     登录用户
 	 * @param password 新密码
-	 * @return
 	 */
 	public User encrypt(User user, String password) {
 		user.setCredentialsSalt(randomNumber.nextBytes().toHex());
@@ -60,13 +54,12 @@ public class UserEncrypt {
 	}
 
 	/**
-	 * 获取指定密码的加密密码EncryptPassword
+	 * 对指定密码和盐进行加密
 	 *
 	 * @param password        原密码
 	 * @param credentialsSalt 加密盐值
-	 * @return
 	 */
-	public String encryptPassword(String password, String credentialsSalt) {
+	public String encrypt(String password, String credentialsSalt) {
 		return new SimpleHash(algorithmName, password, ByteSourceUtil.bytes(credentialsSalt), iterations).toHex();
 	}
 }

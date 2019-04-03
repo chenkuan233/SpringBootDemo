@@ -13,9 +13,8 @@ import com.springBoot.mapper.UserRoleMapper;
 import com.springBoot.repository.UserRepository;
 import com.springBoot.service.UserService;
 import com.springBoot.utils.DateUtil;
-import com.springBoot.utils.MD5Util;
 import com.springBoot.utils.MessageUtil;
-import com.springBoot.utils.UserEncrypt;
+import com.springBoot.utils.UserEncryptUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +53,7 @@ public class UserServiceImpl implements UserService {
 	private PermissionMapper permissionMapper;
 
 	@Autowired
-	private UserEncrypt userEncrypt;
+	private UserEncryptUtil userEncryptUtil;
 
 	@Override
 	public List<User> findAllUser() {
@@ -83,7 +82,7 @@ public class UserServiceImpl implements UserService {
 			user.setRegDate(DateUtil.date());
 			user.setRegTime(DateUtil.time());
 			// 加密
-			user = userEncrypt.encrypt(user);
+			user = userEncryptUtil.encrypt(user);
 			logger.info("新增用户:" + user.getUserName());
 		} else {
 			logger.info("更新用户:" + user.getUserName());
@@ -110,7 +109,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findByUserNameAndPasswordMapper(String userName, String password) {
 		User user = userCommonMapper.selectOne(new User(userName));
-		password = userEncrypt.encryptPassword(password, user.getCredentialsSalt());
+		password = userEncryptUtil.encrypt(password, user.getCredentialsSalt());
 		return userMapper.findByUserNameAndPassword(userName, password);
 	}
 
@@ -130,7 +129,7 @@ public class UserServiceImpl implements UserService {
 			user.setRegDate(DateUtil.date());
 			user.setRegTime(DateUtil.time());
 			// 加密
-			user = userEncrypt.encrypt(user);
+			user = userEncryptUtil.encrypt(user);
 			userCommonMapper.insert(user);
 			logger.info("新增用户:" + user.getUserName());
 		}
@@ -152,13 +151,13 @@ public class UserServiceImpl implements UserService {
 			return MessageUtil.message("1", "用户不存在");
 		}
 		// 校验原密码
-		oldPassword = userEncrypt.encryptPassword(oldPassword, user.getCredentialsSalt());
+		oldPassword = userEncryptUtil.encrypt(oldPassword, user.getCredentialsSalt());
 		if (!user.getPassword().equals(oldPassword)) {
 			logger.error("密码修改失败：用户原密码校验错误");
 			return MessageUtil.message("2", "用户原密码校验错误");
 		}
 		// 重新加密
-		user = userEncrypt.encrypt(user, newPassword);
+		user = userEncryptUtil.encrypt(user, newPassword);
 		userCommonMapper.updateByPrimaryKey(user);
 		logger.info("用户" + user.getUserName() + "密码修改成功");
 		return MessageUtil.message("0", "密码修改成功");
