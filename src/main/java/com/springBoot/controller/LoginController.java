@@ -83,6 +83,6 @@ public class LoginController {
 			response.setHeader("errCode", "500");
 			modelMap.addAttribute("errMsg", "登录出错");
 		}
-		return "login";
+		return loginUrl;
 	}
 }

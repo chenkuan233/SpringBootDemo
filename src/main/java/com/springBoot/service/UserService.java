@@ -26,7 +26,7 @@ public interface UserService {
 	void saveOrUpdateUser(User user);
 
 	// mapper查询，PageHelper分页
-	List<User> findAllMapper();
+	List<User> findAllMapper(int pageNum, int pageSize);
 
 	// mybatis查询
 	User findByUserNameMapper(String userName);

@@ -2,7 +2,6 @@ package com.springBoot.utils.config.ShiroCas;
 
 import com.springBoot.entity.User;
 import com.springBoot.service.UserService;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -41,7 +40,7 @@ public class MyShiroCasRealm extends CasRealm {
 		// cas server地址
 		setCasServerUrlPrefix(casServerUrlPrefix);
 		// 客户端回调地址
-		setCasService(shiroServerUrlPrefix + "/cas");
+		setCasService(shiroServerUrlPrefix);
 	}
 
 	/**
@@ -56,7 +55,8 @@ public class MyShiroCasRealm extends CasRealm {
 		logger.info("##################Shiro权限认证##################");
 
 		// 从凭证中获得用户名
-		String username = (String) SecurityUtils.getSubject().getPrincipal();
+		// String username = (String) SecurityUtils.getSubject().getPrincipal();
+		String username = (String) super.getAvailablePrincipal(principalCollection);
 		// 根据用户名查询用户对象
 		User user = userService.findByUserNameMapper(username);
 		// 查询用户拥有的角色
@@ -67,7 +67,6 @@ public class MyShiroCasRealm extends CasRealm {
 			info.addStringPermission(role.getRole());
 		}*/
 
-		user = new User();
 		if (user != null) {
 			// 权限信息对象info,用来存放查出的用户的所有的角色（role）及权限（permission）
 			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();

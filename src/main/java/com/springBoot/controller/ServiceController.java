@@ -129,15 +129,10 @@ public class ServiceController {
 			Object[] params = getMethodParams(paramMap, parameters);
 
 			// 反射执行方法并获取返回结果
-			logger.info("进入服务: " + serviceName + "." + funcName + " 参数: " + gson.toJson(params));
-			// 执行方法
 			Object obj = ReflectionUtils.invokeMethod(method, service, params);
-			// 处理返回数据
-			String returnData = gson.toJson(obj);
-			logger.info("离开服务: " + serviceName + "." + funcName + " " + requestMethod + " return: " + (returnData == null ? null : returnData.length() > 300 ? returnData.substring(0, 300) + "..." : returnData));
 
 			response.setHeader("error_code", "200");
-			return returnData;
+			return gson.toJson(obj);
 		} catch (Exception e) {
 			logger.error("serviceController出错", e);
 			response.setHeader("error_code", "500");

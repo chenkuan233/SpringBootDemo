@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import javax.servlet.Filter;
@@ -67,10 +68,10 @@ public class ShiroCasConfig {
 	 * 注册单点登出listener
 	 */
 	@Bean
+	@Order(Ordered.HIGHEST_PRECEDENCE)
 	public ServletListenerRegistrationBean singleSignOutHttpSessionListener() {
 		ServletListenerRegistrationBean bean = new ServletListenerRegistrationBean();
 		bean.setListener(new SingleSignOutHttpSessionListener());
-		bean.setOrder(Ordered.HIGHEST_PRECEDENCE); // 设置优先级,优先级需要高于Cas的Filter
 		bean.setEnabled(true);
 		return bean;
 	}
@@ -79,10 +80,14 @@ public class ShiroCasConfig {
 	 * 注册单点登出filter
 	 */
 	@Bean
-	public FilterRegistrationBean singleSignOutFilter() {
+	@Order(Ordered.HIGHEST_PRECEDENCE)
+	public FilterRegistrationBean singleSignOutFilter(@Value("${cas.server-url}") String casServerUrlPrefix) {
 		FilterRegistrationBean bean = new FilterRegistrationBean();
 		bean.setName("singleSignOutFilter");
-		bean.setFilter(new SingleSignOutFilter());
+		SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
+		singleSignOutFilter.setCasServerUrlPrefix(casServerUrlPrefix);
+		singleSignOutFilter.setIgnoreInitConfiguration(true);
+		bean.setFilter(singleSignOutFilter);
 		bean.addUrlPatterns("/*");
 		bean.setEnabled(true);
 		return bean;
@@ -235,7 +240,7 @@ public class ShiroCasConfig {
 
 		// 1.shiro集成cas后，首先添加该规则
 		filterMap.put("/cas", "casFilter");
-		//logut请求采用logout filter
+		// logut请求采用logout filter
 
 		// 2.不拦截的请求
 		filterMap.put("/js/**", "anon");
@@ -244,6 +249,7 @@ public class ShiroCasConfig {
 		filterMap.put("/images/**", "anon");
 		filterMap.put("/login", "anon");
 		filterMap.put("/error", "anon");
+		filterMap.put("/error/**", "anon");
 
 		// 登出请求 shiro的默认登出也会清理用户的session信息,并且也会清理掉redis中缓存的用户 身份认证和 权限认证的相关信息
 		filterMap.put("/logout", "logout");

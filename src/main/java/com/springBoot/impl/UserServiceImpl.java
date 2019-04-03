@@ -92,8 +92,8 @@ public class UserServiceImpl implements UserService {
 
 	// mybatis查询，PageHelper分页
 	@Override
-	public List<User> findAllMapper() {
-		PageHelper.startPage(1, 3);
+	public List<User> findAllMapper(int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
 		List<User> list = userMapper.findAll();
 		PageInfo<User> pageInfo = new PageInfo<>(list);
 		return list;
