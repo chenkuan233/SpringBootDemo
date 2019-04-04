@@ -118,7 +118,7 @@
         <dependency>
             <groupId>tk.mybatis</groupId>
             <artifactId>mapper-spring-boot-starter</artifactId>
-            <version>2.1.5</version>
+            <version>1.1.0</version>
         </dependency>
 
         <!--分页插件PageHelper相关依赖-->
@@ -170,25 +170,30 @@
             <artifactId>shiro-cas</artifactId>
             <version>1.4.0</version>
         </dependency>
+        <!--cas客户端-->
         <dependency>
             <groupId>org.jasig.cas.client</groupId>
             <artifactId>cas-client-core</artifactId>
             <version>3.3.3</version>
         </dependency>
+
+        <!--常见的编码解码工具Base64、MD5、Hex、SHA1、DES等-->
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
         </dependency>
+
+        <!--一个便于使用SAML消息的依赖库,用于SSO单点登录-->
         <dependency>
             <groupId>org.opensaml</groupId>
             <artifactId>opensaml</artifactId>
             <version>1.1</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.santuario</groupId>
             <artifactId>xmlsec</artifactId>
             <version>1.4.3</version>
-        </dependency>
+        </dependency>-->
 
         <!--使用lettuce pool，保证redis多线程环境下是线程安全的-->
         <dependency>

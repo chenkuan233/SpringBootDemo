@@ -46,7 +46,7 @@ public class TimeInterceptor {
 		try {
 			obj = joinPoint.proceed(args);
 		} catch (Throwable e) {
-			logger.error("统计" + methodName + "执行耗时环绕通知出错");
+			logger.error("统计" + methodName + "执行耗时环绕通知出错", e);
 		}
 		// 结束计时
 		long endTime = System.currentTimeMillis();
