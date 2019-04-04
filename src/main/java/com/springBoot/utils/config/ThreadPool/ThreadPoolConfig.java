@@ -1,4 +1,4 @@
-package com.springBoot.utils.config.TaskExecutor;
+package com.springBoot.utils.config.ThreadPool;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
