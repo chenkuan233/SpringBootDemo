@@ -159,10 +159,13 @@ public class ShiroCasConfig {
 	 * CAS过滤器
 	 */
 	@Bean(name = "casFilter")
-	public CasFilter getCasFilter(@Value("${cas.service.loginUrl}") String loginUrl) {
+	public CasFilter getCasFilter(@Value("${cas.service.loginUrl}") String loginUrl,
+								  @Value("${cas.loginSuccessUrl}") String loginSuccessUrl) {
 		CasFilter casFilter = new CasFilter();
 		casFilter.setName("casFilter");
 		casFilter.setEnabled(true);
+		casFilter.setLoginUrl(loginUrl);
+		casFilter.setSuccessUrl(loginSuccessUrl);
 		// 登录失败后跳转的URL，也就是 Shiro 执行 CasRealm 的 doGetAuthenticationInfo 方法向CasServer验证tiket
 		casFilter.setFailureUrl(loginUrl); // 我们选择认证失败后再打开登录页面
 		return casFilter;
