@@ -182,8 +182,6 @@ public class ShiroCasConfig {
 		hashedCredentialsMatcher.setHashAlgorithmName(algorithmName);
 		// 散列次数，比如散列两次，相当于md5(md5(""))
 		hashedCredentialsMatcher.setHashIterations(iterations);
-		// 存储散列后的密码是否为16进制
-		// hashedCredentialsMatcher.setStoredCredentialsHexEncoded(hexEncoded);
 		return hashedCredentialsMatcher;
 	}
 

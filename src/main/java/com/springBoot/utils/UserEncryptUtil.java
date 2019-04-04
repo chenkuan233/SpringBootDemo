@@ -29,7 +29,7 @@ public class UserEncryptUtil {
 	private int iterations;
 
 	/**
-	 * 生成随机盐值对密码进行加密
+	 * 使用随机盐值对密码进行加密
 	 *
 	 * @param user 登录用户
 	 */
@@ -41,7 +41,7 @@ public class UserEncryptUtil {
 	}
 
 	/**
-	 * 修改密码
+	 * 修改密码 使用随机盐值对密码进行加密
 	 *
 	 * @param user     登录用户
 	 * @param password 新密码

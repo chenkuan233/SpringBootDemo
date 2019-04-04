@@ -8,4 +8,6 @@ package com.springBoot.service;
  */
 public interface TaskExecutorService {
 	void testTask();
+
+	void writeToMysql();
 }
