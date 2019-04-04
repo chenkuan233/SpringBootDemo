@@ -104,7 +104,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.54</version>
+            <version>1.2.56</version>
         </dependency>
 
         <!--Mybatis-->
@@ -118,26 +118,26 @@
         <dependency>
             <groupId>tk.mybatis</groupId>
             <artifactId>mapper-spring-boot-starter</artifactId>
-            <version>1.1.0</version>
+            <version>2.1.5</version>
         </dependency>
 
         <!--分页插件PageHelper相关依赖-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.2.5</version>
+            <version>1.2.10</version>
         </dependency>
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
-            <version>1.2.5</version>
+            <version>1.2.10</version>
         </dependency>
 
         <!--FTP工具-->
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
-            <version>3.3</version>
+            <version>3.6</version>
         </dependency>
 
         <!--shiro权限管理-->
