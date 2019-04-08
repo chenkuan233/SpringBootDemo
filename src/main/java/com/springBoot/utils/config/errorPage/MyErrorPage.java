@@ -18,9 +18,8 @@ public class MyErrorPage {
 
 	@Bean
 	public WebServerFactoryCustomizer<ConfigurableWebServerFactory> webServerFactoryCustomizer() {
-		return (factory -> factory.addErrorPages(
+		return factory -> factory.addErrorPages(
 				new ErrorPage(HttpStatus.NOT_FOUND, "/error/404.html"),
-				new ErrorPage(HttpStatus.FORBIDDEN, "/error/403.html"))
-		);
+				new ErrorPage(HttpStatus.FORBIDDEN, "/error/403.html"));
 	}
 }

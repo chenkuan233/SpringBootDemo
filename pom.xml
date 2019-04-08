@@ -189,11 +189,6 @@
             <artifactId>opensaml</artifactId>
             <version>1.1</version>
         </dependency>
-        <!--<dependency>
-            <groupId>org.apache.santuario</groupId>
-            <artifactId>xmlsec</artifactId>
-            <version>1.4.3</version>
-        </dependency>-->
 
         <!--使用lettuce pool，保证redis多线程环境下是线程安全的-->
         <dependency>
