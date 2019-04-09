@@ -78,13 +78,15 @@ spring:
         min-idle: 0
     # 连接超时时间（毫秒）
     timeout: 2000
+  resources:
+    # 自定义静态文件路径
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/templates/
   thymeleaf:
-    # html具有缓存的特点，热部署文件，页面不产生缓存，及时更新
-    cache: false
-    # 目标路径
+    mode: HTML
+    # html具有缓存的特点(热部署文件时，设为false，页面不产生缓存，及时更新)
+    cache: true
     prefix: classpath:/templates/
     suffix: .html
-    mode: HTML
     encoding: UTF-8
 
 mybatis:

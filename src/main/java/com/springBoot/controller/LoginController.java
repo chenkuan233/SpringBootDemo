@@ -39,9 +39,6 @@ public class LoginController {
 	@Value("${cas.service.loginUrl}")
 	private String loginUrl;
 
-	@Value("${cas.service.loginSuccessUrl}")
-	private String loginSuccessUrl;
-
 	@GetMapping("/login")
 	public String doLogin() {
 		return loginUrl;
@@ -56,8 +53,7 @@ public class LoginController {
 	 */
 	@RequestMapping(
 			value = {"/login"},
-			method = {RequestMethod.POST},
-			produces = {"text/plain;charset=UTF-8"}
+			method = {RequestMethod.POST}
 	)
 	public String doLogin(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
 		String username = request.getParameter("username");
@@ -93,7 +89,7 @@ public class LoginController {
 			User user = userService.findByUserNameMapper(username);
 			session.setAttribute("user", user);
 			response.setHeader("errCode", "200");
-			return loginSuccessUrl;
+			return "redirect:/index.html";
 		} else {
 			token.clear();
 			return loginUrl;
