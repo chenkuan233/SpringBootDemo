@@ -2,10 +2,12 @@ package com.springBoot.controller;
 
 import com.springBoot.entity.User;
 import com.springBoot.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,32 +59,42 @@ public class LoginController {
 	public String doLogin(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		Boolean rememberMe = StringUtils.isNotEmpty(request.getParameter("rememberMe"));
 		String host = request.getRemoteAddr(); // 获得客户端的ip地址
 
-		UsernamePasswordToken token = new UsernamePasswordToken(username, password, host);
+		UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe, host);
 		Subject subject = SecurityUtils.getSubject();
 		try {
+			logger.info(username + "进行登录验证..验证开始");
 			subject.login(token);
-			logger.info(username + " " + host + " 登录成功");
-
-			// 当验证通过后，将用户信息存入session中
-			User user = userService.findByUserNameMapper(username);
-			SecurityUtils.getSubject().getSession().setAttribute("user", user);
-			response.setHeader("errCode", "200");
-			return "home";
+			logger.info(username + "进行登录验证..验证通过");
 		} catch (UnknownAccountException e) {
-			logger.error("账号不存在");
+			logger.error(username + "进行登录验证..验证未通过，未知账户");
 			response.setHeader("errCode", "101");
-			modelMap.addAttribute("errMsg", "用户名不存在");
+			modelMap.addAttribute("errMsg", "未知账户");
 		} catch (AuthenticationException e) {
-			logger.error("账号密码校验失败");
+			logger.error(username + "进行登录验证..验证未通过，账号密码不匹配");
 			response.setHeader("errCode", "102");
-			modelMap.addAttribute("errMsg", "账号密码校验失败");
+			modelMap.addAttribute("errMsg", "账号密码不匹配");
 		} catch (Exception e) {
 			logger.error("登录出错", e);
 			response.setHeader("errCode", "500");
 			modelMap.addAttribute("errMsg", "登录出错");
 		}
-		return loginUrl;
+
+		// 验证是否登录成功
+		if (subject.isAuthenticated()) {
+			logger.info(username + " " + host + " 登录成功");
+			// 将当前用户存入session
+			Session session = subject.getSession();
+			User user = userService.findByUserNameMapper(username);
+			session.setAttribute("user", user);
+			response.setHeader("errCode", "200");
+			return "index";
+		} else {
+			token.clear();
+			return loginUrl;
+		}
 	}
+
 }

@@ -4,10 +4,13 @@ import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.cas.CasFilter;
 import org.apache.shiro.cas.CasSubjectFactory;
+import org.apache.shiro.codec.Base64;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.session.SingleSignOutHttpSessionListener;
 import org.slf4j.Logger;
@@ -40,6 +43,30 @@ public class ShiroCasConfig {
 
 	private static final Logger logger = LoggerFactory.getLogger(ShiroCasConfig.class);
 
+	@Value("${credentialsMatcher.algorithmName}")
+	private String algorithmName;
+
+	@Value("${credentialsMatcher.iterations}")
+	private int iterations;
+
+	@Value("${cas.service.loginUrl}")
+	private String loginUrl;
+
+	@Value("${cas.service.loginSuccessUrl}")
+	private String loginSuccessUrl;
+
+	@Value("${cas.service.unauthorizedUrl}")
+	private String unauthorizedUrl;
+
+	@Value("${cas.server-url}")
+	private String casServerUrlPrefix;
+
+	@Value("${cookie.cipherKey}")
+	private String cookieCipherKey;
+
+	@Value("${cookie.maxAge}")
+	private int cookieMaxAge;
+
 	@Bean
 	public EhCacheManager getEhCacheManager() {
 		EhCacheManager em = new EhCacheManager();
@@ -51,17 +78,40 @@ public class ShiroCasConfig {
 	 * MyShiroCasRealm
 	 */
 	@Bean
-	public MyShiroCasRealm myShiroCasRealm(@Value("${credentialsMatcher.algorithmName}") String algorithmName,
-										   @Value("${credentialsMatcher.iterations}") int iterations) {
+	public MyShiroCasRealm myShiroCasRealm() {
 		MyShiroCasRealm shiroCasRealm = new MyShiroCasRealm();
 		// 启用身份验证缓存，即缓存AuthenticationInfo信息，默认false
 		shiroCasRealm.setAuthenticationCachingEnabled(true);
 		// 启用授权缓存，即缓存AuthorizationInfo信息，默认false
 		shiroCasRealm.setAuthorizationCachingEnabled(true);
 		// 配置自定义密码比较器
-		shiroCasRealm.setCredentialsMatcher(hashedCredentialsMatcher(algorithmName, iterations));
+		shiroCasRealm.setCredentialsMatcher(hashedCredentialsMatcher());
 		logger.info("##################密码验证器使用HashedCredentialsMatcher");
 		return shiroCasRealm;
+	}
+
+	/**
+	 * cookie对象 rememberMeCookie()方法是设置Cookie的生成模版，比如cookie的name，cookie的有效时间等等
+	 */
+	@Bean
+	public SimpleCookie rememberMeCookie() {
+		// 这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
+		SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+		// 记住我cookie生效时间30天 ,单位秒
+		simpleCookie.setMaxAge(cookieMaxAge);
+		return simpleCookie;
+	}
+
+	/**
+	 * cookie管理对象 rememberMeManager()方法是生成rememberMe管理器，而且要将这个rememberMe管理器设置到securityManager中
+	 */
+	@Bean
+	public CookieRememberMeManager rememberMeManager() {
+		CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+		cookieRememberMeManager.setCookie(rememberMeCookie());
+		// rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
+		cookieRememberMeManager.setCipherKey(Base64.decode(cookieCipherKey));
+		return cookieRememberMeManager;
 	}
 
 	/**
@@ -81,7 +131,7 @@ public class ShiroCasConfig {
 	 */
 	@Bean
 	@Order(Ordered.HIGHEST_PRECEDENCE)
-	public FilterRegistrationBean singleSignOutFilter(@Value("${cas.server-url}") String casServerUrlPrefix) {
+	public FilterRegistrationBean singleSignOutFilter() {
 		FilterRegistrationBean bean = new FilterRegistrationBean();
 		bean.setName("singleSignOutFilter");
 		SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
@@ -113,7 +163,7 @@ public class ShiroCasConfig {
 	 * 注意：如果使用了该类，则不需要手动指定初始化方法和销毁方法，否则会出错
 	 */
 	@Bean(name = "lifecycleBeanPostProcessor")
-	public LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
+	public static LifecycleBeanPostProcessor getLifecycleBeanPostProcessor() {
 		return new LifecycleBeanPostProcessor();
 	}
 
@@ -137,6 +187,8 @@ public class ShiroCasConfig {
 		manager.setCacheManager(getEhCacheManager());
 		// 指定 SubjectFactory
 		manager.setSubjectFactory(new CasSubjectFactory());
+		// 注入记住我管理器
+		manager.setRememberMeManager(rememberMeManager());
 		return manager;
 	}
 
@@ -159,8 +211,7 @@ public class ShiroCasConfig {
 	 * CAS过滤器
 	 */
 	@Bean(name = "casFilter")
-	public CasFilter getCasFilter(@Value("${cas.service.loginUrl}") String loginUrl,
-								  @Value("${cas.loginSuccessUrl}") String loginSuccessUrl) {
+	public CasFilter getCasFilter() {
 		CasFilter casFilter = new CasFilter();
 		casFilter.setName("casFilter");
 		casFilter.setEnabled(true);
@@ -176,7 +227,7 @@ public class ShiroCasConfig {
 	 * 由于我们的密码校验交给shiro的SimpleAuthenticationInfo进行处理
 	 */
 	@Bean(name = "credentialsMatcher")
-	public HashedCredentialsMatcher hashedCredentialsMatcher(String algorithmName, int iterations) {
+	public HashedCredentialsMatcher hashedCredentialsMatcher() {
 		HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
 		// 散列算法，这里使用MD5算法
 		hashedCredentialsMatcher.setHashAlgorithmName(algorithmName);
@@ -192,11 +243,7 @@ public class ShiroCasConfig {
 	 * 然后读取数据库相关配置，配置到 shiroFilterFactoryBean 的访问规则中。实际项目中，请使用自己的Service来处理业务逻辑。
 	 */
 	@Bean(name = "shiroFilter")
-	public ShiroFilterFactoryBean shiroFilter(DefaultWebSecurityManager securityManager,
-											  CasFilter casFilter,
-											  @Value("${cas.service.loginUrl}") String loginUrl,
-											  @Value("${cas.service.loginSuccessUrl}") String loginSuccessUrl,
-											  @Value("${cas.service.unauthorizedUrl}") String unauthorizedUrl) {
+	public ShiroFilterFactoryBean shiroFilter(DefaultWebSecurityManager securityManager, CasFilter casFilter) {
 
 		logger.info("##################读取权限规则，加载到shiroFilter中##################");
 		// String loginUrl = casServerUrlPrefix + "/login?service=" + shiroServerUrlPrefix + "/cas";

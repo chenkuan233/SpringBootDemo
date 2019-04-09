@@ -91,7 +91,6 @@ public class MyShiroCasRealm extends CasRealm {
 		// 获得当前用户的用户名、密码
 		String username = (String) token.getPrincipal();
 		// String password = new String((char[]) token.getCredentials());
-		logger.info(username + "开始权限认证");
 
 		// 从数据库中根据用户名查找用户
 		User user = userService.findByUserNameMapper(username);

@@ -36,7 +36,7 @@ public class HelloWorldController {
 		} catch (UnauthorizedException e) {
 			logger.error("没有足够的权限", e);
 		}
-		return "home";
+		return "index";
 	}
 
 	@GetMapping("/hello")
