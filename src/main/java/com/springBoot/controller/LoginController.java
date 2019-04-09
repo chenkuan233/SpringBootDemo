@@ -39,6 +39,9 @@ public class LoginController {
 	@Value("${cas.service.loginUrl}")
 	private String loginUrl;
 
+	@Value("${cas.service.loginSuccessUrl}")
+	private String loginSuccessUrl;
+
 	@GetMapping("/login")
 	public String doLogin() {
 		return loginUrl;
@@ -90,7 +93,7 @@ public class LoginController {
 			User user = userService.findByUserNameMapper(username);
 			session.setAttribute("user", user);
 			response.setHeader("errCode", "200");
-			return "index";
+			return loginSuccessUrl;
 		} else {
 			token.clear();
 			return loginUrl;
