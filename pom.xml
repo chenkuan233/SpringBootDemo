@@ -235,19 +235,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <!--指定启动类-->
-                    <mainClass>com.springBoot.Application</mainClass>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
-
             <!--打包过程忽略Junit测试-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
