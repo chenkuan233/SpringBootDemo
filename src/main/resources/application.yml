@@ -88,6 +88,11 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
     encoding: UTF-8
+  data:
+    # elasticsearch配置
+    elasticsearch:
+      cluster-name: my-application
+      cluster-nodes: 127.0.0.1:9300
 
 mybatis:
   # mybatis配置文件路径

@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @SpringBootApplication 相当于@EnableAutoConfiguration + @ComponentScan, 自动扫描同级包（及子包）
@@ -16,11 +17,16 @@ import org.springframework.context.annotation.PropertySource;
  */
 @SpringBootApplication
 @ServletComponentScan
+@EnableTransactionManagement
 @PropertySource("classpath:application.yml")
 @MapperScan("com.springBoot.mapper")
 public class Application {
 
 	public static void main(String[] args) {
+
+		// 解决netty冲突后初始化client时还会抛出异常 java.lang.IllegalStateException: availableProcessors is already set to [4], rejecting [4]
+		System.setProperty("es.set.netty.runtime.available.processors", "false");
+
 		SpringApplication.run(Application.class, args);
 	}
 }
