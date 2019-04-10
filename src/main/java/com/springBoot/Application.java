@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * @SpringBootApplication 相当于@EnableAutoConfiguration + @ComponentScan, 自动扫描同级包（及子包）
+ * @SpringBootApplication 相当于@Configuration + @EnableAutoConfiguration + @ComponentScan, 自动扫描同级包（及子包）
  * // @EnableAutoConfiguration
  * // @ComponentScan(basePackages = {"com.springBoot.controller.helloController"})
  * @ServletComponentScan 注解，Servlet、Filter、Listener可以直接通过@WebServlet、@WebFilter、@WebListener注解自动注册，无需其他代码
