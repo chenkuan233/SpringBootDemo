@@ -24,7 +24,7 @@ public class Application {
 
 	public static void main(String[] args) {
 
-		// 解决netty冲突后初始化client时还会抛出异常 java.lang.IllegalStateException: availableProcessors is already set to [4], rejecting [4]
+		// 解决集成elasticsearch时，netty冲突后初始化client时还会抛出异常 java.lang.IllegalStateException: availableProcessors is already set to [4], rejecting [4]
 		System.setProperty("es.set.netty.runtime.available.processors", "false");
 
 		SpringApplication.run(Application.class, args);
