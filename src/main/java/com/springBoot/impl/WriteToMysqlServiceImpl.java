@@ -6,7 +6,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +22,7 @@ public class WriteToMysqlServiceImpl implements WriteToMysqlService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void writeMan(List<Man> manList) {
 		if (CollectionUtils.isNotEmpty(manList)) {
@@ -31,9 +32,12 @@ public class WriteToMysqlServiceImpl implements WriteToMysqlService {
 					ps.setString(1, t.getName());
 					ps.setString(2, t.getNick());
 				});
+				// 手动抛出异常 测试事务
+				throw new Exception();
 			} catch (Exception e) {
 				// 手动事务回滚
-				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				// TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				throw new RuntimeException("运行异常");
 			}
 		}
 	}

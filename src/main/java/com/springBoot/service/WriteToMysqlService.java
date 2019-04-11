@@ -12,6 +12,5 @@ import java.util.List;
  * @date 2019/4/4 004 15:31
  */
 public interface WriteToMysqlService {
-	@Transactional(rollbackFor = Exception.class)
 	void writeMan(List<Man> manList);
 }

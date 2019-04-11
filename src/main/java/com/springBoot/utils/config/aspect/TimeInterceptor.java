@@ -30,7 +30,7 @@ public class TimeInterceptor {
 	 * 统计方法执行耗时Around环绕通知
 	 */
 	@Around(POINT)
-	public Object timeAround(ProceedingJoinPoint joinPoint) {
+	public Object timeAround(ProceedingJoinPoint joinPoint) throws Throwable, Exception {
 		// 获取服务、方法名
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 		String methodName = signature.getDeclaringType().getSimpleName() + "." + signature.getName();
@@ -43,11 +43,10 @@ public class TimeInterceptor {
 
 		// 开始计时
 		long startTime = System.currentTimeMillis();
-		try {
-			obj = joinPoint.proceed(args);
-		} catch (Throwable e) {
-			logger.error("统计" + methodName + "执行耗时环绕通知出错", e);
-		}
+
+		// 执行方法
+		obj = joinPoint.proceed(args);
+
 		// 结束计时
 		long endTime = System.currentTimeMillis();
 
