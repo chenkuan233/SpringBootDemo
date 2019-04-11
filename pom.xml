@@ -232,6 +232,13 @@
             <version>3.1.4.RELEASE</version>
         </dependency>
 
+        <!--Zuul集成服务网关 API Gateway-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zuul</artifactId>
+            <version>1.4.6.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
     <!--打包配置-->
