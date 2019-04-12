@@ -1,5 +1,7 @@
 package com.springBoot.utils.config.TransactionManagement;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -18,9 +20,11 @@ import javax.sql.DataSource;
  * @date 2019/4/11 011 15:57
  */
 @Configuration
-public class TransactionConfig implements TransactionManagementConfigurer {
+public class TransactionConfig /*implements TransactionManagementConfigurer*/ {
 
-	@Resource(name = "transactionManager")
+	private static final Logger logger = LoggerFactory.getLogger(TransactionConfig.class);
+
+	/*@Resource(name = "transactionManager")
 	private PlatformTransactionManager transactionManager;
 
 	// JPA必须 @Bean(name = "transactionManager")
@@ -32,11 +36,17 @@ public class TransactionConfig implements TransactionManagementConfigurer {
 	@Bean(name = "transactionManager1")
 	public PlatformTransactionManager transactionManager1(DataSource dataSource) {
 		return new DataSourceTransactionManager(dataSource);
+	}*/
+
+	@Bean
+	public Object testTransactionManager(PlatformTransactionManager platformTransactionManager){
+		logger.info("默认事务管理器 -> " + platformTransactionManager.getClass().getName());
+		return new Object();
 	}
 
-	// 实现接口 TransactionManagementConfigurer 方法，其返回值代表在拥有多个事务管理器的情况下默认使用的事务管理器
+	/*// 实现接口 TransactionManagementConfigurer 方法，其返回值代表在拥有多个事务管理器的情况下默认使用的事务管理器
 	@Override
 	public PlatformTransactionManager annotationDrivenTransactionManager() {
 		return transactionManager;
-	}
+	}*/
 }
