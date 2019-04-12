@@ -239,6 +239,12 @@
             <version>3.1.4.RELEASE</version>
         </dependency>
 
+        <!--引入freeMarker依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+
         <!--Zuul集成服务网关 API Gateway-->
 
     </dependencies>

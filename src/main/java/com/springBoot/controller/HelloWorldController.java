@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Map;
+
 /**
  * @author chenkuan
  * @version v1.0
@@ -56,5 +58,14 @@ public class HelloWorldController {
 			produces = {"text/plain;charset=UTF-8"})
 	public void saveUser(User user) {
 		userService.saveOrUpdateUser(user);
+	}
+
+	// 测试 freemarker 页面模板
+	@RequestMapping("/ftlIndex")
+	public String ftlIndex(Map<String, Object> map) {
+		map.put("name", "chenkuan");
+		map.put("age", "22");
+		map.put("sex", 0);
+		return "/freemarker/ftlIndex";
 	}
 }
