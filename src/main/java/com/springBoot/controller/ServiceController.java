@@ -52,8 +52,8 @@ public class ServiceController {
 			produces = {"text/plain;charset=UTF-8"}
 	)
 	@ResponseBody
-	public String doPost(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) {
-		return doService(request, response, serviceName, funcName, RequestMethod.POST);
+	public String doPost(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) throws Exception {
+		return doService(request, response, serviceName, funcName);
 	}
 
 	/**
@@ -70,74 +70,67 @@ public class ServiceController {
 			method = {RequestMethod.GET},
 			produces = {"text/plain;charset=UTF-8"})
 	@ResponseBody
-	public String doGet(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) {
-		return doService(request, response, serviceName, funcName, RequestMethod.GET);
+	public String doGet(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) throws Exception {
+		return doService(request, response, serviceName, funcName);
 	}
 
 	/**
 	 * doService 请求处理
 	 *
-	 * @param request       请求
-	 * @param response      响应
-	 * @param serviceName   请求服务名
-	 * @param funcName      请求方法名
-	 * @param requestMethod 请求类型
+	 * @param request     请求
+	 * @param response    响应
+	 * @param serviceName 请求服务名
+	 * @param funcName    请求方法名
 	 * @return 方法返回值的json字符串
 	 */
-	private String doService(HttpServletRequest request, HttpServletResponse response, String serviceName, String funcName, RequestMethod requestMethod) {
-		try {
-			// 判断serviceBean是否存在
-			List<String> beanNames = SpringBeanUtil.getBeanNames();
-			if (!beanNames.contains(serviceName)) {
-				logger.error("请求无对应服务: " + serviceName + "." + funcName);
-				response.setHeader("error_code", "104");
-				return gson.toJson(MessageUtil.message(-1, "请求无对应服务: " + serviceName + "." + funcName));
-			}
-
-			// 获取request请求方法参数
-			Map<String, String> paramMap = new HashMap<>();
-			if (request.getParameterNames() != null && request.getParameterNames().hasMoreElements()) {
-				Enumeration<String> enumList = request.getParameterNames();
-				String key = null;
-				String value = null;
-				while (enumList.hasMoreElements()) {
-					key = enumList.nextElement();
-					value = request.getParameter(key);
-					paramMap.put(key, value);
-				}
-			}
-
-			// 获取serviceBean
-			Object service = SpringBeanUtil.getBean(serviceName);
-
-			// 获取指定方法(null：忽略参数; 不能存在方法的重载)
-			Method method = ReflectionUtils.findMethod(service.getClass(), funcName, (Class<?>[]) null);
-			if (method == null) {
-				logger.error("请求无对应方法: " + funcName);
-				response.setHeader("error_code", "105");
-				return gson.toJson(MessageUtil.message(-1, "请求无对应方法: " + funcName));
-			}
-
-			// 获取该方法的参数, 校验参数
-			Parameter[] parameters = method.getParameters();
-			if (parameters.length != paramMap.size()) {
-				logger.error("参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length);
-				return gson.toJson(MessageUtil.message(-1, "参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length));
-			}
-
-			// 请求参数赋值给方法参数
-			Object[] params = getMethodParams(paramMap, parameters);
-
-			// 反射执行方法并获取返回结果
-			Object obj = ReflectionUtils.invokeMethod(method, service, params);
-
-			response.setHeader("error_code", "200");
-			return gson.toJson(obj);
-		} catch (Exception e) {
-			logger.error("serviceController出错", e);
-			response.setHeader("error_code", "500");
-			return gson.toJson(MessageUtil.message(-1, "serviceController出错" + e));
+	private String doService(HttpServletRequest request, HttpServletResponse response, String serviceName, String funcName) throws Exception {
+		// 判断serviceBean是否存在
+		List<String> beanNames = SpringBeanUtil.getBeanNames();
+		if (!beanNames.contains(serviceName)) {
+			logger.error("请求无对应服务: " + serviceName + "." + funcName);
+			response.setHeader("error_code", "104");
+			return gson.toJson(MessageUtil.message(-1, "请求无对应服务: " + serviceName + "." + funcName));
 		}
+
+		// 获取request请求方法参数
+		Map<String, String> paramMap = new HashMap<>();
+		if (request.getParameterNames() != null && request.getParameterNames().hasMoreElements()) {
+			Enumeration<String> enumList = request.getParameterNames();
+			String key = null;
+			String value = null;
+			while (enumList.hasMoreElements()) {
+				key = enumList.nextElement();
+				value = request.getParameter(key);
+				paramMap.put(key, value);
+			}
+		}
+
+		// 获取serviceBean
+		Object service = SpringBeanUtil.getBean(serviceName);
+
+		// 获取指定方法(null：忽略参数; 不能存在方法的重载)
+		Method method = ReflectionUtils.findMethod(service.getClass(), funcName, (Class<?>[]) null);
+		if (method == null) {
+			logger.error("请求无对应方法: " + funcName);
+			response.setHeader("error_code", "105");
+			return gson.toJson(MessageUtil.message(-1, "请求无对应方法: " + funcName));
+		}
+
+		// 获取该方法的参数, 校验参数
+		Parameter[] parameters = method.getParameters();
+		if (parameters.length != paramMap.size()) {
+			logger.error("参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length);
+			return gson.toJson(MessageUtil.message(-1, "参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length));
+		}
+
+		// 请求参数赋值给方法参数
+		Object[] params = getMethodParams(paramMap, parameters);
+
+		// 反射执行方法并获取返回结果
+		Object obj = ReflectionUtils.invokeMethod(method, service, params);
+
+		response.setHeader("error_code", "200");
+		return gson.toJson(obj);
 	}
 
 	/**

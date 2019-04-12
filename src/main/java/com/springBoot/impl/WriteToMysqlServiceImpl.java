@@ -32,8 +32,8 @@ public class WriteToMysqlServiceImpl implements WriteToMysqlService {
 					ps.setString(1, t.getName());
 					ps.setString(2, t.getNick());
 				});
-				// 手动抛出异常 测试事务
-				throw new Exception();
+
+				// throw new Exception(); // 手动抛出异常 测试事务
 			} catch (Exception e) {
 				// 手动事务回滚
 				// TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();

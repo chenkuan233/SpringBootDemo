@@ -47,7 +47,7 @@ public class TaskExecutorServiceImpl implements TaskExecutorService {
 	public void writeToMysql() {
 		List<Man> manList = new ArrayList<>();
 		Man man = null;
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < 100; i++) {
 			man = new Man("维维-" + i, "weiwei-" + i);
 			manList.add(man);
 		}

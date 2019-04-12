@@ -93,6 +93,13 @@
             <version>3.6.1</version>
         </dependency>
 
+        <!--JSR330 依赖注入-->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
+
         <!--Gson-->
         <dependency>
             <groupId>com.google.code.gson</groupId>

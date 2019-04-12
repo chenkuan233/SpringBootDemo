@@ -20,17 +20,18 @@ import javax.sql.DataSource;
 @Configuration
 public class TransactionConfig implements TransactionManagementConfigurer {
 
-	@Resource(name = "transactionManager1")
+	@Resource(name = "transactionManager")
 	private PlatformTransactionManager transactionManager;
+
+	// JPA必须 @Bean(name = "transactionManager")
+	@Bean(name = "transactionManager")
+	public PlatformTransactionManager transactionManager2(EntityManagerFactory dataSource) {
+		return new JpaTransactionManager(dataSource);
+	}
 
 	@Bean(name = "transactionManager1")
 	public PlatformTransactionManager transactionManager1(DataSource dataSource) {
 		return new DataSourceTransactionManager(dataSource);
-	}
-
-	@Bean(name = "transactionManager2")
-	public PlatformTransactionManager transactionManager2(EntityManagerFactory dataSource) {
-		return new JpaTransactionManager(dataSource);
 	}
 
 	// 实现接口 TransactionManagementConfigurer 方法，其返回值代表在拥有多个事务管理器的情况下默认使用的事务管理器
