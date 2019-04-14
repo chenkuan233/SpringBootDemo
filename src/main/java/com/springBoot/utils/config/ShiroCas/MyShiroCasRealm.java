@@ -2,13 +2,12 @@ package com.springBoot.utils.config.ShiroCas;
 
 import com.springBoot.entity.User;
 import com.springBoot.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.cas.CasRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -22,12 +21,13 @@ import java.util.Set;
  * @desc cas 授权 认证
  * @date 2019/3/28 028 12:58
  */
+@Slf4j
 public class MyShiroCasRealm extends CasRealm {
 
 	@Autowired
 	private UserService userService;
 
-	private static final Logger logger = LoggerFactory.getLogger(MyShiroCasRealm.class);
+	// private static final Logger log = LoggerFactory.getLogger(MyShiroCasRealm.class);
 
 	@Value("${cas.server-url}")
 	private String casServerUrlPrefix;
@@ -52,7 +52,7 @@ public class MyShiroCasRealm extends CasRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-		logger.info("##################Shiro权限认证##################");
+		log.info("##################Shiro权限认证##################");
 
 		// 从凭证中获得用户名
 		// String username = (String) SecurityUtils.getSubject().getPrincipal();

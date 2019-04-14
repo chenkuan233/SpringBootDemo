@@ -2,11 +2,10 @@ package com.springBoot.controller;
 
 import com.springBoot.entity.User;
 import com.springBoot.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +21,11 @@ import java.util.Map;
  * @desc HelloWorldController
  * @date 2019/1/17 017 10:33
  */
+@Slf4j
 @Controller
 public class HelloWorldController {
 
-	private static final Logger logger = LoggerFactory.getLogger(HelloWorldController.class);
+	// private static final Logger log = logFactory.getlog(HelloWorldController.class);
 
 	@Autowired
 	private UserService userService;
@@ -36,14 +36,14 @@ public class HelloWorldController {
 		try {
 			subject.checkPermission("admin");
 		} catch (UnauthorizedException e) {
-			logger.error("没有足够的权限", e);
+			log.error("没有足够的权限", e);
 		}
 		return "index";
 	}
 
 	@GetMapping("/hello")
 	public ModelAndView hello(String str) {
-		logger.info(str);
+		log.info(str);
 		return new ModelAndView("index");
 	}
 

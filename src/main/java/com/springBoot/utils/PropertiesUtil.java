@@ -1,7 +1,6 @@
 package com.springBoot.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,9 +12,8 @@ import java.util.Properties;
  * @desc 读取 *.properties 配置文件
  * @date 2019/1/10 010 18:09
  */
+@Slf4j
 public class PropertiesUtil {
-
-	private static final Logger logger = LoggerFactory.getLogger(PropertiesUtil.class);
 
 	private static Properties properties = new Properties();
 
@@ -28,16 +26,16 @@ public class PropertiesUtil {
 		try {
 			properties.load(in);
 		} catch (IOException e) {
-			logger.error(name + "配置文件读取失败", e);
+			log.error(name + "配置文件读取失败", e);
 		} finally {
 			if (in != null) {
 				try {
 					in.close();
 				} catch (IOException e) {
-					logger.error(name + "配置文件读取流stream关闭失败", e);
+					log.error(name + "配置文件读取流stream关闭失败", e);
 				}
 			} else {
-				logger.error(name + "配置文件未读取到内容");
+				log.error(name + "配置文件未读取到内容");
 			}
 		}
 		return properties;

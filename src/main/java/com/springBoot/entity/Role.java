@@ -1,5 +1,8 @@
 package com.springBoot.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -10,6 +13,8 @@ import java.io.Serializable;
  * @desc 角色表
  * @date 2019/1/17 017 11:45
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "t_role")
 public class Role implements Serializable {
@@ -24,20 +29,4 @@ public class Role implements Serializable {
 	@Column(name = "role_name", nullable = false)
 	@NotNull
 	private String roleName;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getRoleName() {
-		return roleName;
-	}
-
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
 }

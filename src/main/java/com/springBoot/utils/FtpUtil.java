@@ -1,10 +1,9 @@
 package com.springBoot.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,9 +15,8 @@ import java.util.List;
  * @desc ftp工具类
  * @date 2019/3/22 022 16:02
  */
+@Slf4j
 public class FtpUtil {
-
-	private final static Logger logger = LoggerFactory.getLogger(FtpUtil.class);
 
 	private String server;
 	private String username;
@@ -60,17 +58,17 @@ public class FtpUtil {
 				}
 			} else {
 				ftp.disconnect();
-				logger.error("连接FTP服务器失败：FTP服务器拒绝连接.");
+				log.error("连接FTP服务器失败：FTP服务器拒绝连接.");
 			}
 		} catch (IOException e) {
 			if (ftp.isConnected()) {
 				try {
 					ftp.disconnect();
 				} catch (IOException ioe) {
-					logger.error("连接FTP服务器失败：关闭FTP服务器失败.", ioe);
+					log.error("连接FTP服务器失败：关闭FTP服务器失败.", ioe);
 				}
 			}
-			logger.error("连接FTP服务器失败：无法连接服务器.", e);
+			log.error("连接FTP服务器失败：无法连接服务器.", e);
 		}
 	}
 
@@ -89,7 +87,7 @@ public class FtpUtil {
 				fileNames[i] = remotefiles[i].getName();
 			}
 		} catch (IOException e) {
-			logger.error("无法列出FTP服务器文件列表.", e);
+			log.error("无法列出FTP服务器文件列表.", e);
 		}
 		return fileNames;
 	}
@@ -120,7 +118,7 @@ public class FtpUtil {
 				}
 			}
 		} catch (IOException e) {
-			logger.error("无法列出FTP服务器文件列表.", e);
+			log.error("无法列出FTP服务器文件列表.", e);
 		}
 		return fileNames;
 	}
@@ -199,18 +197,18 @@ public class FtpUtil {
 			input = new FileInputStream(localFullFile); // 将本地文件读成数据流
 			result = ftp.storeFile(remoteFullFile, input); // 储存本地文件到远程FTP目录下
 			if (result) {
-				logger.info("上传文件" + localFullFile + "到FTP成功");
+				log.info("上传文件" + localFullFile + "到FTP成功");
 			}
 		} catch (FileNotFoundException e) {
-			logger.error("本地文件" + localFullFile + "上传失败：无法找到本地文件", e);
+			log.error("本地文件" + localFullFile + "上传失败：无法找到本地文件", e);
 		} catch (IOException e) {
-			logger.error("本地文件" + localFullFile + "上传失败：无法上传", e);
+			log.error("本地文件" + localFullFile + "上传失败：无法上传", e);
 		} finally {
 			if (input != null) {
 				try {
 					input.close();
 				} catch (IOException e) {
-					logger.error("关闭上传的本地文件" + localFullFile + "失败", e);
+					log.error("关闭上传的本地文件" + localFullFile + "失败", e);
 				}
 			}
 		}
@@ -236,18 +234,18 @@ public class FtpUtil {
 			// 处理传输
 			result = ftp.storeFile(remoteFullFile, fileInputStream); // 储存本地文件到远程FTP目录下
 			if (result) {
-				logger.info("上传本地文件到FTP成功");
+				log.info("上传本地文件到FTP成功");
 			}
 		} catch (FileNotFoundException e) {
-			logger.error("本地文件上传失败：无法找到本地文件", e);
+			log.error("本地文件上传失败：无法找到本地文件", e);
 		} catch (IOException e) {
-			logger.error("本地文件上传失败：无法上传", e);
+			log.error("本地文件上传失败：无法上传", e);
 		} finally {
 			if (fileInputStream != null) {
 				try {
 					fileInputStream.close();
 				} catch (IOException e) {
-					logger.error("关闭上传的本地文件失败", e);
+					log.error("关闭上传的本地文件失败", e);
 				}
 			}
 		}
@@ -326,16 +324,16 @@ public class FtpUtil {
 			output = new FileOutputStream(localFullFile); // 获得本地文件的输出流
 			result = ftp.retrieveFile(remoteFullFile, output); // 获取文件
 			if (result) {
-				logger.info("下载文件" + localFullFile + "成功");
+				log.info("下载文件" + localFullFile + "成功");
 			}
 		} catch (IOException e) {
-			logger.error("无法从FTP服务器下载文件." + remoteFullFile, e);
+			log.error("无法从FTP服务器下载文件." + remoteFullFile, e);
 		} finally {
 			if (output != null) {
 				try {
 					output.close();
 				} catch (IOException e) {
-					logger.error("关闭下载的本地文件输出流" + localFullFile + "失败", e);
+					log.error("关闭下载的本地文件输出流" + localFullFile + "失败", e);
 				}
 			}
 		}
@@ -363,7 +361,7 @@ public class FtpUtil {
 				ftp.disconnect();
 			}
 		} catch (IOException e) {
-			logger.error("关闭连接FTP服务器失败.", e);
+			log.error("关闭连接FTP服务器失败.", e);
 		}
 	}
 
@@ -377,7 +375,7 @@ public class FtpUtil {
 		try {
 			ftp.rename(oldName, fileName);
 		} catch (IOException e) {
-			logger.error("文件重命名失败.", e);
+			log.error("文件重命名失败.", e);
 		}
 	}
 
@@ -388,7 +386,7 @@ public class FtpUtil {
 		try {
 			ftp.makeDirectory(pathName);
 		} catch (IOException e) {
-			logger.error("创建远程文件夹失败.", e);
+			log.error("创建远程文件夹失败.", e);
 		}
 	}
 
@@ -413,7 +411,7 @@ public class FtpUtil {
 			}
 			bool = true;
 		} catch (IOException e) {
-			logger.error("创建远程文件夹失败！.", e);
+			log.error("创建远程文件夹失败！.", e);
 		} finally {
 			return bool;
 		}
@@ -437,7 +435,7 @@ public class FtpUtil {
 			ftp.changeWorkingDirectory(parePathName);
 			delFlag = ftp.removeDirectory(pathName);
 		} catch (Exception e) {
-			logger.error("删除远程文件夹失败", e);
+			log.error("删除远程文件夹失败", e);
 		}
 		return delFlag;
 	}
@@ -452,7 +450,7 @@ public class FtpUtil {
 		try {
 			delFlag = ftp.deleteFile(pathAllName);
 		} catch (Exception e) {
-			logger.error("删除远程文件夹失败.", e);
+			log.error("删除远程文件夹失败.", e);
 		}
 		return delFlag;
 	}

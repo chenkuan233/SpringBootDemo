@@ -1,5 +1,6 @@
 package com.springBoot.utils.config.ShiroCas;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.cas.CasFilter;
@@ -13,8 +14,6 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.session.SingleSignOutHttpSessionListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -37,11 +36,12 @@ import java.util.Map;
  * @desc shiro+cas配置
  * @date 2019/3/28 028 13:07
  */
+@Slf4j
 @SuppressWarnings("unchecked")
 @Configuration
 public class ShiroCasConfig {
 
-	private static final Logger logger = LoggerFactory.getLogger(ShiroCasConfig.class);
+	// private static final Logger log = LoggerFactory.getLogger(ShiroCasConfig.class);
 
 	@Value("${credentialsMatcher.algorithmName}")
 	private String algorithmName;
@@ -86,7 +86,7 @@ public class ShiroCasConfig {
 		shiroCasRealm.setAuthorizationCachingEnabled(true);
 		// 配置自定义密码比较器
 		shiroCasRealm.setCredentialsMatcher(hashedCredentialsMatcher());
-		logger.info("##################密码验证器使用HashedCredentialsMatcher");
+		log.info("##################密码验证器使用HashedCredentialsMatcher");
 		return shiroCasRealm;
 	}
 
@@ -245,7 +245,7 @@ public class ShiroCasConfig {
 	@Bean(name = "shiroFilter")
 	public ShiroFilterFactoryBean shiroFilter(DefaultWebSecurityManager securityManager, CasFilter casFilter) {
 
-		logger.info("##################读取权限规则，加载到shiroFilter中##################");
+		log.info("##################读取权限规则，加载到shiroFilter中##################");
 		// String loginUrl = casServerUrlPrefix + "/login?service=" + shiroServerUrlPrefix + "/cas";
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 		// 必须设置 SecurityManager
@@ -264,10 +264,10 @@ public class ShiroCasConfig {
 
 		// 加载shiroFilter权限控制规则
 		Map<String, String> filterMap = loadShiroFilterMap();
-		logger.info("##################加载shiroFilter权限控制规则:" + filterMap.toString());
+		log.info("##################加载shiroFilter权限控制规则:" + filterMap.toString());
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
 
-		logger.info("##################Shiro拦截器工厂类注入成功##################");
+		log.info("##################Shiro拦截器工厂类注入成功##################");
 		return shiroFilterFactoryBean;
 	}
 

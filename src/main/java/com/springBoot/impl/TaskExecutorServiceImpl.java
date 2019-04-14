@@ -3,8 +3,7 @@ package com.springBoot.impl;
 import com.springBoot.entity.Man;
 import com.springBoot.service.TaskExecutorService;
 import com.springBoot.service.WriteToMysqlService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -18,10 +17,9 @@ import java.util.List;
  * @desc 线程处理service
  * @date 2019/4/4 004 14:43
  */
+@Slf4j
 @Service("taskExecutorService")
 public class TaskExecutorServiceImpl implements TaskExecutorService {
-
-	private static final Logger logger = LoggerFactory.getLogger(TaskExecutorServiceImpl.class);
 
 	@Autowired
 	ThreadPoolTaskExecutor threadPoolTaskExecutor;
@@ -34,12 +32,12 @@ public class TaskExecutorServiceImpl implements TaskExecutorService {
 		for (int i = 0; i < 1; i++) {
 			threadPoolTaskExecutor.execute(this::printStr);
 		}
-		logger.info("23333");
+		log.info("23333");
 	}
 
 	private void printStr() {
 		for (int i = 0; i < 22; i++) {
-			logger.info("test:" + i);
+			log.info("test:" + i);
 		}
 	}
 

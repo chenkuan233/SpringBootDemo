@@ -1,5 +1,8 @@
 package com.springBoot.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -10,6 +13,8 @@ import java.io.Serializable;
  * @desc
  * @date 2019/4/4 004 15:44
  */
+@Setter
+@Getter
 @Entity
 @Table(name = "t_man")
 public class Man implements Serializable {
@@ -34,30 +39,6 @@ public class Man implements Serializable {
 
 	public Man(@NotNull String name, @NotNull String nick) {
 		this.name = name;
-		this.nick = nick;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getNick() {
-		return nick;
-	}
-
-	public void setNick(String nick) {
 		this.nick = nick;
 	}
 }
