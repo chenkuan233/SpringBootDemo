@@ -1,7 +1,6 @@
 package com.springBoot.utils.config.TransactionManagement;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -19,10 +18,11 @@ import javax.sql.DataSource;
  * @desc 配置事务管理器
  * @date 2019/4/11 011 15:57
  */
+@Slf4j
 @Configuration
 public class TransactionConfig /*implements TransactionManagementConfigurer*/ {
 
-	private static final Logger logger = LoggerFactory.getLogger(TransactionConfig.class);
+	// private static final Logger log = LoggerFactory.getLogger(TransactionConfig.class);
 
 	/*@Resource(name = "transactionManager")
 	private PlatformTransactionManager transactionManager;
@@ -46,7 +46,7 @@ public class TransactionConfig /*implements TransactionManagementConfigurer*/ {
 
 	@Bean
 	public Object testTransactionManager(PlatformTransactionManager platformTransactionManager) {
-		logger.info("默认事务管理器 -> " + platformTransactionManager.getClass().getName());
+		log.info("默认事务管理器 -> " + platformTransactionManager.getClass().getName());
 		return new Object();
 	}
 }
