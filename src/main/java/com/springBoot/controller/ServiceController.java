@@ -4,8 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.springBoot.utils.MessageUtil;
 import com.springBoot.utils.config.applicationContext.SpringBeanUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,11 +28,12 @@ import java.util.Map;
  * 注：该controller暂不支持调用参数中有List<>类型的方法(可支持List<String>)
  * @date 2019/3/1 001 14:21
  */
+@Slf4j
 @SuppressWarnings("unchecked")
 @Controller
 public class ServiceController {
 
-	private static final Logger logger = LoggerFactory.getLogger(ServiceController.class);
+	// private static final Logger log = logFactory.getlog(ServiceController.class);
 
 	private Gson gson = new Gson();
 
@@ -87,7 +87,7 @@ public class ServiceController {
 		// 判断serviceBean是否存在
 		List<String> beanNames = SpringBeanUtil.getBeanNames();
 		if (!beanNames.contains(serviceName)) {
-			logger.error("请求无对应服务: " + serviceName + "." + funcName);
+			log.error("请求无对应服务: " + serviceName + "." + funcName);
 			response.setHeader("error_code", "104");
 			return gson.toJson(MessageUtil.message(-1, "请求无对应服务: " + serviceName + "." + funcName));
 		}
@@ -111,7 +111,7 @@ public class ServiceController {
 		// 获取指定方法(null：忽略参数; 不能存在方法的重载)
 		Method method = ReflectionUtils.findMethod(service.getClass(), funcName, (Class<?>[]) null);
 		if (method == null) {
-			logger.error("请求无对应方法: " + funcName);
+			log.error("请求无对应方法: " + funcName);
 			response.setHeader("error_code", "105");
 			return gson.toJson(MessageUtil.message(-1, "请求无对应方法: " + funcName));
 		}
@@ -119,7 +119,7 @@ public class ServiceController {
 		// 获取该方法的参数, 校验参数
 		Parameter[] parameters = method.getParameters();
 		if (parameters.length != paramMap.size()) {
-			logger.error("参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length);
+			log.error("参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length);
 			return gson.toJson(MessageUtil.message(-1, "参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length));
 		}
 

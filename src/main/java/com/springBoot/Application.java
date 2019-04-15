@@ -4,7 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -18,9 +18,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringBootApplication
 @ServletComponentScan
-@EnableScheduling
-@EnableTransactionManagement
-@PropertySource("classpath:application.yml")
+@EnableScheduling // 启用定时
+@EnableAsync // 启用异步调用
+@EnableTransactionManagement // 启用事务管理
+// @PropertySource("classpath:application.yml") //读取指定配置文件
 @MapperScan("com.springBoot.mapper")
 public class Application {
 

@@ -1,8 +1,7 @@
 package com.springBoot.utils.config.redis;
 
 import com.alibaba.fastjson.parser.ParserConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -30,11 +29,10 @@ import java.time.Duration;
  * @desc redis配置类 缓存配置-使用Lettuce客户端，自动注入配置的方式
  * @date 2019/3/26 026 10:34
  */
+@Slf4j
 @Configuration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
-
-	private static final Logger logger = LoggerFactory.getLogger(RedisConfig.class);
 
 	/**
 	 * 重写Redis序列化方式，使用Json方式:
@@ -155,26 +153,26 @@ public class RedisConfig extends CachingConfigurerSupport {
 	@Bean
 	@Override
 	public CacheErrorHandler errorHandler() {
-		logger.info("初始化 -> [{}]", "Redis CacheErrorHandler");
+		log.info("初始化 -> [{}]", "Redis CacheErrorHandler");
 		CacheErrorHandler cacheErrorHandler = new CacheErrorHandler() {
 			@Override
 			public void handleCacheGetError(RuntimeException e, Cache cache, Object key) {
-				logger.error("Redis occur handleCacheGetError：key -> [{}]", key, e);
+				log.error("Redis occur handleCacheGetError：key -> [{}]", key, e);
 			}
 
 			@Override
 			public void handleCachePutError(RuntimeException e, Cache cache, Object key, Object value) {
-				logger.error("Redis occur handleCachePutError：key -> [{}]；value -> [{}]", key, value, e);
+				log.error("Redis occur handleCachePutError：key -> [{}]；value -> [{}]", key, value, e);
 			}
 
 			@Override
 			public void handleCacheEvictError(RuntimeException e, Cache cache, Object key) {
-				logger.error("Redis occur handleCacheEvictError：key -> [{}]", key, e);
+				log.error("Redis occur handleCacheEvictError：key -> [{}]", key, e);
 			}
 
 			@Override
 			public void handleCacheClearError(RuntimeException e, Cache cache) {
-				logger.error("Redis occur handleCacheClearError：", e);
+				log.error("Redis occur handleCacheClearError：", e);
 			}
 		};
 		return cacheErrorHandler;

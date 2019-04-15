@@ -1,7 +1,6 @@
 package com.springBoot.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.security.MessageDigest;
@@ -13,9 +12,8 @@ import java.security.NoSuchAlgorithmException;
  * @desc MD5加密工具类
  * @date 2019/3/22 022 16:02
  */
+@Slf4j
 public class MD5Util {
-
-	private static final Logger logger = LoggerFactory.getLogger(MD5Util.class);
 
 	public static String md5(String text) {
 		try {
@@ -58,7 +56,7 @@ public class MD5Util {
 				try {
 					in.close();
 				} catch (IOException e) {
-					logger.error("MD5加密文件流关闭失败", e);
+					log.error("MD5加密文件流关闭失败", e);
 				}
 			}
 		}

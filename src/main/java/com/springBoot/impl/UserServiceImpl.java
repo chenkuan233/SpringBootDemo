@@ -15,9 +15,8 @@ import com.springBoot.service.UserService;
 import com.springBoot.utils.DateUtil;
 import com.springBoot.utils.MessageUtil;
 import com.springBoot.utils.UserEncryptUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,10 +28,11 @@ import java.util.*;
  * @desc userService层
  * @date 2019/1/17 017 14:19
  */
+@Slf4j
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+	// private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
 	private UserRepository userRepository;
@@ -83,9 +83,9 @@ public class UserServiceImpl implements UserService {
 			user.setRegTime(DateUtil.time());
 			// 加密
 			user = userEncryptUtil.encrypt(user);
-			logger.info("新增用户:" + user.getUserName());
+			log.info("新增用户:" + user.getUserName());
 		} else {
-			logger.info("更新用户:" + user.getUserName());
+			log.info("更新用户:" + user.getUserName());
 		}
 		userRepository.save(user);
 	}
@@ -131,7 +131,7 @@ public class UserServiceImpl implements UserService {
 			// 加密
 			user = userEncryptUtil.encrypt(user);
 			userCommonMapper.insert(user);
-			logger.info("新增用户:" + user.getUserName());
+			log.info("新增用户:" + user.getUserName());
 		}
 	}
 
@@ -139,7 +139,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUserMyMapper(User user) {
 		userCommonMapper.updateByPrimaryKey(user);
-		logger.info("更新用户:" + user.getUserName());
+		log.info("更新用户:" + user.getUserName());
 	}
 
 	// 通用mapper 修改用户密码
@@ -147,19 +147,19 @@ public class UserServiceImpl implements UserService {
 	public Map<String, String> updatePasswordMyMapper(String userName, String oldPassword, String newPassword) {
 		User user = userCommonMapper.selectOne(new User(userName));
 		if (user == null) {
-			logger.error("密码修改失败：用户不存在");
+			log.error("密码修改失败：用户不存在");
 			return MessageUtil.message("1", "用户不存在");
 		}
 		// 校验原密码
 		oldPassword = userEncryptUtil.encrypt(oldPassword, user.getCredentialsSalt());
 		if (!user.getPassword().equals(oldPassword)) {
-			logger.error("密码修改失败：用户原密码校验错误");
+			log.error("密码修改失败：用户原密码校验错误");
 			return MessageUtil.message("2", "用户原密码校验错误");
 		}
 		// 重新加密
 		user = userEncryptUtil.encrypt(user, newPassword);
 		userCommonMapper.updateByPrimaryKey(user);
-		logger.info("用户" + user.getUserName() + "密码修改成功");
+		log.info("用户" + user.getUserName() + "密码修改成功");
 		return MessageUtil.message("0", "密码修改成功");
 	}
 

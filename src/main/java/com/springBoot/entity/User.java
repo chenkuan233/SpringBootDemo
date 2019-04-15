@@ -1,5 +1,8 @@
 package com.springBoot.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -10,6 +13,8 @@ import java.io.Serializable;
  * @desc 用户表
  * @date 2019/1/17 017 11:45
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "t_user", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_name"})})
 public class User implements Serializable {
@@ -49,7 +54,7 @@ public class User implements Serializable {
 		this.userName = userName;
 	}
 
-	public Long getId() {
+	/*public Long getId() {
 		return id;
 	}
 
@@ -95,5 +100,5 @@ public class User implements Serializable {
 
 	public void setCredentialsSalt(String credentialsSalt) {
 		this.credentialsSalt = credentialsSalt;
-	}
+	}*/
 }

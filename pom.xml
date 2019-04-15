@@ -239,6 +239,18 @@
             <version>3.1.4.RELEASE</version>
         </dependency>
 
+        <!--引入freeMarker依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+
+        <!--lombok 使用字节码技术虚拟get、set-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
         <!--Zuul集成服务网关 API Gateway-->
 
     </dependencies>

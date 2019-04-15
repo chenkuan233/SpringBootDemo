@@ -1,5 +1,7 @@
 package com.springBoot.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -11,6 +13,8 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * @desc 测试elasticsearch实体
  * @date 2019/4/11 011 11:18
  */
+@Setter
+@Getter
 @Document(indexName = "item", type = "docs", shards = 1, replicas = 0)
 public class Item {
 
@@ -32,52 +36,4 @@ public class Item {
 
 	@Field(index = false, type = FieldType.Keyword)
 	private String images; // 图片地址
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
-	public String getImages() {
-		return images;
-	}
-
-	public void setImages(String images) {
-		this.images = images;
-	}
 }
