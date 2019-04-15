@@ -84,7 +84,7 @@ spring:
   thymeleaf:
     mode: HTML
     # html具有缓存的特点(热部署文件时，设为false，页面不产生缓存，及时更新)
-    cache: true
+    cache: false
     prefix: classpath:/templates/
     suffix: .html
     encoding: UTF-8
