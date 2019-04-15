@@ -38,15 +38,15 @@ public class TransactionConfig /*implements TransactionManagementConfigurer*/ {
 		return new DataSourceTransactionManager(dataSource);
 	}*/
 
-	@Bean
-	public Object testTransactionManager(PlatformTransactionManager platformTransactionManager){
-		logger.info("默认事务管理器 -> " + platformTransactionManager.getClass().getName());
-		return new Object();
-	}
-
 	/*// 实现接口 TransactionManagementConfigurer 方法，其返回值代表在拥有多个事务管理器的情况下默认使用的事务管理器
 	@Override
 	public PlatformTransactionManager annotationDrivenTransactionManager() {
 		return transactionManager;
 	}*/
+
+	@Bean
+	public Object testTransactionManager(PlatformTransactionManager platformTransactionManager) {
+		logger.info("默认事务管理器 -> " + platformTransactionManager.getClass().getName());
+		return new Object();
+	}
 }

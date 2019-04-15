@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 public class JdbcTemplateConfig {
 
 	@Autowired
-	DataSource dataSource;
+	private DataSource dataSource;
 
 	@Bean
 	@Singleton
