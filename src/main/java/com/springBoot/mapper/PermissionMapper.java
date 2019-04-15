@@ -1,6 +1,7 @@
 package com.springBoot.mapper;
 
 import com.springBoot.entity.Permission;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,5 +12,5 @@ import java.util.List;
  * @date 2019/3/25 025 15:45
  */
 public interface PermissionMapper {
-	List<Permission> findByRoleId(Long roleId);
+	List<Permission> findByRoleId(@Param("roleId") Long roleId);
 }

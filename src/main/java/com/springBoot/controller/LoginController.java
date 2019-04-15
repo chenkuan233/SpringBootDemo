@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class LoginController {
 
-	// private static final Logger log = logFactory.getlog(LoginController.class);
+	// private static final Logger log = logFactory.getLogger(LoginController.class);
 
 	@Autowired
 	private UserService userService;

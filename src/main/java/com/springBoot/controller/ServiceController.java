@@ -33,7 +33,7 @@ import java.util.Map;
 @Controller
 public class ServiceController {
 
-	// private static final Logger log = logFactory.getlog(ServiceController.class);
+	// private static final Logger log = logFactory.getLogger(ServiceController.class);
 
 	private Gson gson = new Gson();
 
