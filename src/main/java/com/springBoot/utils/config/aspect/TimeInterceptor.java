@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
@@ -19,18 +20,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class TimeInterceptor {
 
-	// private static final Logger log = LoggerFactory.getLogger(TimeInterceptor.class);
-
 	private Gson gson = new Gson();
 
 	// service层的统计耗时切面，类型必须为final String类型的,注解里要使用的变量只能是静态常量类型的
-	private static final String POINT = "execution(public * com..impl..*.*(..))";
+	// private static final String POINT = "execution(public * com.springBoot..impl..*.*(..))";
+
+	@Pointcut("execution(public * com.springBoot..impl..*.*(..))")
+	public void serviceImplPoint() {
+	}
 
 	/**
 	 * 统计方法执行耗时Around环绕通知
 	 */
-	@Around(POINT)
-	public Object timeAround(ProceedingJoinPoint joinPoint) throws Throwable, Exception {
+	@Around("serviceImplPoint()")
+	public Object serviceImplAround(ProceedingJoinPoint joinPoint) throws Throwable, Exception {
 		// 获取服务、方法名
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 		String methodName = signature.getDeclaringType().getSimpleName() + "." + signature.getName();
@@ -39,7 +42,8 @@ public class TimeInterceptor {
 		Object obj = null;
 		Object[] args = joinPoint.getArgs();
 
-		log.info("进入服务: " + methodName + " 参数: " + gson.toJson(args));
+		String param = (param = gson.toJson(args)) == null ? null : param.length() > 300 ? param.substring(0, 300) + ".." : param;
+		log.info("进入服务: " + methodName + " 参数: " + param);
 
 		// 开始计时
 		long startTime = System.currentTimeMillis();
