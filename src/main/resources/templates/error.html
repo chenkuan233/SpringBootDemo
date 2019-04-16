@@ -3,8 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>系统错误页</title>
+
+    <style type="text/css">
+        a {
+            color: brown;
+            cursor: pointer; /*显示鼠标手型*/
+        }
+
+        a:hover {
+            color: #FC9D1D;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<h1 style="text-align: center;">抱歉！系统发生错误</h1>
+<div style="text-align: center;">
+    <h1>抱歉！系统发生错误</h1>
+    <p><a onclick="history.back()">》返回上一页</a></p>
+    <p><a href="https://127.0.0.1/springBootDemo">》返回网站首页</a></p>
+</div>
 </body>
 </html>
