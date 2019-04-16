@@ -42,7 +42,7 @@ public class HelloWorldController {
 		} catch (Exception e) {
 			log.error(user.getUserName() + "进行权限验证..验证未通过，权限验证出错", e);
 		}
-		return "redirect:/error/403.html"; // 引入动态页面后，访问static页面需加redirect:重定向
+		return "forward:/error/403.html"; // 引入动态页面后，访问static页面方式 转发、重定向
 	}
 
 	@GetMapping("/hello")
