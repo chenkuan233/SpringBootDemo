@@ -89,7 +89,7 @@ public class LoginController {
 			User user = userService.findByUserNameMapper(username);
 			session.setAttribute("user", user);
 			response.setHeader("errCode", "200");
-			return "redirect:/index.html";
+			return "redirect:/index.html"; // 重定向访问static静态页面，需加.html
 		} else {
 			token.clear();
 			return loginUrl;

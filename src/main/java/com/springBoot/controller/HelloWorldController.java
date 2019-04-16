@@ -21,15 +21,17 @@ import java.util.Map;
 @Controller
 public class HelloWorldController {
 
-	@GetMapping("/home")
+	@GetMapping("/checkAdmin")
 	public String home() {
 		Subject subject = SecurityUtils.getSubject();
 		try {
 			subject.checkPermission("admin");
 		} catch (UnauthorizedException e) {
 			log.error("没有足够的权限", e);
+		} catch (Exception e) {
+			log.error("权限验证出错", e);
 		}
-		return "index";
+		return "redirect:/error/403.html"; // 引入动态页面后，访问static页面需加redirect:重定向
 	}
 
 	@GetMapping("/hello")

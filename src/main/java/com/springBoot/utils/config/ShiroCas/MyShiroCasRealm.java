@@ -3,6 +3,7 @@ package com.springBoot.utils.config.ShiroCas;
 import com.springBoot.entity.User;
 import com.springBoot.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -54,11 +55,10 @@ public class MyShiroCasRealm extends CasRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 		log.info("##################Shiro权限认证##################");
 
-		// 从凭证中获得用户名
-		// String username = (String) SecurityUtils.getSubject().getPrincipal();
-		String username = (String) super.getAvailablePrincipal(principalCollection);
-		// 根据用户名查询用户对象
-		User user = userService.findByUserNameMapper(username);
+		// 从凭证中获得用户
+		// User user = (User) super.getAvailablePrincipal(principalCollection);
+		User user = (User) SecurityUtils.getSubject().getPrincipal();
+
 		// 查询用户拥有的角色
 		/*List<Role> list = roleService.findByUserId(user.getId());
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
