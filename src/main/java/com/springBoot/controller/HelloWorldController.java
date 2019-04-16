@@ -1,5 +1,6 @@
 package com.springBoot.controller;
 
+import com.springBoot.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -21,15 +22,25 @@ import java.util.Map;
 @Controller
 public class HelloWorldController {
 
+	// 验证当前用户是否有权限
 	@GetMapping("/checkAdmin")
 	public String home() {
 		Subject subject = SecurityUtils.getSubject();
+		User user = new User();
 		try {
-			subject.checkPermission("admin");
+			user = (User) subject.getPrincipal(); // 获取登录用户
+			log.info(user.getUserName() + "进行权限验证..验证开始");
+
+			// 权限认证
+			subject.checkRole("admin");
+			// subject.checkPermission("admin");
+
+			log.info(user.getUserName() + "进行权限验证..验证通过");
+			return "redirect:/index.html";
 		} catch (UnauthorizedException e) {
-			log.error("没有足够的权限", e);
+			log.error(user.getUserName() + "进行权限验证..验证未通过，没有足够的权限");
 		} catch (Exception e) {
-			log.error("权限验证出错", e);
+			log.error(user.getUserName() + "进行权限验证..验证未通过，权限验证出错", e);
 		}
 		return "redirect:/error/403.html"; // 引入动态页面后，访问static页面需加redirect:重定向
 	}

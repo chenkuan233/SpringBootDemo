@@ -288,9 +288,8 @@ public class ShiroCasConfig {
 
 		// 1.shiro集成cas后，首先添加该规则
 		filterMap.put("/cas", "casFilter");
-		// logut请求采用logout filter
 
-		// 2.不拦截的请求
+		// 2.不拦截的请求 一般为静态资源、登录登出
 		filterMap.put("/js/**", "anon");
 		filterMap.put("/css/**", "anon");
 		filterMap.put("/framework/**", "anon");
@@ -299,13 +298,14 @@ public class ShiroCasConfig {
 		filterMap.put("/error", "anon");
 		filterMap.put("/error/**", "anon");
 
-		// 登出请求 shiro的默认登出也会清理用户的session信息,并且也会清理掉redis中缓存的用户 身份认证和 权限认证的相关信息
+		// 登出请求 shiro的默认登出也会清理用户的session信息,并且也会清理掉redis中缓存的用户 身份认证和权限认证的相关信息
 		filterMap.put("/logout", "logout");
 
 		// 3.拦截的请求（从本地数据库获取或者从casserver获取(webservice,http等远程方式)，看你的角色权限配置在哪里）
 		filterMap.put("/user", "authc"); // 需要登录
-		filterMap.put("/user/add/**", "authc,roles[admin]"); // 需要登录，且用户角色为admin
-		filterMap.put("/user/delete/**", "authc,perms[\"user:delete\"]"); // 需要登录，且用户有权限为user:delete
+		filterMap.put("/user/**", "roles[\"admin\"]"); // 需要登录，且用户角色为admin
+		// filterMap.put("/user/add/**", "authc,roles[\"admin\"]"); // 需要登录，且用户角色为admin
+		// filterMap.put("/user/delete/**", "authc,perms[\"user:delete\"]"); // 需要登录，且用户有权限为user:delete
 
 		// 4.登录过的不拦截
 		filterMap.put("/**", "user");

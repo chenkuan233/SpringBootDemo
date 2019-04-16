@@ -53,8 +53,6 @@ public class MyShiroCasRealm extends CasRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-		log.info("##################Shiro权限认证##################");
-
 		// 从凭证中获得用户
 		// User user = (User) super.getAvailablePrincipal(principalCollection);
 		User user = (User) SecurityUtils.getSubject().getPrincipal();
