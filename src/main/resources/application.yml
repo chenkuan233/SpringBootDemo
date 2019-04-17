@@ -89,12 +89,12 @@ spring:
     suffix: .html
     encoding: UTF-8
   data:
-    # elasticsearch配置
-    elasticsearch:
-      # 集群名称
-      cluster-name: my-application
-      # 配置es节点信息，逗号分隔，如果没有指定，则启动ClientNode
-      cluster-nodes: 127.0.0.1:9300
+#    # elasticsearch配置
+#    elasticsearch:
+#      # 集群名称
+#      cluster-name: my-application
+#      # 配置es节点信息，逗号分隔，如果没有指定，则启动ClientNode
+#      cluster-nodes: 127.0.0.1:9300
 
 mybatis:
   # mybatis配置文件路径

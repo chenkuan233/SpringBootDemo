@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @desc 测试Elasticsearch
  * @date 2019/4/11 011 11:22
  */
-@Service("elasticsearchService")
+// @Service("elasticsearchService")
 public class ElasticsearchServiceImpl implements ElasticsearchService {
 
 	@Autowired
