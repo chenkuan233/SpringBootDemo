@@ -2,11 +2,11 @@ var app = angular.module('myApp', ['ngRoute', 'angucomplete']);
 app.controller('MyHomeController', function ($scope, $http) {
 
     var constants = new com.springboot.constant.Constants();
-    var requestName = constants.projectName;
+    var requestPath = constants.requestPath;
 
     $scope.find = function () {
         $http({
-            url: requestName + '/service/userService/findAllMyMapper', // 请求地址
+            url: requestPath + '/service/userService/findAllMyMapper', // 请求地址
             method: 'POST', // 请求方式
             data: JSON.stringify(), // 请求的数据 message 必须是a=b&c=d的格式 data是post请求的数据，params是get请求的数据,
             headers: {
