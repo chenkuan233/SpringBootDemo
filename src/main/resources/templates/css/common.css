@@ -1,0 +1,9 @@
+a {
+    color: #3f8bc7;
+    cursor: pointer; /*鼠标显示手型*/
+    text-decoration: none; /*去除下划线*/
+}
+
+a:hover {
+    color: #f0ad4e;
+}

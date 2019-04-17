@@ -1,0 +1,82 @@
+.spanTab{
+    border-radius: 0 !important;
+    border-right: 1px #e5e5e5 solid;
+    border-bottom: 1px #e5e5e5 solid;
+    border-left: 1px #e5e5e5 solid;
+    background-color: #F5F5F5;
+    /*padding: 1px 15px 12px 10px;*/
+    color: #666;
+    margin-right: -1px;
+    line-height: 35px;
+    position: relative;
+    font-family: ΢���ź�;
+    font-size: 14px;
+    padding-right: 15px;
+    width:135px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display: block;
+    height:35px;
+    padding-top: 3px;
+}
+.spanTab a{
+    color: #999999;
+    margin-left: 10px;
+
+
+
+}
+.spanTab a:link{
+    text-decoration: none;
+}
+.spanTab a:hover{
+    color: #4cabe0;
+}
+li.active .spanTab{
+    border-bottom-color: transparent;
+    background-color: #FFF;
+    z-index: 1;
+}
+.closeButton{
+    background: #f9f9f9;
+    color: #8f8d8d;
+    border-radius: 5px;
+    line-height: 12px;
+    text-align: center;
+    height: 12px;
+    width: 12px;
+    font-size: 12px;
+
+    top: 17px;
+
+    right: 10px;
+    position: absolute;
+    cursor: pointer;
+}
+.closeButton:hover{
+    color: #ffffff;
+    background: red;
+}
+.closeButton::after {
+    content: "\2716";
+}
+.closeAll{
+    /*display: inline-block;*/
+    margin-left: 8px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    display: none;
+}
+.closeAll a{
+    color: #555;
+    font-size: 9px;
+    font-weight: bold;
+    text-decoration: none;
+    background: #eee;
+    padding: 3px 5px;
+}
+.closeAll a:hover{
+    color: #fff;
+    background: #0088CC;
+}
