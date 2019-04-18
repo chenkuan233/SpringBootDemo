@@ -1,8 +1,8 @@
 var app = angular.module('myApp', ['ngRoute', 'angucomplete']);
 app.controller('MyHomeController', function ($scope, $http) {
 
-    var constants = new com.springboot.constant.Constants();
-    var requestPath = constants.requestPath;
+    // var constants = new com.springboot.constant.Constants();
+    var requestPath = getProjectPath();
 
     $scope.find = function () {
         $http({

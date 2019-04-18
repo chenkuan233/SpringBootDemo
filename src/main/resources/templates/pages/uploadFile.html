@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>文件上传</title>
+
+    <script src="../commonCss.js"></script>
 </head>
 <body>
 <div>
+    <p><a href="../index.html">点此跳转首页</a></p>
     <form action="/springBootDemo/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="file">
         <input type="submit" value="上传">
     </form>
+    <p><span style="color: red;" th:text="${msg}"></span></p>
 </div>
 
 </body>

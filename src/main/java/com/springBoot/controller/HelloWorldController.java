@@ -10,11 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
@@ -68,7 +67,8 @@ public class HelloWorldController {
 
 	// 测试上传文件
 	@RequestMapping("/upload")
-	public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	@ResponseBody
+	public String upload(@RequestParam("file") MultipartFile file) throws IOException {
 		// 得到上传时的文件名
 		String fileName = file.getOriginalFilename();
 		// 上传路径
@@ -76,9 +76,9 @@ public class HelloWorldController {
 		// 开始上传
 		fileName = UploadUtil.upload(file.getBytes(), filePath, fileName);
 		if (fileName != null) {
-			log.info("文件" + fileName + "上传成功");
+			log.info(fileName + "上传成功");
 		}
-		return "index";
+		return fileName + "上传成功";
 	}
 
 }

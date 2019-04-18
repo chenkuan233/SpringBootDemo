@@ -5,24 +5,15 @@
     <meta charset="UTF-8"/>
     <title>home</title>
 
-    <!--angular.js-->
-    <script src="../framework/angular/1.4.3/angular.min.js"></script>
-    <script src="../framework/angular/1.4.3/angular-route.min.js"></script>
-    <script src="../framework/angular/directives/angucomplete.js"></script>
-    <script src="../framework/angular/directives/angucomplete-alt.js"></script>
+    <!--引入公共js-->
+    <script src="../commonJs.js"></script>
+    <!--引入公共css-->
+    <script src="../commonCss.js"></script>
 
-    <script src="../framework/jquery/1.9/jquery.js"></script>
-    <script src="../framework/util/namespace.js"></script>
-
-    <script type="text/javascript" src="home.js"></script>
-
-    <script type="text/javascript" src="../js/constants.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="../css/common.css">
+    <script src="home.js"></script>
 </head>
-<body>
-
-<div ng-controller="MyHomeController">
+<body ng-controller="MyHomeController">
+<div>
     <div>
         <p><a href="../index.html">点此跳转首页</a></p>
         <p><input type="button" ng-click="find()" value="查询User"></p>
