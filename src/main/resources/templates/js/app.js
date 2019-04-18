@@ -47,30 +47,30 @@ function requestService(serviceName, funcName) {
         }
     }
     // 发送请求
-    sendPostRequest(url, data, callback);
+    sendPost(url, data, callback);
 }
 
 // 发送POST请求
-function sendPostRequest(url, data, callback) {
-    sendAjaxRequest(url, 'POST', data, false, callback);
+function sendPost(url, data, callback) {
+    sendAjax(url, 'POST', data, callback);
 }
 
 // 发送GET请求
-function sendGetRequest(url, data, callback) {
-    sendAjaxRequest(url, 'GET', data, false, callback);
+function sendGet(url, data, callback) {
+    sendAjax(url, 'GET', data, callback);
 }
 
 // Ajax POST请求
-function sendAjaxRequest(url, method, data, cache, callback) {
+function sendAjax(url, method, data, callback) {
     // jquery ajax
     $.ajax({
         url: url, // 请求地址
         type: method, // 请求方式
         data: data, // 发送到服务器的数据 将自动转换为请求字符串格式
-        processData: true, // 默认true 默认情况下，通过data选项传递进来的数据，如果是一个对象(技术上讲只要不是字符串)，都会处理转化成一个查询字符串，以配合默认内容类型 "application/x-www-form-urlencoded"。如果要发送 DOM 树信息或其它不希望转换的信息，请设置为 false。
+        processData: true, // 默认true 默认情况下，通过data选项传递进来的数据，如果是一个对象(技术上讲只要不是字符串)，都会处理转化成一个查询字符串，以配合默认内容类型 "application/x-www-form-urlencoded"。如果要发送 DOM 树信息或其它不希望转换的信息，请设置为 false
         dataType: 'text', // 预期服务器返回的数据类型 "json": 返回JSON数据, "text": 返回纯文本字符串
         async: true, // 默认值: true 默认设置下，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为 false
-        cache: cache, // 默认值: true 设置为false将不缓存此页面
+        cache: false, // 默认值: true 设置为false将不缓存此页面
         timeout: 10000, // 设置请求超时时间（毫秒）
         beforeSend: function (xhr) {
         }, // 发送请求前可修改XMLHttpRequest对象的函数，如添加自定义HTTP头
