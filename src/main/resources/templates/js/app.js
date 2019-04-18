@@ -82,10 +82,10 @@ function sendPost(url, method, data, cache, callback) {
         error: function (xhr, status, exception) {
             if (status === 'timeout') {
                 alert("error:响应超时");
-                console.log("error:响应超时", data, status, exception);
+                console.log("error:响应超时", xhr, status, exception);
             } else {
                 alert("error:后台错误");
-                console.log("error:后台错误", data, status, exception);
+                console.log("error:后台错误", xhr, status, exception);
             }
         }
     })
