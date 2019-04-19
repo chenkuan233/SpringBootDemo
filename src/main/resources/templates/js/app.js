@@ -74,20 +74,25 @@ function sendAjax(url, method, data, callback) {
         type: method, // 请求方式
         data: data, // 发送到服务器的数据 将自动转换为请求字符串格式
         processData: true, // 默认true 默认情况下，通过data选项传递进来的数据，如果是一个对象(技术上讲只要不是字符串)，都会处理转化成一个查询字符串，以配合默认内容类型 "application/x-www-form-urlencoded"。如果要发送 DOM 树信息或其它不希望转换的信息，请设置为 false
-        dataType: 'text', // 预期服务器返回的数据类型 "json": 返回JSON数据, "text": 返回纯文本字符串
+        dataType: 'json', // 预期服务器返回的数据类型 "json": 返回JSON数据, "text": 返回纯文本字符串
         async: true, // 默认值: true 默认设置下，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为 false
         cache: false, // 默认值: true 设置为false将不缓存此页面
-        timeout: 10000, // 设置请求超时时间（毫秒）
+        timeout: 60000, // 设置请求超时时间（毫秒）
         beforeSend: function (xhr) {
         }, // 发送请求前可修改XMLHttpRequest对象的函数，如添加自定义HTTP头
         success: function (data, status, xhr) {
-            // var errorCode = parseInt(xhr.getResponseHeader('error_code'));
-            if (typeof (callback) === 'function') {
-                var resultData = undefined;
-                if (data) {
-                    resultData = JSON.parse(data);
+            if (data) {
+                if (data.code !== 0) {
+                    layer.alert(data.data, {icon: 2});
+                    return false;
+                } else {
+                    if (typeof callback === 'function') {
+                        callback(data.data);
+                    }
                 }
-                callback(resultData);
+            } else {
+                layer.alert('发生错误: 系统无响应数据', {icon: 2});
+                return false;
             }
         },
         error: function (xhr, status, exception) {
@@ -164,7 +169,6 @@ function uploadFile(divId) {
         url: url, // form提交数据的地址
         type: 'post', // form提交的方式(method:post/get)
         resetForm: true, // 提交成功后是否重置表单中的字段值，即恢复到页面加载时的状态
-        dataType: null, // 指定服务器响应返回的数据类型'xml','json','script'
         timeout: 60000, // 设置请求时间，超过该时间后，自动退出请求，单位(毫秒)
         beforeSubmit: function (form) {
             for (var i = 0; i < form.length; i++) {
@@ -177,8 +181,19 @@ function uploadFile(divId) {
             }
         }, // 提交前执行的回调函数
         success: function (data) {
-            if (typeof callback === 'function') {
-                callback(data);
+            if (data) {
+                data = JSON.parse(data);
+                if (data.code !== 0) {
+                    layer.alert(data.data, {icon: 2});
+                    return false;
+                } else {
+                    if (typeof callback === 'function') {
+                        callback(data.data);
+                    }
+                }
+            } else {
+                layer.alert('发生错误: 系统无响应数据', {icon: 2});
+                return false;
             }
         } // 提交成功后执行的回调函数
     };

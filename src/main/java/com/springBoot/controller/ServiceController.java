@@ -33,8 +33,6 @@ import java.util.Map;
 @Controller
 public class ServiceController {
 
-	// private static final Logger log = logFactory.getLogger(ServiceController.class);
-
 	private Gson gson = new Gson();
 
 	/**
@@ -88,8 +86,7 @@ public class ServiceController {
 		List<String> beanNames = SpringBeanUtil.getBeanNames();
 		if (!beanNames.contains(serviceName)) {
 			log.error("请求无对应服务: " + serviceName + "." + funcName);
-			response.setHeader("error_code", "104");
-			return gson.toJson(MessageUtil.message(-1, "请求无对应服务: " + serviceName + "." + funcName));
+			return gson.toJson(MessageUtil.returnData(-1, "请求无对应服务: " + serviceName + "." + funcName));
 		}
 
 		// 获取request请求方法参数
@@ -112,15 +109,14 @@ public class ServiceController {
 		Method method = ReflectionUtils.findMethod(service.getClass(), funcName, (Class<?>[]) null);
 		if (method == null) {
 			log.error("请求无对应方法: " + funcName);
-			response.setHeader("error_code", "105");
-			return gson.toJson(MessageUtil.message(-1, "请求无对应方法: " + funcName));
+			return gson.toJson(MessageUtil.returnData(-2, "请求无对应方法: " + funcName));
 		}
 
 		// 获取该方法的参数, 校验参数
 		Parameter[] parameters = method.getParameters();
 		if (parameters.length != paramMap.size()) {
 			log.error("参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length);
-			return gson.toJson(MessageUtil.message(-1, "参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length));
+			return gson.toJson(MessageUtil.returnData(-3, "参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length));
 		}
 
 		// 请求参数赋值给方法参数
@@ -129,8 +125,7 @@ public class ServiceController {
 		// 反射执行方法并获取返回结果
 		Object obj = ReflectionUtils.invokeMethod(method, service, params);
 
-		response.setHeader("error_code", "200");
-		return gson.toJson(obj);
+		return gson.toJson(MessageUtil.returnData(0, obj));
 	}
 
 	/**

@@ -11,10 +11,17 @@ import java.util.Map;
  */
 public class MessageUtil {
 
-	public static Map<String, Object> message(Integer code, String msg) {
+	public static Map<String, Object> returnData(Integer code, String data) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("code", code);
-		map.put("msg", msg);
+		map.put("data", data);
+		return map;
+	}
+
+	public static Map<String, Object> returnData(Integer code, Object data) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("code", code);
+		map.put("data", data);
 		return map;
 	}
 

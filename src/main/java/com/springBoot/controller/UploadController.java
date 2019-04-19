@@ -1,7 +1,10 @@
 package com.springBoot.controller;
 
+import com.google.gson.Gson;
+import com.springBoot.utils.MessageUtil;
 import com.springBoot.utils.UploadUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +24,8 @@ import java.io.IOException;
 @Controller
 public class UploadController {
 
+	private Gson gson = new Gson();
+
 	@Value("${upload.filePath}")
 	private String filePath;
 
@@ -38,10 +43,12 @@ public class UploadController {
 		String fileName = file.getOriginalFilename();
 		// 开始上传
 		fileName = UploadUtil.upload(file.getBytes(), filePath, fileName);
-		if (fileName != null) {
-			log.info(filePath + fileName + " 上传成功");
+		if (StringUtils.isEmpty(fileName)) {
+			return gson.toJson(MessageUtil.returnData(-1, file.getOriginalFilename() + "上传失败"));
 		}
-		return filePath + fileName;
+		String fileFullPath = filePath + fileName;
+		log.info(fileFullPath + " 上传成功");
+		return gson.toJson(MessageUtil.returnData(0, fileFullPath));
 	}
 
 }
