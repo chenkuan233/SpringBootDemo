@@ -9,6 +9,8 @@ document.write('<script src="' + projectPath + 'framework/angular/directives/ang
 
 // jquery1.9
 document.write('<script src="' + projectPath + 'framework/jquery/1.9/jquery.js"></script>');
+// jquery.form
+document.write('<script src="' + projectPath + 'framework/jquery/jquery.form.js"></script>');
 
 // namespace
 document.write('<script src="' + projectPath + 'framework/util/namespace.js"></script>');
@@ -18,3 +20,6 @@ document.write('<script src="' + projectPath + 'js/constants.js"></script>');
 
 // app.js公共方法类
 document.write('<script src="' + projectPath + 'js/app.js"></script>');
+
+// layer弹出层
+document.write('<script src="' + projectPath + 'framework/layer/layer.js"></script>');

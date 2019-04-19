@@ -19,11 +19,17 @@ function getProjectPath() {
     return getProtocol() + "//" + getHost() + getPathName();
 }
 
-// 请求service层服务
+/**
+ * 请求service层服务
+ * @param serviceName   必选 服务bean名称
+ * @param funcName      必选 方法名
+ * @param params        可选 参数，可以有多个 param1,param2...
+ * @param callback      可选 回调函数
+ */
 function requestService(serviceName, funcName) {
     var argsCount = arguments.length;
     if (argsCount < 2) {
-        alert('参数个数错误');
+        layer.alert('requestService参数个数错误', {icon: 2});
         return false;
     }
     var callback = undefined;
@@ -60,7 +66,7 @@ function sendGet(url, data, callback) {
     sendAjax(url, 'GET', data, callback);
 }
 
-// Ajax POST请求
+// Ajax 请求
 function sendAjax(url, method, data, callback) {
     // jquery ajax
     $.ajax({
@@ -86,10 +92,10 @@ function sendAjax(url, method, data, callback) {
         },
         error: function (xhr, status, exception) {
             if (status === 'timeout') {
-                alert("error:响应超时");
+                layer.alert("error:响应超时", {icon: 2});
                 console.log("error:响应超时", xhr, status, exception);
             } else {
-                alert("error:后台错误");
+                layer.alert("error:后台错误", {icon: 2});
                 console.log("error:后台错误", xhr, status, exception);
             }
         }
@@ -115,11 +121,105 @@ function sendAjax(url, method, data, callback) {
         }
     }).error(function (data, status, headers, config) {
         if (0 === status) {
-            alert("error:响应超时");
+            layer.alert("error:响应超时", {icon: 2});
             console.log("error:响应超时", data, status, headers);
         } else {
-            alert("error:后台错误");
+            layer.alert("error:后台错误", {icon: 2});
             console.log("error:后台错误", data, status, headers);
         }
     })*/
+}
+
+/**
+ * 上传文件
+ * @param divId     必选 divId
+ * @param options   可选 设置属性
+ * @param callback  可选 回调函数获取上传文件存放路径
+ */
+function uploadFile(divId) {
+    var options = undefined;
+    var callback = undefined;
+
+    // 参数处理
+    var argsCount = arguments.length;
+    if (argsCount < 1 || argsCount > 3) {
+        layer.alert('uploadFile参数个数错误', {icon: 2});
+        return false;
+    }
+    if (argsCount === 2) {
+        if (typeof (arguments[1]) === 'function') {
+            callback = arguments[1];
+        } else {
+            options = arguments[1];
+        }
+    }
+    if (argsCount === 3) {
+        options = arguments[1];
+        callback = arguments[2];
+    }
+
+    // 默认配置
+    var url = getProjectPath() + '/upload';
+    var defaultOptions = {
+        url: url, // form提交数据的地址
+        type: 'post', // form提交的方式(method:post/get)
+        resetForm: true, // 提交成功后是否重置表单中的字段值，即恢复到页面加载时的状态
+        dataType: null, // 指定服务器响应返回的数据类型'xml','json','script'
+        timeout: 60000, // 设置请求时间，超过该时间后，自动退出请求，单位(毫秒)
+        beforeSubmit: function (form) {
+            for (var i = 0; i < form.length; i++) {
+                var file = form[i].value;
+                if (!file) {
+                    layer.msg('请选择文件', {icon: 2});
+                    return false;
+                }
+                console.log('开始上传文件: name:' + file.name + ', type:' + file.type + ', size:' + Math.round(file.size / 1024) + 'KB');
+            }
+        }, // 提交前执行的回调函数
+        success: function (data) {
+            if (typeof callback === 'function') {
+                callback(data);
+            }
+        } // 提交成功后执行的回调函数
+    };
+
+    // 若没有传入相关配置则使用默认配置
+    if (!options) {
+        options = defaultOptions;
+    } else {
+        for (var key in defaultOptions) {
+            if (isEmpty(options[key])) {
+                options[key] = defaultOptions[key];
+            }
+        }
+    }
+
+    // 生成 form 表单
+    var formId = divId + '-upload-form';
+    var formHtml = '<form id="' + formId + '" enctype="multipart/form-data"> <input type="file" name="file"> <input type="submit" value="上传"> </form>';
+    document.getElementById(divId).innerHTML = formHtml;
+
+    // ajaxForm会自动阻止提交
+    $('#' + formId).ajaxForm(options);
+}
+
+// 对象深拷贝(对象属性包含function)
+function copyObject(obj) {
+    if (obj === null) return null;
+    if (typeof obj !== 'object') return obj;
+    if (obj.constructor === Date) return new Date(obj);
+    if (obj.constructor === RegExp) return new RegExp(obj);
+    var newObj = new obj.constructor(); // 保持继承链
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) { // 不遍历其原型链上的属性
+            var val = obj[key];
+            newObj[key] = typeof val === 'object' ? arguments.callee(val) : val; // 使用arguments.callee解除与函数名的耦合
+        }
+    }
+    return newObj;
+}
+
+// 判断是否为空
+function isEmpty(value) {
+    return value === undefined || value === null || value === '' || value.length === 0;
 }

@@ -71,7 +71,7 @@ public class UploadUtil {
 			fileNameTemp = fileName;
 			int lastPointIndex = fileNameTemp.lastIndexOf(".");
 			if (lastPointIndex != -1) {
-				fileNameTemp = fileNameTemp.substring(0, lastPointIndex) + num + fileNameTemp.substring(lastPointIndex);
+				fileNameTemp = fileNameTemp.substring(0, lastPointIndex) + "(" + num + ")" + fileNameTemp.substring(lastPointIndex);
 			} else {
 				fileNameTemp += num;
 			}

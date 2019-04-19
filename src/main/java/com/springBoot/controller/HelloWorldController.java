@@ -1,7 +1,6 @@
 package com.springBoot.controller;
 
 import com.springBoot.entity.User;
-import com.springBoot.utils.UploadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -9,12 +8,8 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -63,22 +58,6 @@ public class HelloWorldController {
 		map.put("age", "22");
 		map.put("sex", 0);
 		return "/freemarker/ftlIndex";
-	}
-
-	// 测试上传文件
-	@RequestMapping("/upload")
-	@ResponseBody
-	public String upload(@RequestParam("file") MultipartFile file) throws IOException {
-		// 得到上传时的文件名
-		String fileName = file.getOriginalFilename();
-		// 上传路径
-		String filePath = "D:/Others/test/";
-		// 开始上传
-		fileName = UploadUtil.upload(file.getBytes(), filePath, fileName);
-		if (fileName != null) {
-			log.info(fileName + "上传成功");
-		}
-		return fileName + "上传成功";
 	}
 
 }

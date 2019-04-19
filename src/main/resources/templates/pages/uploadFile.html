@@ -1,19 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>文件上传</title>
 
+    <script src="../commonJs.js"></script>
     <script src="../commonCss.js"></script>
+
+    <script src="uploadFile.js"></script>
 </head>
-<body>
+<body ng-app="uploadFileApp" ng-controller="uploadFileController">
 <div>
     <p><a href="../index.html">点此跳转首页</a></p>
-    <form action="/springBootDemo/upload" method="post" enctype="multipart/form-data">
+    <div id="uploadFile-upload"></div>
+    <!--<form id="uploadForm" enctype="multipart/form-data">
         <input type="file" name="file">
         <input type="submit" value="上传">
-    </form>
-    <p><span style="color: red;" th:text="${msg}"></span></p>
+    </form>-->
 </div>
 
 </body>
