@@ -81,27 +81,16 @@ function sendAjax(url, method, data, callback) {
         beforeSend: function (xhr) {
         }, // 发送请求前可修改XMLHttpRequest对象的函数，如添加自定义HTTP头
         success: function (data, status, xhr) {
-            if (data) {
-                if (data.code !== 0) {
-                    layer.alert(data.data, {icon: 2});
-                    return false;
-                } else {
-                    if (typeof callback === 'function') {
-                        callback(data.data);
-                    }
-                }
-            } else {
-                layer.alert('发生错误: 系统无响应数据', {icon: 2});
-                return false;
-            }
+            handleReturnData(data, callback);
         },
         error: function (xhr, status, exception) {
             if (status === 'timeout') {
-                layer.alert("error:响应超时", {icon: 2});
-                console.log("error:响应超时", xhr, status, exception);
+                layer.alert("error: 响应超时 - " + status, {icon: 2});
+                console.log("error: 响应超时", xhr, status, exception);
             } else {
-                layer.alert("error:后台错误", {icon: 2});
-                console.log("error:后台错误", xhr, status, exception);
+                var responseText = JSON.parse(xhr.responseText);
+                layer.alert("error: 系统错误(status: " + responseText.status + ") - " + responseText.message, {icon: 2});
+                console.log("error: 系统错误", xhr, status, exception);
             }
         }
     })
@@ -181,20 +170,7 @@ function uploadFile(divId) {
             }
         }, // 提交前执行的回调函数
         success: function (data) {
-            if (data) {
-                data = JSON.parse(data);
-                if (data.code !== 0) {
-                    layer.alert(data.data, {icon: 2});
-                    return false;
-                } else {
-                    if (typeof callback === 'function') {
-                        callback(data.data);
-                    }
-                }
-            } else {
-                layer.alert('发生错误: 系统无响应数据', {icon: 2});
-                return false;
-            }
+            handleReturnData(data, callback);
         } // 提交成功后执行的回调函数
     };
 
@@ -237,4 +213,21 @@ function copyObject(obj) {
 // 判断是否为空
 function isEmpty(value) {
     return value === undefined || value === null || value === '' || value.length === 0;
+}
+
+// 后台返回数据处理
+function handleReturnData(data, callback) {
+    if (data) {
+        if (data.code !== 0) {
+            layer.alert('系统错误: ' + data.data, {icon: 2});
+            return false;
+        } else {
+            if (typeof callback === 'function') {
+                callback(data.data);
+            }
+        }
+    } else {
+        layer.alert('发生错误: 系统无响应数据', {icon: 2});
+        return false;
+    }
 }

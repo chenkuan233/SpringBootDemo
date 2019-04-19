@@ -44,12 +44,12 @@ public class ServiceController {
 	 * @param funcName    请求方法名
 	 * @return 执行方法返回值
 	 */
+	@ResponseBody
 	@RequestMapping(
 			value = {"/service/{serviceName}/{funcName}"},
 			method = {RequestMethod.POST},
 			produces = {"text/plain;charset=UTF-8"}
 	)
-	@ResponseBody
 	public String doPost(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) throws Exception {
 		return doService(request, response, serviceName, funcName);
 	}
@@ -63,11 +63,12 @@ public class ServiceController {
 	 * @param funcName    请求方法名
 	 * @return 执行方法返回值
 	 */
+	@ResponseBody
 	@RequestMapping(
 			value = {"/service/{serviceName}/{funcName}"},
 			method = {RequestMethod.GET},
-			produces = {"text/plain;charset=UTF-8"})
-	@ResponseBody
+			produces = {"text/plain;charset=UTF-8"}
+	)
 	public String doGet(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) throws Exception {
 		return doService(request, response, serviceName, funcName);
 	}

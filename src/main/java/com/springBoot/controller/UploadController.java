@@ -1,6 +1,5 @@
 package com.springBoot.controller;
 
-import com.google.gson.Gson;
 import com.springBoot.utils.MessageUtil;
 import com.springBoot.utils.UploadUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +23,6 @@ import java.io.IOException;
 @Controller
 public class UploadController {
 
-	private Gson gson = new Gson();
-
 	@Value("${upload.filePath}")
 	private String filePath;
 
@@ -36,19 +33,19 @@ public class UploadController {
 	 * @return filePath
 	 * @throws IOException
 	 */
-	@RequestMapping("/upload")
 	@ResponseBody
-	public String upload(@RequestParam("file") MultipartFile file) throws IOException {
+	@RequestMapping("/upload")
+	public Object upload(@RequestParam("file") MultipartFile file) throws IOException {
 		// 得到上传时的文件名
 		String fileName = file.getOriginalFilename();
 		// 开始上传
 		fileName = UploadUtil.upload(file.getBytes(), filePath, fileName);
 		if (StringUtils.isEmpty(fileName)) {
-			return gson.toJson(MessageUtil.returnData(-1, file.getOriginalFilename() + "上传失败"));
+			return MessageUtil.returnData(-1, file.getOriginalFilename() + "上传失败");
 		}
 		String fileFullPath = filePath + fileName;
 		log.info(fileFullPath + " 上传成功");
-		return gson.toJson(MessageUtil.returnData(0, fileFullPath));
+		return MessageUtil.returnData(0, fileFullPath);
 	}
 
 }
