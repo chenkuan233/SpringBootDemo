@@ -291,12 +291,17 @@ public class ShiroCasConfig {
 
 		// 2.不拦截的请求 一般为静态资源、登录登出
 		filterMap.put("/js/**", "anon");
+		filterMap.put("/pages/js/**", "anon");
 		filterMap.put("/css/**", "anon");
 		filterMap.put("/framework/**", "anon");
 		filterMap.put("/images/**", "anon");
-		filterMap.put("/login", "anon");
-		filterMap.put("/error", "anon");
-		filterMap.put("/error/**", "anon");
+		filterMap.put("/error/**", "anon"); // 错误页面
+		filterMap.put("/login", "anon"); // 登录请求服务
+		filterMap.put("/login.html", "anon"); // 登录页面
+		filterMap.put("/pages/register.html", "anon"); // 注册页面
+		filterMap.put("/commonJs.js", "anon"); // 公共js类
+		filterMap.put("/commonCss.js", "anon"); // 公共css类
+		filterMap.put("/service/registerService/*", "anon"); // 注册请求服务
 
 		// 登出请求 shiro的默认登出也会清理用户的session信息,并且也会清理掉redis中缓存的用户 身份认证和权限认证的相关信息
 		filterMap.put("/logout", "logout");

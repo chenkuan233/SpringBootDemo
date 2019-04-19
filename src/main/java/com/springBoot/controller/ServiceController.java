@@ -5,6 +5,7 @@ import com.google.gson.JsonParser;
 import com.springBoot.utils.MessageUtil;
 import com.springBoot.utils.config.applicationContext.SpringBeanUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -113,12 +114,8 @@ public class ServiceController {
 			return gson.toJson(MessageUtil.returnData(-2, "请求无对应方法: " + funcName));
 		}
 
-		// 获取该方法的参数, 校验参数
+		// 获取该方法的参数
 		Parameter[] parameters = method.getParameters();
-		if (parameters.length != paramMap.size()) {
-			log.error("参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length);
-			return gson.toJson(MessageUtil.returnData(-3, "参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length));
-		}
 
 		// 请求参数赋值给方法参数
 		Object[] params = getMethodParams(paramMap, parameters);
@@ -139,16 +136,17 @@ public class ServiceController {
 	 */
 	private Object[] getMethodParams(Map<String, String> paramMap, Parameter[] parameters) throws Exception {
 		Object[] params = null;
-		if (parameters.length > 0 && paramMap.size() > 0) {
+		if (parameters.length > 0) {
 			params = new Object[parameters.length];
 			for (int i = 0; i < parameters.length; i++) {
-				if (!paramMap.containsKey(parameters[i].getName())) {
-					throw new Exception("方法要求参数" + parameters[i].getName() + "未找到");
-				}
 				Class clazz = parameters[i].getType();
 				String value = paramMap.get(parameters[i].getName());
 				// 方法参数反序列化
 				try {
+					if (StringUtils.isEmpty(value)) {
+						params[i] = value;
+						continue;
+					}
 					// 将字符串格式化为json字符串
 					String jsonStr = gson.toJson(new JsonParser().parse(value));
 					// 反序列化为对象clazz

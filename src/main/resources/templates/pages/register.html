@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册账号</title>
+
+    <script src="../commonJs.js"></script>
+    <script src="../commonCss.js"></script>
+
+    <script src="js/register.js"></script>
+</head>
+<body ng-app="registerApp" ng-controller="registerController">
+<div>
+    <p><a href="../login.html">去登陆</a></p>
+    <p>账号 <input type="text" name="username" ng-model="username"></p>
+    <p>密码 <input type="password" name="password" ng-model="password"></p>
+    <p>
+        <button ng-click="registerAccount(username, password)">注册</button>
+    </p>
+</div>
+</body>
+</html>

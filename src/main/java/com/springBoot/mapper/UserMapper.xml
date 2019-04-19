@@ -13,4 +13,9 @@
     <select id="findAll" resultType="com.springBoot.entity.User">
         SELECT * from t_user
     </select>
+
+    <insert id="saveUser" parameterType="map">
+        INSERT INTO t_user(user_name, password, reg_date, reg_time, credentials_salt)
+         VALUE (#{user.userName},#{user.password},#{user.regDate},#{user.regTime},#{user.credentialsSalt})
+    </insert>
 </mapper>

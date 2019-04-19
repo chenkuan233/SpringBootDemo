@@ -18,4 +18,6 @@ public interface UserMapper {
 	User findByUserNameAndPassword(@Param("userName") String userName, @Param("password") String password);
 
 	List<User> findAll();
+
+	Integer saveUser(@Param("user") User user);
 }
