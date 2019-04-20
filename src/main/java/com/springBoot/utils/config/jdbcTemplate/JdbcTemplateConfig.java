@@ -1,4 +1,4 @@
-package com.springBoot.utils.config.JdbcTemplate;
+package com.springBoot.utils.config.jdbcTemplate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

@@ -1,16 +1,9 @@
-package com.springBoot.utils.config.TransactionManagement;
+package com.springBoot.utils.config.transactionManagement;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.TransactionManagementConfigurer;
-
-import javax.annotation.Resource;
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 
 /**
  * @author chenkuan

@@ -1,7 +1,7 @@
 package com.springBoot.utils;
 
 import com.springBoot.entity.User;
-import com.springBoot.utils.config.ShiroCas.ByteSourceUtil;
+import com.springBoot.utils.config.shiroCas.ByteSourceUtil;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;

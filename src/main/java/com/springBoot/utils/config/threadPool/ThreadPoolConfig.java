@@ -1,4 +1,4 @@
-package com.springBoot.utils.config.ThreadPool;
+package com.springBoot.utils.config.threadPool;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

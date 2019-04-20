@@ -1,4 +1,4 @@
-package com.springBoot.utils.config.ShiroCas;
+package com.springBoot.utils.config.shiroCas;
 
 import com.springBoot.entity.User;
 import com.springBoot.service.UserService;

@@ -1,4 +1,4 @@
-package com.springBoot.utils.config.ShiroCas;
+package com.springBoot.utils.config.shiroCas;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;

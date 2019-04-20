@@ -5,6 +5,7 @@ import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
@@ -52,14 +53,16 @@ public class HttpsConfig extends WebMvcConfigurerAdapter {
 				context.addConstraint(securityConstraint);
 			}
 		};
-		tomcat.addAdditionalTomcatConnectors(httpConnector());
+
+		tomcat.addAdditionalTomcatConnectors(getHttpConnector());
+		tomcat.addConnectorCustomizers(getConnectorCustomizer());
 		return tomcat;
 	}
 
 	/**
 	 * 配置https
 	 */
-	private Connector httpConnector() {
+	private Connector getHttpConnector() {
 		Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
 		// 同时启用http、https两个端口
 		connector.setScheme("http");
@@ -70,4 +73,18 @@ public class HttpsConfig extends WebMvcConfigurerAdapter {
 		connector.setRedirectPort(httpsPort);
 		return connector;
 	}
+
+	/**
+	 * 配置tomcat允许非法字符
+	 */
+	private TomcatConnectorCustomizer getConnectorCustomizer() {
+		TomcatConnectorCustomizer connectorCustomizer = new TomcatConnectorCustomizer() {
+			@Override
+			public void customize(Connector connector) {
+				connector.setProperty("relaxedQueryChars", "|{}[]\\");
+			}
+		};
+		return connectorCustomizer;
+	}
+
 }

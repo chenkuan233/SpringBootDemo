@@ -3,8 +3,10 @@ package com.springBoot.controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.springBoot.utils.MessageUtil;
+import com.springBoot.utils.ServiceUtil;
 import com.springBoot.utils.config.applicationContext.SpringBeanUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.Enumeration;
-import java.util.HashMap;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +51,7 @@ public class RestfulServiceController {
 			method = {RequestMethod.POST},
 			produces = {"text/plain;charset=UTF-8"}
 	)
-	public Object doPost(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) throws Exception {
+	public String doPost(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) throws Exception {
 		return doService(request, response, serviceName, funcName);
 	}
 
@@ -69,7 +70,7 @@ public class RestfulServiceController {
 			method = {RequestMethod.GET},
 			produces = {"text/plain;charset=UTF-8"}
 	)
-	public Object doGet(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) throws Exception {
+	public String doGet(HttpServletRequest request, HttpServletResponse response, @PathVariable String serviceName, @PathVariable String funcName) throws Exception {
 		return doService(request, response, serviceName, funcName);
 	}
 
@@ -82,42 +83,33 @@ public class RestfulServiceController {
 	 * @param funcName    请求方法名
 	 * @return 方法返回值的json字符串
 	 */
-	private Object doService(HttpServletRequest request, HttpServletResponse response, String serviceName, String funcName) throws Exception {
+	private String doService(HttpServletRequest request, HttpServletResponse response, String serviceName, String funcName) throws Exception {
 		// 判断serviceBean是否存在
 		List<String> beanNames = SpringBeanUtil.getBeanNames();
 		if (!beanNames.contains(serviceName)) {
 			log.error("请求无对应服务: " + serviceName + "." + funcName);
-			return MessageUtil.returnData(-1, "请求无对应服务: " + serviceName + "." + funcName);
+			return gson.toJson(MessageUtil.returnData(-1, "请求无对应服务: " + serviceName + "." + funcName));
 		}
 
 		// 获取request请求方法参数
-		Map<String, String> paramMap = new HashMap<>();
-		if (request.getParameterNames() != null && request.getParameterNames().hasMoreElements()) {
-			Enumeration<String> enumList = request.getParameterNames();
-			String key = null;
-			String value = null;
-			while (enumList.hasMoreElements()) {
-				key = enumList.nextElement();
-				value = request.getParameter(key);
-				paramMap.put(key, value);
-			}
-		}
+		Map<String, String> paramMap = ServiceUtil.getRequestParams(request);
 
 		// 获取serviceBean
 		Object service = SpringBeanUtil.getBean(serviceName);
 
 		// 获取指定方法(null：忽略参数; 不能存在方法的重载)
-		Method method = ReflectionUtils.findMethod(service.getClass(), funcName, (Class<?>[]) null);
+		Method method = ServiceUtil.getMethod(service.getClass(), funcName);
+		// Method method = ReflectionUtils.findMethod(service.getClass(), funcName, (Class<?>[]) null);
 		if (method == null) {
 			log.error("请求无对应方法: " + serviceName + "." + funcName);
-			return MessageUtil.returnData(-1, "请求无对应方法: " + serviceName + "." + funcName);
+			return gson.toJson(MessageUtil.returnData(-1, "请求无对应方法: " + serviceName + "." + funcName));
 		}
 
 		// 获取该方法的参数, 校验参数
 		Parameter[] parameters = method.getParameters();
 		if (parameters.length != paramMap.size()) {
 			log.error("参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length);
-			return MessageUtil.returnData(-1, "参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length);
+			return gson.toJson(MessageUtil.returnData(-1, "参数个数校验失败, " + funcName + "要求参数个数为: " + parameters.length));
 		}
 
 		// 请求参数赋值给方法参数
@@ -126,7 +118,7 @@ public class RestfulServiceController {
 		// 反射执行方法并获取返回结果
 		Object obj = ReflectionUtils.invokeMethod(method, service, params);
 
-		return MessageUtil.returnData(0, obj);
+		return gson.toJson(MessageUtil.returnData(0, obj));
 	}
 
 	/**
@@ -145,16 +137,20 @@ public class RestfulServiceController {
 				if (!paramMap.containsKey(parameters[i].getName())) {
 					throw new Exception("方法要求参数" + parameters[i].getName() + "未找到");
 				}
-				Class clazz = parameters[i].getType();
-				String value = paramMap.get(parameters[i].getName());
+				Type type = parameters[i].getParameterizedType();
+				String param = paramMap.get(parameters[i].getName());
+				if (StringUtils.isEmpty(param)) {
+					params[i] = null;
+					continue;
+				}
 				// 方法参数反序列化
 				try {
 					// 将字符串格式化为json字符串
-					String jsonStr = gson.toJson(new JsonParser().parse(value));
+					String jsonStr = gson.toJson(new JsonParser().parse(param));
 					// 反序列化为对象clazz
-					params[i] = gson.fromJson(jsonStr, clazz);
+					params[i] = gson.fromJson(jsonStr, type);
 				} catch (Exception e) {
-					throw new Exception("json反序列化失败.value=" + value, e);
+					throw new Exception("json反序列化失败.value=" + param, e);
 				}
 			}
 		}

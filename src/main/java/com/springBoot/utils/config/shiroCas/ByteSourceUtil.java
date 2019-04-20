@@ -1,4 +1,4 @@
-package com.springBoot.utils.config.ShiroCas;
+package com.springBoot.utils.config.shiroCas;
 
 import org.apache.shiro.util.ByteSource;
 

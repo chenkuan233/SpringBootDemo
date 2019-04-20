@@ -83,6 +83,10 @@ function sendAjax(url, method, data, callback) {
                 layer.alert("error: 响应超时 - " + status, {icon: 2});
                 console.log("error: 响应超时", xhr, status, exception);
             } else {
+                if (xhr.responseText.toUpperCase().indexOf('<!DOCTYPE html>'.toUpperCase()) !== -1) {
+                    // 刷新当前页面，以GET方式从服务端取最新的页面 (false:从缓存中取)
+                    window.location.reload(true);
+                }
                 try {
                     var responseText = JSON.parse(xhr.responseText);
                     layer.alert("error: 系统错误(status: " + responseText.status + ") - " + responseText.message, {icon: 2});
@@ -227,7 +231,7 @@ function handleReturnData(data, callback) {
             }
         }
     } else {
-        layer.alert('发生错误: 系统无响应数据', {icon: 2});
+        layer.alert('系统错误: 无响应数据', {icon: 2});
         return false;
     }
 }
