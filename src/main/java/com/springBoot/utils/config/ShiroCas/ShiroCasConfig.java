@@ -14,13 +14,11 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.session.SingleSignOutHttpSessionListener;
-import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.DelegatingFilterProxy;
@@ -40,8 +38,6 @@ import java.util.Map;
 @SuppressWarnings("unchecked")
 @Configuration
 public class ShiroCasConfig {
-
-	// private static final Logger log = LoggerFactory.getLogger(ShiroCasConfig.class);
 
 	@Value("${credentialsMatcher.algorithmName}")
 	private String algorithmName;
@@ -168,16 +164,20 @@ public class ShiroCasConfig {
 	}
 
 	/**
-	 * 下面两个配置主要用来开启shiro aop注解支持. 使用代理方式;所以需要开启代码支持
+	 * 主要用来开启shiro aop注解支持. 使用代理方式;所以需要开启代码支持
+	 * 会导致环绕通知失效
 	 */
-	@Bean
+	/*@Bean
 	@DependsOn("lifecycleBeanPostProcessor")
 	public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
 		DefaultAdvisorAutoProxyCreator daap = new DefaultAdvisorAutoProxyCreator();
 		daap.setProxyTargetClass(true);
 		return daap;
-	}
+	}*/
 
+	/**
+	 * securityManager 可以管理其他组件
+	 */
 	@Bean(name = "securityManager")
 	public DefaultWebSecurityManager getDefaultWebSecurityManager(MyShiroCasRealm myShiroCasRealm) {
 		DefaultWebSecurityManager manager = new DefaultWebSecurityManager();

@@ -28,8 +28,6 @@ public class MyShiroCasRealm extends CasRealm {
 	@Autowired
 	private UserService userService;
 
-	// private static final Logger log = LoggerFactory.getLogger(MyShiroCasRealm.class);
-
 	@Value("${cas.server-url}")
 	private String casServerUrlPrefix;
 

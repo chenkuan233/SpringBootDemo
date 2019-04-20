@@ -29,6 +29,9 @@ spring:
     multipart:
       # multipart文件上传大小限制 默认10MB
       max-file-size: 100MB
+  aop:
+    # false:使用JDK代理，true:使用cglib代理(spring默认使用JDK,springboot默认使用cglib)
+    proxy-target-class: false
   jpa:
     # 数据库类型
     database: mysql

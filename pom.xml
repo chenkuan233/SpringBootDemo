@@ -245,8 +245,6 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <!--Zuul集成服务网关 API Gateway-->
-
     </dependencies>
 
     <!--打包配置-->

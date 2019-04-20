@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Singleton;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Map;
  * @desc 根据bean的class来查找所有的对象(包括子类)
  * @date 2019/3/1 001 17:01
  */
+@Singleton
 @Component
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class SpringBeanUtil implements ApplicationContextAware {

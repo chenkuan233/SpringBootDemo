@@ -35,7 +35,6 @@ function requestService(serviceName, funcName) {
     var callback = undefined;
     var url = getProjectPath() + '/service/' + serviceName + '/' + funcName;
     var params = [];
-    var data = undefined;
     for (var i = 2; i < argsCount; i++) {
         var arg = arguments[i];
         if (i === argsCount - 1 && typeof (arg) === 'function') {
@@ -46,12 +45,8 @@ function requestService(serviceName, funcName) {
         }
     }
     // 请求参数封装
-    if (params.length > 0) {
-        data = {};
-        for (var j = 0; j < params.length; j++) {
-            data['arg' + j] = JSON.stringify(params[j]);
-        }
-    }
+    var data = {'params': JSON.stringify(params)};
+
     // 发送请求
     sendPost(url, data, callback);
 }
@@ -88,9 +83,14 @@ function sendAjax(url, method, data, callback) {
                 layer.alert("error: 响应超时 - " + status, {icon: 2});
                 console.log("error: 响应超时", xhr, status, exception);
             } else {
-                var responseText = JSON.parse(xhr.responseText);
-                layer.alert("error: 系统错误(status: " + responseText.status + ") - " + responseText.message, {icon: 2});
-                console.log("error: 系统错误", xhr, status, exception);
+                try {
+                    var responseText = JSON.parse(xhr.responseText);
+                    layer.alert("error: 系统错误(status: " + responseText.status + ") - " + responseText.message, {icon: 2});
+                    console.log("error: 系统错误", xhr, status, exception);
+                } catch (err) {
+                    layer.alert("error: 系统错误 - " + err, {icon: 2});
+                    console.log("error: 系统错误", xhr, status, exception);
+                }
             }
         }
     })
