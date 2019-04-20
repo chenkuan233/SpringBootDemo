@@ -17,9 +17,9 @@ server:
     key-store-type: PKCS12
     # 密钥别名
     key-alias: tomcat
-  servlet:
-    # 打开注释，则通过【http://localhost/springBootDemo】访问
-    context-path: /springBootDemo
+#  servlet:
+#    # 打开注释，则通过【http://localhost/springBootDemo】访问
+#    context-path: /springBootDemo
 
 spring:
   # 运行环境 dev:开发环境；test:测试环境；prod:生产环境 多个文件之间用,隔开 命名为application-name

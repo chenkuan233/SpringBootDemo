@@ -14,9 +14,9 @@ function getPathName() {
     return pathName.substring(0, pathName.substr(1).indexOf("/") + 1);
 }
 
-// 访问地址 https://127.0.0.1/springBootDemo
+// 访问地址 https://127.0.0.1
 function getProjectPath() {
-    return getProtocol() + "//" + getHost() + getPathName();
+    return getProtocol() + "//" + getHost();
 }
 
 /**
