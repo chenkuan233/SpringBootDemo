@@ -1,9 +1,10 @@
-a {
+.a-class {
     color: #3f8bc7;
     cursor: pointer; /*鼠标显示手型*/
     text-decoration: none; /*去除下划线*/
+    transition: all 0.5s; /*所有变化在0.5s内渐变完成*/
 }
 
-a:hover {
-    color: tomato;
+.a-class:hover {
+    color: darkseagreen;
 }
