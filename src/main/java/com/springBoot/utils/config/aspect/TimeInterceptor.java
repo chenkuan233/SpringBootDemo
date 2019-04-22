@@ -7,6 +7,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,7 +35,8 @@ public class TimeInterceptor {
 	 * 统计方法执行耗时Around环绕通知
 	 */
 	@Around("serviceImplPoint()")
-	public Object serviceImplAround(ProceedingJoinPoint joinPoint) throws Throwable, Exception {
+	@Order(Ordered.LOWEST_PRECEDENCE)
+	public Object serviceImplAround(ProceedingJoinPoint joinPoint) throws Throwable {
 		// 获取服务、方法名
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 		String methodName = signature.getDeclaringType().getSimpleName() + "." + signature.getName();

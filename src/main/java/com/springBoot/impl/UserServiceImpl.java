@@ -14,7 +14,9 @@ import com.springBoot.repository.UserRepository;
 import com.springBoot.service.UserService;
 import com.springBoot.utils.DateUtil;
 import com.springBoot.utils.MessageUtil;
+import com.springBoot.utils.Pageable;
 import com.springBoot.utils.UserEncryptUtil;
+import com.springBoot.utils.annotation.PageQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +33,6 @@ import java.util.*;
 @Slf4j
 @Service("userService")
 public class UserServiceImpl implements UserService {
-
-	// private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
 	private UserRepository userRepository;
@@ -91,11 +91,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// mybatis查询，PageHelper分页
+	@PageQuery
 	@Override
-	public List<User> findAllMapper(int pageNum, int pageSize) {
-		PageHelper.startPage(pageNum, pageSize);
+	public Object findAllMapper(Pageable pageable) {
 		List<User> list = userMapper.findAll();
-		PageInfo<User> pageInfo = new PageInfo<>(list);
 		return list;
 	}
 

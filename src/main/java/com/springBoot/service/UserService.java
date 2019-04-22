@@ -2,6 +2,7 @@ package com.springBoot.service;
 
 import com.springBoot.entity.Role;
 import com.springBoot.entity.User;
+import com.springBoot.utils.Pageable;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ public interface UserService {
 	void saveOrUpdateUser(User user);
 
 	// mapper查询，PageHelper分页
-	List<User> findAllMapper(int pageNum, int pageSize);
+	Object findAllMapper(Pageable pageable);
 
 	// mybatis查询
 	User findByUserNameMapper(String userName);
