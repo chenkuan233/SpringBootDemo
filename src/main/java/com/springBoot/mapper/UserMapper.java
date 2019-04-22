@@ -20,4 +20,6 @@ public interface UserMapper {
 	List<User> findAll();
 
 	Integer saveUser(@Param("user") User user);
+
+	void deleteUser(@Param("id") int id);
 }

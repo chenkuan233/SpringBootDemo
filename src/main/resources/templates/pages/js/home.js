@@ -10,6 +10,17 @@ app.controller('homeController', function ($scope) {
             $scope.resultList = result.list;
             $scope.$apply();
         });
+    };
+
+    // 根据id删除
+    $scope.delete = function (id, index) {
+        layer.confirm('确认删除？', {icon: 3}, function () {
+            requestService('userService', 'deleteMapper', id, function (result) {
+                layer.msg('删除成功', {icon: 1});
+                $scope.resultList.splice(index, 1);
+                $scope.$apply();
+            })
+        })
     }
 
 });

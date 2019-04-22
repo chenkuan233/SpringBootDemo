@@ -18,4 +18,8 @@
         INSERT INTO t_user(user_name, password, reg_date, reg_time, credentials_salt)
          VALUE (#{user.userName},#{user.password},#{user.regDate},#{user.regTime},#{user.credentialsSalt})
     </insert>
+
+    <delete id="deleteUser" parameterType="map">
+        DELETE FROM t_user where id = #{id}
+    </delete>
 </mapper>

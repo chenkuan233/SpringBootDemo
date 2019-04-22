@@ -29,6 +29,9 @@ public interface UserService {
 	// mapper查询，PageHelper分页
 	Object findAllMapper(Pageable pageable);
 
+	// mybatis 根据id删除
+	void deleteMapper(int id);
+
 	// mybatis查询
 	User findByUserNameMapper(String userName);
 

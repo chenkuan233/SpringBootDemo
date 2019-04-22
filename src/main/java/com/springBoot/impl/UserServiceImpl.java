@@ -98,6 +98,12 @@ public class UserServiceImpl implements UserService {
 		return list;
 	}
 
+	// mybatis 根据id删除
+	@Override
+	public void deleteMapper(int id) {
+		userMapper.deleteUser(id);
+	}
+
 	// mybatis查询 ByUserName
 	@Override
 	public User findByUserNameMapper(String userName) {

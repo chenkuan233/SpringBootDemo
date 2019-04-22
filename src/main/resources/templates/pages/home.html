@@ -23,20 +23,24 @@
     <div>
         <table border="1" cellspacing="0">
             <tr>
+                <th>序号</th>
                 <th>id</th>
                 <th>user_name</th>
                 <th>password</th>
                 <th>reg_date</th>
                 <th>reg_time</th>
                 <th>credentials_salt</th>
+                <th>操作</th>
             </tr>
             <tr ng-repeat="x in resultList">
+                <td>{{$index + 1}}</td>
                 <td>{{x.id}}</td>
                 <td>{{x.userName}}</td>
                 <td>{{x.password}}</td>
                 <td>{{x.regDate}}</td>
                 <td>{{x.regTime}}</td>
                 <td>{{x.credentialsSalt}}</td>
+                <td><a ng-click="delete(x.id, $index)">删除</a></td>
             </tr>
         </table>
     </div>

@@ -1,7 +1,7 @@
 package com.springBoot.utils.config.shiroCas;
 
 import com.springBoot.entity.User;
-import com.springBoot.service.UserService;
+import com.springBoot.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -26,7 +26,7 @@ import java.util.Set;
 public class MyShiroCasRealm extends CasRealm {
 
 	@Autowired
-	private UserService userService;
+	private UserMapper userMapper;
 
 	@Value("${cas.server-url}")
 	private String casServerUrlPrefix;
@@ -89,7 +89,7 @@ public class MyShiroCasRealm extends CasRealm {
 		// String password = new String((char[]) token.getCredentials());
 
 		// 从数据库中根据用户名查找用户
-		User user = userService.findByUserNameMapper(username);
+		User user = userMapper.findByUserName(username);
 		if (user == null) {
 			throw new UnknownAccountException();
 		}

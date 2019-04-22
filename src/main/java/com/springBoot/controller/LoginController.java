@@ -1,7 +1,7 @@
 package com.springBoot.controller;
 
 import com.springBoot.entity.User;
-import com.springBoot.service.UserService;
+import com.springBoot.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
 
 	@Autowired
-	private UserService userService;
+	private UserMapper userMapper;
 
 	@Value("${cas.service.loginUrl}")
 	private String loginUrl;
@@ -84,7 +84,7 @@ public class LoginController {
 			log.info(username + " " + host + " 登录成功");
 			// 将当前用户存入session
 			Session session = subject.getSession();
-			User user = userService.findByUserNameMapper(username);
+			User user = userMapper.findByUserName(username);
 			session.setAttribute("user", user);
 			response.setHeader("errCode", "200");
 			return "redirect:/index.html"; // 重定向访问static静态页面，需加.html
