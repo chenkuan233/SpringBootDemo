@@ -32,30 +32,32 @@ public class PageQueryAop {
 			log.error("@PageQuery注解分页，方法返回值类型应为Object");
 			throw new Throwable("@PageQuery注解分页，方法返回值类型应为Object");
 		}
+
+		// 获取目标方法参数中的Pageable分页参数
 		Object[] args = joinPoint.getArgs();
-		Integer pageNum = null;
-		Integer pageSize = null;
-		// 获取参数中的Pageable分页参数
+		Pageable pageable = null;
 		if (args.length > 0) {
 			for (Object arg : args) {
 				if (arg != null && arg.getClass() == Pageable.class) {
-					Pageable pageable = (Pageable) arg;
-					pageNum = pageable.getPageNum();
-					pageSize = pageable.getPageSize();
+					pageable = (Pageable) arg;
 					break;
 				}
 			}
 		}
-		// 执行分页
-		if (pageNum == null || pageSize == null) {
-			log.error("@PageQuery注解分页，Pageable分页参数为null");
-			throw new Throwable("@PageQuery注解分页，Pageable分页参数为null");
+
+		// 没有Pageable参数则不做处理
+		if (pageable == null) {
+			return joinPoint.proceed(args);
 		}
+
+		// 执行分页
+		Integer pageNum = pageable.getPageNum();
+		Integer pageSize = pageable.getPageSize();
 		try {
 			PageHelper.startPage(pageNum, pageSize);
-			Object result = joinPoint.proceed(args);
-			// 建议自己实现返回类型，官方自带的返回数据太冗余了
-			return new PageInfo<>((List<?>) result);
+			Object list = joinPoint.proceed(args);
+			// 建议自己实现返回类型，官方自带的返回数据太冗余
+			return new PageInfo<>((List<?>) list);
 		} finally {
 			// 保证线程变量被清除
 			if (PageHelper.getLocalPage() != null) {

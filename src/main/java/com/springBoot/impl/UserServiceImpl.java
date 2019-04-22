@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// mybatis查询，PageHelper分页
-	@PageQuery
+	@PageQuery // PageHelper只对第一个mybatis查询起作用，返回的PageInfo以方法return的list计算
 	@Override
 	public Object findAllMapper(Pageable pageable) {
 		List<User> list = userMapper.findAll();
