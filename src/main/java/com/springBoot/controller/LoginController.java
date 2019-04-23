@@ -1,7 +1,6 @@
 package com.springBoot.controller;
 
 import com.springBoot.entity.User;
-import com.springBoot.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -10,13 +9,11 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,28 +28,42 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class LoginController {
 
-	@Autowired
-	private UserMapper userMapper;
-
 	@Value("${cas.service.loginUrl}")
 	private String loginUrl;
 
+	@Value("${cookie.name}")
+	private String cookieName;
+
+	/**
+	 * 登录请求
+	 */
 	@GetMapping("/login")
 	public String doLogin() {
 		return loginUrl;
 	}
 
 	/**
-	 * loginController
+	 * 登出请求
+	 */
+	@GetMapping("/logout")
+	public String doLogout(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+		Subject subject = SecurityUtils.getSubject();
+		// shiro 默认登出 自动清除权限、session、cookie等
+		subject.logout();
+
+		log.info(request.getRemoteAddr() + " 安全登出");
+		modelMap.addAttribute("errMsg", "安全登出");
+		return loginUrl;
+	}
+
+	/**
+	 * loginController登录服务
 	 *
 	 * @param request  request
 	 * @param response response
 	 * @param modelMap thymeleaf视图
 	 */
-	@RequestMapping(
-			value = {"/login"},
-			method = {RequestMethod.POST}
-	)
+	@PostMapping("/login")
 	public String doLogin(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -84,7 +95,7 @@ public class LoginController {
 			log.info(username + " " + host + " 登录成功");
 			// 将当前用户存入session
 			Session session = subject.getSession();
-			User user = userMapper.findByUserName(username);
+			User user = (User) subject.getPrincipal();
 			session.setAttribute("user", user);
 			response.setHeader("errCode", "200");
 			return "redirect:/index.html"; // 重定向访问static静态页面，需加.html

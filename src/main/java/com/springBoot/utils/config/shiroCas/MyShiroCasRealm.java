@@ -101,45 +101,33 @@ public class MyShiroCasRealm extends CasRealm {
 
 	/**
 	 * 使Shiro支持 UsernamePasswordToken
-	 *
-	 * @param token
-	 * @return
 	 */
 	@Override
 	public boolean supports(AuthenticationToken token) {
 		return token instanceof UsernamePasswordToken;
 	}
 
-	/**
-	 * 重写方法,清除当前用户的的 授权缓存
-	 *
-	 * @param principals
-	 */
-	@Override
-	public void clearCachedAuthorizationInfo(PrincipalCollection principals) {
-		super.clearCachedAuthorizationInfo(principals);
-	}
+	// ####################自定义 清除缓存方法####################
 
 	/**
 	 * 重写方法，清除当前用户的 认证缓存
-	 *
-	 * @param principals
 	 */
 	@Override
 	public void clearCachedAuthenticationInfo(PrincipalCollection principals) {
 		super.clearCachedAuthenticationInfo(principals);
 	}
 
+	/**
+	 * 重写方法,清除当前用户的的 授权缓存
+	 */
+	@Override
+	public void clearCachedAuthorizationInfo(PrincipalCollection principals) {
+		super.clearCachedAuthorizationInfo(principals);
+	}
+
 	@Override
 	public void clearCache(PrincipalCollection principals) {
 		super.clearCache(principals);
-	}
-
-	/**
-	 * 自定义方法：清除所有 授权缓存
-	 */
-	public void clearAllCachedAuthorizationInfo() {
-		getAuthorizationCache().clear();
 	}
 
 	/**
@@ -150,7 +138,14 @@ public class MyShiroCasRealm extends CasRealm {
 	}
 
 	/**
-	 * 自定义方法：清除所有的  认证缓存  和 授权缓存
+	 * 自定义方法：清除所有 授权缓存
+	 */
+	public void clearAllCachedAuthorizationInfo() {
+		getAuthorizationCache().clear();
+	}
+
+	/**
+	 * 自定义方法：清除所有的认证缓存和授权缓存
 	 */
 	public void clearAllCache() {
 		clearAllCachedAuthenticationInfo();

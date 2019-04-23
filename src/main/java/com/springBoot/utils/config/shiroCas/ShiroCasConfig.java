@@ -57,8 +57,11 @@ public class ShiroCasConfig {
 	@Value("${cas.server-url}")
 	private String casServerUrlPrefix;
 
-	@Value("${cookie.cipherKey}")
-	private String cookieCipherKey;
+	@Value("${cookie.name}")
+	private String cookieName;
+
+	@Value("${cookie.token}")
+	private String cookieToken;
 
 	@Value("${cookie.maxAge}")
 	private int cookieMaxAge;
@@ -91,8 +94,8 @@ public class ShiroCasConfig {
 	 */
 	@Bean
 	public SimpleCookie rememberMeCookie() {
-		// 这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
-		SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+		// 这个参数是cookie的名称，对应前端的checkbox的name = cookieName
+		SimpleCookie simpleCookie = new SimpleCookie(cookieName);
 		// 记住我cookie生效时间30天 ,单位秒
 		simpleCookie.setMaxAge(cookieMaxAge);
 		return simpleCookie;
@@ -105,8 +108,8 @@ public class ShiroCasConfig {
 	public CookieRememberMeManager rememberMeManager() {
 		CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
 		cookieRememberMeManager.setCookie(rememberMeCookie());
-		// rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
-		cookieRememberMeManager.setCipherKey(Base64.decode(cookieCipherKey));
+		// cookieName cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
+		cookieRememberMeManager.setCipherKey(Base64.decode(cookieToken));
 		return cookieRememberMeManager;
 	}
 
@@ -304,7 +307,8 @@ public class ShiroCasConfig {
 		filterMap.put("/service/registerService/*", "anon"); // 注册请求服务
 
 		// 登出请求 shiro的默认登出也会清理用户的session信息,并且也会清理掉redis中缓存的用户 身份认证和权限认证的相关信息
-		filterMap.put("/logout", "logout");
+		// filterMap.put("/logout", "logout"); // 使用自定义的登出
+		filterMap.put("/logout", "anon");
 
 		// 3.拦截的请求（从本地数据库获取或者从casserver获取(webservice,http等远程方式)，看你的角色权限配置在哪里）
 		filterMap.put("/user", "authc"); // 需要登录
