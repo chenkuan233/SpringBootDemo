@@ -106,7 +106,7 @@ spring:
 mybatis:
   # mybatis配置文件路径
   config-location: classpath:mybatis-config.xml
-  # 扫描实体类所在包
+  # 扫描实体类所在包 表字段自动映射
   type-aliases-package: com.springBoot.entity
   # 编译后的mapper.xml扫描路径
   mapper-locations: classpath:*Mapper.xml
