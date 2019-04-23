@@ -2,12 +2,15 @@ package com.springBoot.impl;
 
 import com.springBoot.entity.Man;
 import com.springBoot.service.WriteToMysqlService;
+import com.springBoot.utils.config.dataSource.DataSourceUtil;
+import com.springBoot.utils.config.jdbcTemplate.JdbcTemplateConfig;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,8 +22,15 @@ import java.util.List;
 @Service("writeToMysqlService")
 public class WriteToMysqlServiceImpl implements WriteToMysqlService {
 
+	// 默认数据源
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+
+	// 指定第2数据源
+	// @Autowired()
+	// @Qualifier(JdbcTemplateConfig.jdbcTemplate_db2)
+	@Resource(name = JdbcTemplateConfig.jdbcTemplate_db2)
+	private JdbcTemplate db2JdbcTemplate;
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
@@ -41,4 +51,26 @@ public class WriteToMysqlServiceImpl implements WriteToMysqlService {
 			}
 		}
 	}
+
+	// 非主数据源必须要在@Transactional注解中指定数据源事务，否则事务不起作用。主数据库不需要
+	@Transactional(value = DataSourceUtil.transactionManager_db2, rollbackFor = Exception.class)
+	@Override
+	public void writeManDB2(List<Man> manList) {
+		if (CollectionUtils.isNotEmpty(manList)) {
+			try {
+				String sql = "insert into t_man(name,nick) values(?,?)";
+				db2JdbcTemplate.batchUpdate(sql, manList, 1000, (ps, t) -> {
+					ps.setString(1, t.getName());
+					ps.setString(2, t.getNick());
+				});
+
+				// throw new Exception(); // 手动抛出异常 测试事务
+			} catch (Exception e) {
+				// 手动事务回滚
+				// TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				throw new RuntimeException("运行异常");
+			}
+		}
+	}
+
 }

@@ -10,4 +10,6 @@ public interface TaskExecutorService {
 	void testTask();
 
 	void writeToMysql();
+
+	void writeToMysqlDB2();
 }

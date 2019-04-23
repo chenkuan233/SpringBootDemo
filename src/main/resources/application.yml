@@ -24,7 +24,7 @@ server:
 spring:
   # 运行环境 dev:开发环境；test:测试环境；prod:生产环境 多个文件之间用,隔开 命名为application-name
   profiles:
-    active: c3p0
+    active: c3p0-multi
   servlet:
     multipart:
       # multipart文件上传大小限制 默认10MB

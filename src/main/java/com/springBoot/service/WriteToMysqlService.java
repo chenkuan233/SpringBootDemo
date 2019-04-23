@@ -1,7 +1,6 @@
 package com.springBoot.service;
 
 import com.springBoot.entity.Man;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,4 +12,6 @@ import java.util.List;
  */
 public interface WriteToMysqlService {
 	void writeMan(List<Man> manList);
+
+	void writeManDB2(List<Man> manList);
 }

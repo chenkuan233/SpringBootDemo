@@ -78,15 +78,12 @@ public class LoginController {
 			log.info(username + "进行登录验证..验证通过");
 		} catch (UnknownAccountException e) {
 			log.error(username + "进行登录验证..验证未通过，未知账户");
-			response.setHeader("errCode", "101");
 			modelMap.addAttribute("errMsg", "未知账户");
 		} catch (AuthenticationException e) {
 			log.error(username + "进行登录验证..验证未通过，账号密码不匹配");
-			response.setHeader("errCode", "102");
 			modelMap.addAttribute("errMsg", "账号密码不匹配");
 		} catch (Exception e) {
 			log.error("登录出错", e);
-			response.setHeader("errCode", "500");
 			modelMap.addAttribute("errMsg", "登录出错");
 		}
 
@@ -97,7 +94,6 @@ public class LoginController {
 			Session session = subject.getSession();
 			User user = (User) subject.getPrincipal();
 			session.setAttribute("user", user);
-			response.setHeader("errCode", "200");
 			return "redirect:/index.html"; // 重定向访问static静态页面，需加.html
 		} else {
 			token.clear();

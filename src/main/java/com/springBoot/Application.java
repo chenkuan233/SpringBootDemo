@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAsync // 启用异步调用
 @EnableTransactionManagement // 启用事务管理
 // @PropertySource("classpath:application.yml") //读取指定配置文件
-@MapperScan("com.springBoot.mapper")
+// @MapperScan("com.springBoot.mapper")
 public class Application {
 
 	public static void main(String[] args) {

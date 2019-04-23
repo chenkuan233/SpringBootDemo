@@ -3,6 +3,8 @@ package com.springBoot.service;
 import com.springBoot.entity.Role;
 import com.springBoot.entity.User;
 import com.springBoot.utils.Pageable;
+import com.springBoot.utils.annotation.PageQuery;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -29,6 +31,9 @@ public interface UserService {
 	// mapper查询，PageHelper分页
 	Object findAllMapper(Pageable pageable);
 
+	@PageQuery
+	Object findAllMapperDB2(Pageable pageable);
+
 	// mybatis 根据id删除
 	void deleteMapper(int id);
 
@@ -43,6 +48,9 @@ public interface UserService {
 
 	// 通用mapper 插入
 	void saveUserMyMapper(User user);
+
+	// 第2数据源 插入User
+	void saveUserMapperDB2(User user);
 
 	// 通用mapper 更新User
 	void updateUserMyMapper(User user);

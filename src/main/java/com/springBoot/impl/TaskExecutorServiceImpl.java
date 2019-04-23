@@ -41,6 +41,7 @@ public class TaskExecutorServiceImpl implements TaskExecutorService {
 		}
 	}
 
+	// 默认数据源
 	@Override
 	public void writeToMysql() {
 		List<Man> manList = new ArrayList<>();
@@ -51,4 +52,17 @@ public class TaskExecutorServiceImpl implements TaskExecutorService {
 		}
 		threadPoolTaskExecutor.execute(() -> writeToMysqlService.writeMan(manList));
 	}
+
+	// 第2数据源
+	@Override
+	public void writeToMysqlDB2() {
+		List<Man> manList = new ArrayList<>();
+		Man man = null;
+		for (int i = 0; i < 100; i++) {
+			man = new Man("维维-" + i, "weiwei-" + i);
+			manList.add(man);
+		}
+		threadPoolTaskExecutor.execute(() -> writeToMysqlService.writeManDB2(manList));
+	}
+
 }

@@ -10,6 +10,7 @@ import com.springBoot.mapper.PermissionMapper;
 import com.springBoot.mapper.RoleMapper;
 import com.springBoot.mapper.UserMapper;
 import com.springBoot.mapper.UserRoleMapper;
+import com.springBoot.mapper2.Db2UserMapper;
 import com.springBoot.repository.UserRepository;
 import com.springBoot.service.UserService;
 import com.springBoot.utils.DateUtil;
@@ -17,10 +18,12 @@ import com.springBoot.utils.MessageUtil;
 import com.springBoot.utils.Pageable;
 import com.springBoot.utils.UserEncryptUtil;
 import com.springBoot.utils.annotation.PageQuery;
+import com.springBoot.utils.config.dataSource.DataSourceUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -54,6 +57,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserEncryptUtil userEncryptUtil;
+
+	@Autowired
+	private Db2UserMapper Db2UserMapper;
 
 	@Override
 	public List<User> findAllUser() {
@@ -91,10 +97,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// mybatis查询，PageHelper分页
-	@PageQuery // PageHelper只对第一个mybatis查询起作用，返回的PageInfo以方法return的list计算
+	@PageQuery
 	@Override
 	public Object findAllMapper(Pageable pageable) {
 		List<User> list = userMapper.findAll();
+		return list;
+	}
+
+	// 第2数据源 查询
+	@PageQuery
+	@Override
+	public Object findAllMapperDB2(Pageable pageable) {
+		List<User> list = Db2UserMapper.findAll();
 		return list;
 	}
 
@@ -128,6 +142,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// 通用mapper 插入User
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void saveUserMyMapper(User user) {
 		if (user != null) {
@@ -136,6 +151,20 @@ public class UserServiceImpl implements UserService {
 			// 加密
 			user = userEncryptUtil.encrypt(user);
 			userCommonMapper.insert(user);
+			log.info("新增用户:" + user.getUserName());
+		}
+	}
+
+	// 第2数据源 插入User
+	@Transactional(value = DataSourceUtil.transactionManager_db2, rollbackFor = Exception.class)
+	@Override
+	public void saveUserMapperDB2(User user) {
+		if (user != null) {
+			user.setRegDate(DateUtil.date());
+			user.setRegTime(DateUtil.time());
+			// 加密
+			user = userEncryptUtil.encrypt(user);
+			Db2UserMapper.saveUser(user);
 			log.info("新增用户:" + user.getUserName());
 		}
 	}

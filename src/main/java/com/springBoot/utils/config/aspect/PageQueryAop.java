@@ -17,6 +17,7 @@ import java.util.List;
  * @author chenkuan
  * @version v1.0
  * @desc PageHelper分页查询切面Aop
+ * 注意：PageHelper只对第一个mybatis查询起作用，返回的PageInfo以方法return的list计算
  * @date 2019/4/22 022 10:26
  */
 @Slf4j
