@@ -33,7 +33,6 @@ public class DataSourceConfig {
 	public DataSource dataSource() {
 		//return DataSourceBuilder.create().build();
 		//return DruidDataSourceBuilder.create().build();
-		//return new AtomikosDataSourceBean();
 		return new AtomikosDataSourceBean();
 	}
 

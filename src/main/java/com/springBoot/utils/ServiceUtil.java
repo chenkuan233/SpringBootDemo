@@ -3,6 +3,7 @@ package com.springBoot.utils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonSyntaxException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
@@ -81,7 +82,7 @@ public class ServiceUtil {
 	 * @return 参数转为Object[]数组
 	 * @throws Exception
 	 */
-	public static Object[] getMethodParams(JsonArray array, Parameter[] parameters) throws Exception {
+	public static Object[] getMethodParams(JsonArray array, Parameter[] parameters) throws JsonSyntaxException {
 		Object[] params = null;
 		if (parameters.length > 0) {
 			params = new Object[parameters.length];
@@ -96,8 +97,8 @@ public class ServiceUtil {
 					}
 					// 反序列化为对象clazz
 					params[i] = gson.fromJson(param.toString(), clazz);
-				} catch (Exception e) {
-					throw new Exception("json反序列化失败.param=" + param, e);
+				} catch (JsonSyntaxException e) {
+					throw new JsonSyntaxException("json反序列化失败.param=" + param, e);
 				}
 			}
 		}
