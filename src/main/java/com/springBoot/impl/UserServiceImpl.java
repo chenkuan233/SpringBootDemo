@@ -6,11 +6,11 @@ import com.springBoot.entity.Permission;
 import com.springBoot.entity.Role;
 import com.springBoot.entity.User;
 import com.springBoot.mapper.CommonMapper.UserCommonMapper;
-import com.springBoot.mapper.PermissionMapper;
-import com.springBoot.mapper.RoleMapper;
-import com.springBoot.mapper.UserMapper;
-import com.springBoot.mapper.UserRoleMapper;
-import com.springBoot.mapper2.Db2UserMapper;
+import com.springBoot.mapper.mapper.PermissionMapper;
+import com.springBoot.mapper.mapper.RoleMapper;
+import com.springBoot.mapper.mapper.UserMapper;
+import com.springBoot.mapper.mapper.UserRoleMapper;
+import com.springBoot.mapper.mapperDB2.UserDB2Mapper;
 import com.springBoot.repository.UserRepository;
 import com.springBoot.service.UserService;
 import com.springBoot.utils.DateUtil;
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 	private UserEncryptUtil userEncryptUtil;
 
 	@Autowired
-	private Db2UserMapper Db2UserMapper;
+	private UserDB2Mapper userDB2Mapper;
 
 	@Override
 	public List<User> findAllUser() {
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
 	@PageQuery
 	@Override
 	public Object findAllMapperDB2(Pageable pageable) {
-		List<User> list = Db2UserMapper.findAll();
+		List<User> list = userDB2Mapper.findAll();
 		return list;
 	}
 
@@ -164,7 +164,7 @@ public class UserServiceImpl implements UserService {
 			user.setRegTime(DateUtil.time());
 			// 加密
 			user = userEncryptUtil.encrypt(user);
-			Db2UserMapper.saveUser(user);
+			userDB2Mapper.saveUser(user);
 			log.info("新增用户:" + user.getUserName());
 		}
 	}

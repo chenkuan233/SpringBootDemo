@@ -275,9 +275,9 @@
                 </includes>
             </resource>
             <resource>
-                <directory>src/main/java/com/springBoot</directory>
+                <directory>src/main/java/com/springBoot/mapper</directory>
                 <includes>
-                    <include>**/*Mapper.xml</include>
+                    <include>**/*.xml</include>
                 </includes>
             </resource>
         </resources>

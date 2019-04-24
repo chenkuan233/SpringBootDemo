@@ -1,7 +1,7 @@
 package com.springBoot.impl;
 
 import com.springBoot.entity.User;
-import com.springBoot.mapper.UserMapper;
+import com.springBoot.mapper.mapper.UserMapper;
 import com.springBoot.service.RegisterService;
 import com.springBoot.utils.DateUtil;
 import com.springBoot.utils.MessageUtil;

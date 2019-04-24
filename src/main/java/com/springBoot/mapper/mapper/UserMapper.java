@@ -1,4 +1,4 @@
-package com.springBoot.mapper2;
+package com.springBoot.mapper.mapper;
 
 import com.springBoot.entity.User;
 import org.apache.ibatis.annotations.Param;
@@ -11,7 +11,7 @@ import java.util.List;
  * @desc mapper
  * @date 2019/3/4 004 19:38
  */
-public interface Db2UserMapper {
+public interface UserMapper {
 
 	User findByUserName(@Param("userName") String userName);
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.springBoot.mapper.UserMapper">
+<mapper namespace="com.springBoot.mapper.mapper.UserMapper">
     <select id="findByUserName" parameterType="map" resultType="com.springBoot.entity.User">
         SELECT * from t_user where user_name = #{userName}
     </select>

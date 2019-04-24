@@ -16,11 +16,11 @@ import javax.sql.DataSource;
 /**
  * @author chenkuan
  * @version v1.0
- * @desc 数据源1 配置
+ * @desc 主数据源 配置
  * @date 2019/4/23 023 11:44
  */
 @Configuration
-@MapperScan(basePackages = "com.springBoot.mapper", sqlSessionTemplateRef = "sqlSessionTemplate")
+@MapperScan(basePackages = "com.springBoot.mapper", sqlSessionTemplateRef = DataSourceUtil.sqlSessionTemplate_default)
 public class DataSourceConfig {
 
 	// @Primary:主数据源

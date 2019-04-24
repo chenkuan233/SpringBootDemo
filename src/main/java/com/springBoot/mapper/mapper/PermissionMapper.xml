@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.springBoot.mapper.PermissionMapper">
+<mapper namespace="com.springBoot.mapper.mapper.PermissionMapper">
     <select id="findByRoleId" parameterType="map" resultType="com.springBoot.entity.Permission">
         SELECT * from t_permission where role_id = #{roleId}
     </select>

@@ -1,7 +1,7 @@
 package com.springBoot.utils.config.shiroCas;
 
 import com.springBoot.entity.User;
-import com.springBoot.mapper.UserMapper;
+import com.springBoot.mapper.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;

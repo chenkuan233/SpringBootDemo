@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.springBoot.mapper.RoleMapper">
+<mapper namespace="com.springBoot.mapper.mapper.RoleMapper">
     <select id="findById" parameterType="map" resultType="com.springBoot.entity.Role">
         SELECT * from t_role where id = #{id}
     </select>

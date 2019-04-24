@@ -19,7 +19,7 @@ import javax.sql.DataSource;
  * @date 2019/4/23 023 11:44
  */
 @Configuration
-@MapperScan(basePackages = "com.springBoot.mapper2", sqlSessionTemplateRef = "db2SqlSessionTemplate")
+@MapperScan(basePackages = "com.springBoot.mapper.mapperDB2", sqlSessionTemplateRef = DataSourceUtil.sqlSessionTemplate_db2)
 public class DataSource2Config {
 
 	@Bean(name = DataSourceUtil.dataSourceName_db2)

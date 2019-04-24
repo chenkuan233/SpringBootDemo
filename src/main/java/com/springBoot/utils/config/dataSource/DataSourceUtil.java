@@ -44,7 +44,7 @@ public class DataSourceUtil {
 	// 数据源配置路径
 	public static final String configPropertiesPrefix_db2 = "spring.datasource.db2";
 	// 编译后mapper.xml路径
-	public static final String mapperResourcesPath_db2 = "classpath:mapper2/*Mapper.xml";
+	public static final String mapperResourcesPath_db2 = "classpath:mapperDB2/*Mapper.xml";
 	// 实体类包
 	public static final String entityPackage_db2 = "com.springBoot.entity";
 

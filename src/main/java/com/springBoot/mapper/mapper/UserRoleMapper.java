@@ -1,4 +1,4 @@
-package com.springBoot.mapper;
+package com.springBoot.mapper.mapper;
 
 import com.springBoot.entity.UserRole;
 import org.apache.ibatis.annotations.Param;

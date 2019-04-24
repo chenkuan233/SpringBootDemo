@@ -1,6 +1,5 @@
 package com.springBoot;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -9,20 +8,20 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * @SpringBootApplication 相当于@Configuration + @EnableAutoConfiguration + @ComponentScan, 自动扫描同级包（及子包）
+ * SpringBootApplication: 相当于@Configuration + @EnableAutoConfiguration + @ComponentScan, 自动扫描同级包（及子包）
  * // @EnableAutoConfiguration
  * // @ComponentScan(basePackages = {"com.springBoot.controller.helloController"})
- * @ServletComponentScan 注解，Servlet、Filter、Listener可以直接通过@WebServlet、@WebFilter、@WebListener注解自动注册，无需其他代码
- * @PropertySource 读取resources目录下的application.yml
- * @MapperScan 扫描 Mapper
+ * ServletComponentScan: 注解，Servlet、Filter、Listener可以直接通过@WebServlet、@WebFilter、@WebListener注解自动注册，无需其他代码
+ * PropertySource: 读取resources目录下的application.yml
+ * MapperScan: 扫描Mapper(或在每个mapper上加上@Mapper注解)
  */
 @SpringBootApplication
 @ServletComponentScan
 @EnableScheduling // 启用定时
 @EnableAsync // 启用异步调用
 @EnableTransactionManagement // 启用事务管理
-// @PropertySource("classpath:application.yml") //读取指定配置文件
-// @MapperScan("com.springBoot.mapper")
+// @PropertySource("classpath:application.yml") // 读取指定配置文件
+// @MapperScan("com.springBoot.mapper") // Mapper接口扫描路径
 public class Application {
 
 	public static void main(String[] args) {
