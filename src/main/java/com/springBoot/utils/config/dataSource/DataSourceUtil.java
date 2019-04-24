@@ -2,9 +2,11 @@ package com.springBoot.utils.config.dataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * @author chenkuan
@@ -70,6 +72,21 @@ public class DataSourceUtil {
 		config.setMapUnderscoreToCamelCase(true);
 		bean.setConfiguration(config);
 		return bean.getObject();
+	}
+
+	/**
+	 * 读取多数据源配置属性
+	 *
+	 * @param env
+	 * @param prefix 配置属性路径拼接字符串
+	 * @return Properties
+	 */
+	public static Properties getXaProperties(Environment env, String prefix) {
+		Properties props = new Properties();
+		props.put("url", env.getProperty(prefix + "url"));
+		props.put("username", env.getProperty(prefix + "username"));
+		props.put("password", env.getProperty(prefix + "password"));
+		return props;
 	}
 
 }

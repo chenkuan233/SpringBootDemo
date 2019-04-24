@@ -1,4 +1,4 @@
-package com.springBoot.mapper.CommonMapper;
+package com.springBoot.mapper.mapper.commonMapper;
 
 import com.springBoot.commonMapper.MyMapper;
 import com.springBoot.entity.User;

@@ -1,0 +1,132 @@
+# 数据源配置
+spring:
+  # Atomikos配置
+  jta:
+    log-dir: logs/xa-logs
+    atomikos:
+      properties:
+        enable-logging: true
+
+  datasource:
+    # 默认数据源
+    db:
+      # 唯一resource-name
+      unique-resource-name: db
+      # 数据源className
+      xa-data-source-class-name: com.alibaba.druid.pool.xa.DruidXADataSource
+      # 最小连接池数量
+      min-pool-size: 5
+      # 最大连接池数量
+      max-pool-size: 50
+      # 连接最大生命时间
+      max-lifetime: 20000
+      # 两次连接的超时时间
+      borrow-connection-timeout: 10000
+      # xa属性配置
+      xa-properties:
+        url: jdbc:mysql://106.14.119.3:3306/chen?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
+        username: root
+        password: youqu
+        driverClassName: com.mysql.cj.jdbc.Driver
+        # druid连接池初始化连接数
+        initialSize: 5
+        # 最小空闲值
+        minIdle: 5
+        # 最大连接池数量
+        maxActive: 50
+        # 获取连接时最大等待时间
+        maxWait: 60000
+        # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位毫秒
+        timeBetweenEvictionRunsMillis: 60000
+        # 是否缓存preparedStatement，也就是PSCache mysql建议false
+        poolPreparedStatements: false
+        # 要启用PSCache，必须配置大于0
+        maxOpenPreparedStatements: -1
+        # 保证安全性，申请连接的时候检测
+        testWhileIdle: true
+        # 监控统计扩展插件
+        filters: stat,slf4j,wall
+
+    # 数据源2
+    db2:
+      # 唯一resource-name
+      unique-resource-name: db2
+      # 数据源className
+      xa-data-source-class-name: com.alibaba.druid.pool.xa.DruidXADataSource
+      # 最小连接池数量
+      min-pool-size: 5
+      # 最大连接池数量
+      max-pool-size: 50
+      # 连接最大生命时间
+      max-lifetime: 20000
+      # 两次连接的超时时间
+      borrow-connection-timeout: 10000
+      # xa属性配置
+      xa-properties:
+        url: jdbc:mysql://106.14.119.3:3306/chen2?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
+        username: root
+        password: youqu
+        driverClassName: com.mysql.cj.jdbc.Driver
+        # druid连接池初始化连接数
+        initialSize: 5
+        # 最小空闲值
+        minIdle: 5
+        # 最大连接池数量
+        maxActive: 50
+        # 获取连接时最大等待时间
+        maxWait: 60000
+        # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位毫秒
+        timeBetweenEvictionRunsMillis: 60000
+        # 是否缓存preparedStatement，也就是PSCache mysql建议false
+        poolPreparedStatements: false
+        # 要启用PSCache，必须配置大于0
+        maxOpenPreparedStatements: -1
+        # 保证安全性，申请连接的时候检测
+        testWhileIdle: true
+        # 监控统计扩展插件
+        filters: stat,slf4j,wall
+
+    # druid配置
+    druid:
+      # StatViewServlet配置
+      # 开启页面访问展示  路径 /druid
+      stat-view-servlet:
+        enabled: true
+        # 根据配置中的url-pattern来访问内置监控页面，如果是以下的配置，内置监控页面的首页是/druid/index.html
+        url-pattern: /druid/*
+        # 允许清空数据
+        reset-enable: true
+        # druid登录用户名
+        login-username: druid
+        # druid 登录发密码
+        login-password: druid
+        # 如果allow没有配置或者为空，则允许所有访问;deny优先于allow，如果不在deny列表中，就算在allow列表中，也会被拒绝
+        # allow: 127.0.0.1
+        # deny: 127.0.0.1
+
+      # StatFilter配置
+      web-stat-filter:
+        # 是否启用StatFilter 默认开启
+        enabled: true
+        # url-pattern:
+        # profile-enable:
+        # principal-cookie-name:
+        # principal-session-name:
+        # 过滤访问,需要排除一些不必要的url
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        # session统计功能
+        session-stat-enable: true
+        # session存储个数，缺省sessionStatMaxCount是1000个
+        session-stat-max-count: 1000
+
+      # filter配置
+      filter:
+        stat:
+          # 开启filter
+          enabled: true
+          # 合并SQL
+          merge-sql: true
+          # 慢SQL记录
+          log-slow-sql: true
+          # 多于这个时间的SQL执行时间为慢SQL
+          slow-sql-millis: 5000

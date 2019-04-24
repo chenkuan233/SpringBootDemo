@@ -2,7 +2,6 @@ package com.springBoot.impl;
 
 import com.springBoot.entity.Man;
 import com.springBoot.service.WriteToMysqlService;
-import com.springBoot.utils.config.dataSource.DataSourceUtil;
 import com.springBoot.utils.config.jdbcTemplate.JdbcTemplateConfig;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,17 +42,17 @@ public class WriteToMysqlServiceImpl implements WriteToMysqlService {
 					ps.setString(2, t.getNick());
 				});
 
-				// throw new Exception(); // 手动抛出异常 测试事务
+				//throw new Exception(); // 手动抛出异常 测试事务
 			} catch (Exception e) {
 				// 手动事务回滚
 				// TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-				throw new RuntimeException("运行异常");
+				throw new RuntimeException("数据源1运行异常");
 			}
 		}
 	}
 
-	// 非主数据源必须要在@Transactional注解中指定数据源事务，否则事务不起作用。主数据库不需要
-	@Transactional(value = DataSourceUtil.transactionManager_db2, rollbackFor = Exception.class)
+	//第2数据源
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void writeManDB2(List<Man> manList) {
 		if (CollectionUtils.isNotEmpty(manList)) {
@@ -63,12 +62,10 @@ public class WriteToMysqlServiceImpl implements WriteToMysqlService {
 					ps.setString(1, t.getName());
 					ps.setString(2, t.getNick());
 				});
-
-				// throw new Exception(); // 手动抛出异常 测试事务
 			} catch (Exception e) {
 				// 手动事务回滚
 				// TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-				throw new RuntimeException("运行异常");
+				throw new RuntimeException("数据源2运行异常");
 			}
 		}
 	}

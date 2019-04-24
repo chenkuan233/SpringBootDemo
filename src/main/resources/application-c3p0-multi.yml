@@ -3,6 +3,7 @@ spring:
   datasource:
     # 默认数据源
     db:
+      name: db
       db-type: mysql
       # 数据库地址 rewriteBatchedStatements=true 开启mysql批量插入
       url: jdbc:mysql://106.14.119.3:3306/chen?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
@@ -39,6 +40,7 @@ spring:
 
     # 数据源2
     db2:
+      name: db2
       db-type: mysql
       # 数据库地址 rewriteBatchedStatements=true 开启mysql批量插入
       url: jdbc:mysql://106.14.119.3:3306/chen2?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
@@ -64,7 +66,7 @@ spring:
       max-wait: 60000
       # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
       time-between-eviction-runs-millis: 60000
-      # 是否缓存preparedStatement，也就是PSCache
+      # 是否缓存preparedStatement，也就是PSCache mysql建议false
       pool-prepared-statements: false
       # 要启用PSCache，必须配置大于0
       max-open-prepared-statements: -1
@@ -72,3 +74,48 @@ spring:
       test-while-idle: true
       # 监控统计扩展插件
       filters: stat,wall,slf4j
+
+    # druid配置
+    druid:
+      # StatViewServlet配置
+      # 开启页面访问展示  路径 /druid
+      stat-view-servlet:
+        enabled: true
+        # 根据配置中的url-pattern来访问内置监控页面，如果是以下的配置，内置监控页面的首页是/druid/index.html
+        url-pattern: /druid/*
+        # 允许清空数据
+        reset-enable: true
+        # druid登录用户名
+        login-username: druid
+        # druid 登录发密码
+        login-password: druid
+        # 如果allow没有配置或者为空，则允许所有访问;deny优先于allow，如果不在deny列表中，就算在allow列表中，也会被拒绝
+        # allow: 127.0.0.1
+        # deny: 127.0.0.1
+
+      # StatFilter配置
+      web-stat-filter:
+        # 是否启用StatFilter 默认开启
+        enabled: true
+        # url-pattern:
+        # profile-enable:
+        # principal-cookie-name:
+        # principal-session-name:
+        # 过滤访问,需要排除一些不必要的url
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        # session统计功能
+        session-stat-enable: true
+        # session存储个数，缺省sessionStatMaxCount是1000个
+        session-stat-max-count: 1000
+
+      # filter配置
+      filter:
+        stat:
+          # 开启filter
+          enabled: true
+          # 合并SQL
+          merge-sql: true
+          # 慢SQL记录
+          log-slow-sql: true
+          # 多于这个时间的SQL执行时间为慢SQL
+          slow-sql-millis: 5000

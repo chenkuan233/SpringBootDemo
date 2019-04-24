@@ -5,11 +5,11 @@ import com.github.pagehelper.PageInfo;
 import com.springBoot.entity.Permission;
 import com.springBoot.entity.Role;
 import com.springBoot.entity.User;
-import com.springBoot.mapper.CommonMapper.UserCommonMapper;
 import com.springBoot.mapper.mapper.PermissionMapper;
 import com.springBoot.mapper.mapper.RoleMapper;
 import com.springBoot.mapper.mapper.UserMapper;
 import com.springBoot.mapper.mapper.UserRoleMapper;
+import com.springBoot.mapper.mapper.commonMapper.UserCommonMapper;
 import com.springBoot.mapper.mapperDB2.UserDB2Mapper;
 import com.springBoot.repository.UserRepository;
 import com.springBoot.service.UserService;
@@ -18,7 +18,6 @@ import com.springBoot.utils.MessageUtil;
 import com.springBoot.utils.Pageable;
 import com.springBoot.utils.UserEncryptUtil;
 import com.springBoot.utils.annotation.PageQuery;
-import com.springBoot.utils.config.dataSource.DataSourceUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,7 +155,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// 第2数据源 插入User
-	@Transactional(value = DataSourceUtil.transactionManager_db2, rollbackFor = Exception.class)
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public void saveUserMapperDB2(User user) {
 		if (user != null) {

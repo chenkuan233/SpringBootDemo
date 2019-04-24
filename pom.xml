@@ -55,7 +55,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.13</version>
+            <version>6.0.6</version>
         </dependency>
 
         <!--jpa-->
@@ -125,6 +125,12 @@
             <groupId>tk.mybatis</groupId>
             <artifactId>mapper-spring-boot-starter</artifactId>
             <version>1.1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>mybatis-spring-boot-starter</artifactId>
+                    <groupId>org.mybatis.spring.boot</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--分页插件PageHelper相关依赖-->
@@ -132,6 +138,12 @@
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.10</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>mybatis-spring-boot-starter</artifactId>
+                    <groupId>org.mybatis.spring.boot</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.pagehelper</groupId>
@@ -152,6 +164,12 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-core</artifactId>
             <version>1.4.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-collections</artifactId>
+                    <groupId>commons-collections</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -169,31 +187,36 @@
             <artifactId>shiro-ehcache</artifactId>
             <version>1.4.0</version>
         </dependency>
+        <!--cas客户端-->
+        <dependency>
+            <groupId>org.jasig.cas.client</groupId>
+            <artifactId>cas-client-core</artifactId>
+            <version>3.3.3</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-httpclient</artifactId>
+                    <groupId>commons-httpclient</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <!--cas单点登录-->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-cas</artifactId>
             <version>1.4.0</version>
-        </dependency>
-        <!--cas客户端-->
-        <dependency>
-            <groupId>org.jasig.cas.client</groupId>
-            <artifactId>cas-client-core</artifactId>
-            <version>3.3.3</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>cas-client-core</artifactId>
+                    <groupId>org.jasig.cas.client</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--常见的编码解码工具Base64、MD5、Hex、SHA1、DES等-->
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-        </dependency>
-
-        <!--一个便于使用SAML消息的依赖库,用于SSO单点登录-->
-        <dependency>
-            <groupId>org.opensaml</groupId>
-            <artifactId>opensaml</artifactId>
-            <version>1.1</version>
         </dependency>
 
         <!--使用lettuce pool，保证redis多线程环境下是线程安全的-->
@@ -243,6 +266,12 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!--jta-atomikos分布式事务管理-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jta-atomikos</artifactId>
         </dependency>
 
     </dependencies>
