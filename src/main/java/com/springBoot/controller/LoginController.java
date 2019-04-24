@@ -28,11 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class LoginController {
 
-	@Value("${cas.service.loginUrl}")
-	private String loginUrl;
-
-	@Value("${cookie.name}")
-	private String cookieName;
+	private static final String loginUrl = "login";
 
 	/**
 	 * 登录请求
@@ -94,7 +90,7 @@ public class LoginController {
 			Session session = subject.getSession();
 			User user = (User) subject.getPrincipal();
 			session.setAttribute("user", user);
-			return "redirect:/index.html"; // 重定向访问static静态页面，需加.html
+			return "redirect:index.html"; // 重定向访问static静态页面，需加.html
 		} else {
 			token.clear();
 			return loginUrl;
