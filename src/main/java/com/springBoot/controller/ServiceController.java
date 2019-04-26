@@ -25,7 +25,6 @@ import java.util.Map;
  * @author chenkuan
  * @version v1.0
  * @desc 通用serviceController
- * 注：该controller暂不支持调用参数中有List<>类型的方法(可支持List<String>)
  * @date 2019/3/1 001 14:21
  */
 @Slf4j
