@@ -13,10 +13,32 @@
 <div>
     <p><a class="a-class" href="../index.html">点此跳转首页</a></p>
     <div id="uploadFile-upload"></div>
-    <!--<form id="uploadForm" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="上传">
-    </form>-->
+    <div>
+        <p><input type="button" ng-click="find()" value="查询文件列表"></p>
+    </div>
+    <div>
+        <table border="1" cellspacing="0" width="70%">
+            <tr>
+                <th>序号</th>
+                <th>id</th>
+                <th>fileName</th>
+                <th>filePath</th>
+                <th>操作</th>
+            </tr>
+            <tr ng-repeat="x in fileList">
+                <td>{{$index + 1}}</td>
+                <td>{{x.id}}</td>
+                <td>{{x.fileName}}</td>
+                <td>{{x.filePath}}</td>
+                <td>
+                    <div>
+                        <a class="blue-class" ng-click="downloadFile(x.filePath)">下载</a>
+                        <a class="delete-class" ng-click="deleteFile(x, $index)">删除</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 </body>

@@ -12,6 +12,9 @@ app.controller('homeController', function ($scope) {
         });
     };
 
+    // 进入页面自动查询
+    $scope.find(1, 10);
+
     // 根据id删除
     $scope.delete = function (id, index) {
         layer.confirm('确认删除？', {icon: 3}, function () {

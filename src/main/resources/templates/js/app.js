@@ -172,8 +172,10 @@ function uploadFile(divId) {
                 }
                 console.log('开始上传文件: name:' + file.name + ', type:' + file.type + ', size:' + Math.round(file.size / 1024) + 'KB');
             }
+            layer.msg('开始上传..请勿关闭当前页面');
         }, // 提交前执行的回调函数
         success: function (data) {
+            layer.msg('上传完成');
             handleReturnData(data, callback);
         } // 提交成功后执行的回调函数
     };
@@ -234,4 +236,27 @@ function handleReturnData(data, callback) {
         layer.alert('系统错误: 无响应数据', {icon: 2});
         return false;
     }
+}
+
+/**
+ * 下载(导出)文件
+ * @param filePath  必须 文件完整路径
+ */
+function downloadFile(filePath) {
+    // 后台处理url
+    var url = getProjectPath() + '/download';
+    // input属性传递filePath参数
+    var input = '<input type="hidden" name="filePath" value="' + filePath + '"/>';
+    // form表单
+    var form = $('<form>');
+    form.attr('action', url);
+    form.attr('method', 'post');
+    form.attr('target', '_blank'); // 新页面中打开下载对话框，为''则默认当前页面
+    form.attr('style', 'display:none');
+    // input插入到form表单中
+    form.html(input);
+    // form表单append到指定div中
+    $('body').append(form);
+    // 提交表单
+    form.submit().remove();
 }
