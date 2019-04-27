@@ -33,12 +33,12 @@ public class DownloadController {
 	public String download(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 		String filePath = request.getParameter("filePath");
 		if (StringUtils.isEmpty(filePath)) {
-			return "文件路径为空";
+			return "<h2 style='color: red;text-align: center;'>文件路径为空</h2>";
 		}
 		// 判断文件是否存在
 		File file = new File(filePath);
 		if (!file.exists() || !file.isFile()) {
-			return "文件不存在";
+			return "<h2 style='color: red;text-align: center;'>文件不存在</h2>";
 		}
 		String fileName = file.getName();
 		// 告诉浏览器输出内容格式 application/octet-stream，application/force-download
@@ -81,7 +81,7 @@ public class DownloadController {
 				}
 			}
 		}
-		return "下载失败";
+		return "<h2 style='color: red;text-align: center;'>下载失败</h2>";
 	}
 
 }
