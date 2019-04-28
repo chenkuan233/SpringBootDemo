@@ -1,0 +1,51 @@
+/*进度条*/
+.hidden {
+    display: none;
+}
+
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #2D93CA;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 10px;
+    background: limegreen repeat-x;
+}
+
+.progress-bar span {
+    position: absolute;
+    color: #2D93CA;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.progress-bar span.progress-bar-status {
+    left: 50%;
+    top: -23px;
+    margin-left: -15px;
+    color: #2D93CA;
+}
+
+.upload-file-stateWrap {
+    margin-top: 10px;
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.upload-file-stateWrap .progress {
+    width: 60%;
+}
+
+.upload-file-stateWrap span.progress-bar-status {
+    top: inherit;
+    bottom: -3px;
+    left: 60%;
+    margin-left: 5px;
+}

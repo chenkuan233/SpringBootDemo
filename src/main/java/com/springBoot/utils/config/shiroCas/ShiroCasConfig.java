@@ -24,7 +24,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import javax.servlet.Filter;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -259,11 +258,12 @@ public class ShiroCasConfig {
 		shiroFilterFactoryBean.setSuccessUrl(loginSuccessUrl);
 		// 设置无权限时跳转的连接
 		shiroFilterFactoryBean.setUnauthorizedUrl(unauthorizedUrl);
-		// 添加casFilter到shiroFilter中
-		Map<String, Filter> filters = new HashMap<>();
-		filters.put("casFilter", casFilter);
-		// filters.put("logout",logoutFilter());
-		shiroFilterFactoryBean.setFilters(filters);
+
+		// 添加自定义Filter到shiroFilter中
+		Map<String, Filter> myFilters = new LinkedHashMap<>();
+		myFilters.put("casFilter", casFilter);
+		myFilters.put("myUserFilter", new MyUserFilter()); // 继承UserFilter
+		shiroFilterFactoryBean.setFilters(myFilters);
 
 		// 加载shiroFilter权限控制规则
 		Map<String, String> filterMap = loadShiroFilterMap();
@@ -305,6 +305,7 @@ public class ShiroCasConfig {
 		filterMap.put("/commonJs.js", "anon"); // 公共js类
 		filterMap.put("/commonCss.js", "anon"); // 公共css类
 		filterMap.put("/service/registerService/*", "anon"); // 注册请求服务
+		filterMap.put("/download", "anon"); // 下载服务
 
 		// 登出请求 shiro的默认登出也会清理用户的session信息,并且也会清理掉redis中缓存的用户 身份认证和权限认证的相关信息
 		// filterMap.put("/logout", "logout"); // 使用自定义的登出
@@ -317,7 +318,8 @@ public class ShiroCasConfig {
 		// filterMap.put("/user/delete/**", "authc,perms[\"user:delete\"]"); // 需要登录，且用户有权限为user:delete
 
 		// 4.登录过的不拦截
-		filterMap.put("/**", "user");
+		// filterMap.put("/**", "user");
+		filterMap.put("/**", "myUserFilter"); // 使用自定义拦截器
 
 		// 5.拦截所有的请求
 		// filterMap.put("/**", "authc");

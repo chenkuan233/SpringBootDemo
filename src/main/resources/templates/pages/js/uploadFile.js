@@ -1,8 +1,13 @@
 var app = angular.module('uploadFileApp', ['angucomplete']);
 app.controller('uploadFileController', function ($scope) {
 
+    // 上传参数
+    var options = {
+        progress: true // 显示进度条 默认true
+    };
+
     // 调用文件上传公共方法
-    uploadFile('uploadFile-upload', function (result) {
+    uploadFile('uploadFile-upload', options, function (result) {
         // 保存文件路径到数据库
         requestService('fileService', 'saveFile', result, function (result) {
             if (result.code !== '0') {
