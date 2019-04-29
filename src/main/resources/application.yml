@@ -28,9 +28,9 @@ spring:
   servlet:
     multipart:
       # 最大请求大小 默认为10M
-      max-request-size: 510MB
+      max-request-size: 1030MB
       # multipart文件上传大小限制 默认10MB
-      max-file-size: 500MB
+      max-file-size: 1024MB
   aop:
     # false:使用JDK代理，true:使用cglib代理(spring默认使用JDK,springboot默认使用cglib)
     proxy-target-class: false
