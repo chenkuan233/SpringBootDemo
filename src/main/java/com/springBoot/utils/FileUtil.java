@@ -184,11 +184,12 @@ public class FileUtil {
 			String startBytes;
 			String endBytes;
 			if (rangeBytes.indexOf('-') == rangeBytes.length() - 1) {
-				// 无结束字符
+				// 无结束字符 网际快车等
 				startBytes = rangeBytes.substring(0, rangeBytes.indexOf('-'));
 				lenStart = Long.parseLong(startBytes.trim());
 				lenEnd = fileLength - lenStart;
 			} else {
+				// 迅雷等
 				startBytes = rangeBytes.substring(0, rangeBytes.indexOf('-'));
 				endBytes = rangeBytes.substring(rangeBytes.indexOf('-') + 1, rangeBytes.length());
 				lenStart = Long.parseLong(startBytes.trim());
@@ -226,7 +227,7 @@ public class FileUtil {
 		}
 		RandomAccessFile raf = null;
 		try {
-			raf = new RandomAccessFile(file, "rw");
+			raf = new RandomAccessFile(file, "r");
 			// 从指定位置开始读取
 			if (lenStart != 0) raf.seek(lenStart);
 			OutputStream os = response.getOutputStream();
