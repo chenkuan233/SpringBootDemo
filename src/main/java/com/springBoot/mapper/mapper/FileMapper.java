@@ -1,6 +1,6 @@
 package com.springBoot.mapper.mapper;
 
-import com.springBoot.entity.File;
+import com.springBoot.entity.FileInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,10 +13,10 @@ import java.util.List;
  */
 public interface FileMapper {
 
-	List<File> findAllFile();
+	List<FileInfo> findAllFile();
 
 	void deleteFile(@Param("id") Long id);
 
-	void saveFile(@Param("file") File file);
+	void saveFile(@Param("file") FileInfo file);
 
 }

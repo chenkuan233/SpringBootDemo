@@ -25,8 +25,9 @@ public class MyUserFilter extends UserFilter {
 	 */
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-		if (isAjax(request)) {
+		if (isAjax(httpServletRequest)) {
 			httpServletResponse.setCharacterEncoding("UTF-8");
 			// servletResponse.setContentType("application/json");
 			httpServletResponse.setStatus(403);
@@ -37,8 +38,8 @@ public class MyUserFilter extends UserFilter {
 	}
 
 	// 判断request请求是否是Ajax
-	private boolean isAjax(ServletRequest request) {
-		String header = ((HttpServletRequest) request).getHeader("X-Requested-With");
+	private boolean isAjax(HttpServletRequest request) {
+		String header = request.getHeader("X-Requested-With");
 		return "XMLHttpRequest".equalsIgnoreCase(header);
 	}
 

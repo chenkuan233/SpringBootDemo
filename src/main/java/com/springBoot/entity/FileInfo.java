@@ -16,8 +16,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name = "t_file")
-public class File implements Serializable {
+@Table(name = "t_file_info")
+public class FileInfo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,15 +42,15 @@ public class File implements Serializable {
 	@Column(name = "time")
 	private String time;
 
-	public File() {
+	public FileInfo() {
 	}
 
-	public File(@NotNull String fileName, @NotNull String filePath) {
+	public FileInfo(@NotNull String fileName, @NotNull String filePath) {
 		this.fileName = fileName;
 		this.filePath = filePath;
 	}
 
-	public File(@NotNull String fileName, @NotNull String filePath, @NotNull String date, @NotNull String time) {
+	public FileInfo(@NotNull String fileName, @NotNull String filePath, @NotNull String date, @NotNull String time) {
 		this.fileName = fileName;
 		this.filePath = filePath;
 		this.date = date;

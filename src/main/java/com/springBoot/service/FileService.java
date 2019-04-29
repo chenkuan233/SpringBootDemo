@@ -1,7 +1,9 @@
 package com.springBoot.service;
 
-import com.springBoot.entity.File;
+import com.springBoot.entity.FileInfo;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 
@@ -12,9 +14,11 @@ import java.util.Map;
  * @date 2019/4/27 027 12:47
  */
 public interface FileService {
+	Map<String, String> uploadFile(File file) throws FileNotFoundException;
+
 	Map<String, String> saveFile(String filePath);
 
-	List<File> findAllFile();
+	List<FileInfo> findAllFile();
 
-	void deleteFile(File file);
+	void deleteFile(FileInfo file);
 }

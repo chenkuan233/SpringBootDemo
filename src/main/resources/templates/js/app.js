@@ -114,30 +114,36 @@ function sendAjax(url, method, data, callback) {
 
 /**
  * 上传文件
- * @param divId     必选 divId
- * @param options   可选 设置属性
- * @param callback  可选 回调函数获取上传文件存放路径
+ * @param divId         必选 divId
+ * @param serviceName   必选 服务bean名称
+ * @param funcName      必选 方法名
+ * @param options       可选 设置属性
+ * @param callback      可选 回调函数获取上传文件存放路径
  */
-function uploadFile(divId) {
-    var options = undefined;
-    var callback = undefined;
-
+function uploadFile(divId, serviceName, funcName) {
     // 参数处理
     var argsCount = arguments.length;
-    if (argsCount < 1 || argsCount > 3) {
+    if (argsCount < 3 || argsCount > 5) {
         layer.alert('uploadFile参数个数错误', {icon: 2});
         return false;
     }
-    if (argsCount === 2) {
-        if (typeof (arguments[1]) === 'function') {
-            callback = arguments[1];
+    var url = getProjectPath() + '/upload/' + serviceName + '/' + funcName;
+    var options = undefined;
+    var callback = undefined;
+    if (argsCount === 4) {
+        if (typeof arguments[3] === 'function') {
+            callback = arguments[3];
         } else {
-            options = arguments[1];
+            options = arguments[3];
         }
     }
-    if (argsCount === 3) {
-        options = arguments[1];
-        callback = arguments[2];
+    if (argsCount === 5) {
+        if (typeof arguments[3] === 'function' || typeof arguments[4] !== 'function') {
+            layer.alert('uploadFile参数类型错误', {icon: 2});
+            return false;
+        }
+        options = arguments[3];
+        callback = arguments[4];
     }
 
     // 生成 form 表单
@@ -166,7 +172,6 @@ function uploadFile(divId) {
     if (options && options.progress === false) showProgress = false;
 
     // 默认配置
-    var url = getProjectPath() + '/upload';
     var defaultOptions = {
         url: url, // form提交数据的地址
         type: 'post', // form提交的方式(method:post/get)
@@ -284,13 +289,16 @@ function handleReturnError(xhr, status, error) {
 
 /**
  * 下载(导出)文件
- * @param filePath  必须 文件完整路径
+ * @param filePath  必须 文件路径
  */
 function downloadFile(filePath) {
+    // 编码处理
+    filePath = Base64.encode(encodeURIComponent(filePath));
     // 后台处理url
-    var url = getProjectPath() + '/download';
+    var url = getProjectPath() + '/download?file=' + filePath;
     // input属性传递filePath参数
-    var input = '<input type="hidden" name="filePath" value="' + filePath + '"/>';
+    // var input = '<input type="hidden" name="file" value="' + filePath + '"/>';
+    var input = '<input type="hidden"/>'; // 使用get方式传参
 
     // form表单
     var form = $('<form>');

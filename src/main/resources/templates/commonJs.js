@@ -23,3 +23,6 @@ document.write('<script src="' + projectPath + 'js/app.js"></script>');
 
 // layer弹出层
 document.write('<script src="' + projectPath + 'framework/layer/layer.js"></script>');
+
+// Base64编码
+document.write('<script src="' + projectPath + 'framework/util/Base64.js"></script>');
