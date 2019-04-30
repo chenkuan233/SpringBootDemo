@@ -169,6 +169,8 @@ public class FileUtil {
 	public static void downloadFile(HttpServletRequest request, HttpServletResponse response, File file) throws UnsupportedEncodingException {
 		// 文件总大小
 		long fileLength = file.length();
+		// 获得客户端的ip地址
+		String host = request.getRemoteAddr();
 
 		// 迅雷等工具
 		// 用于记录客户端要求下载的数据范围字串(用于断点续传)
@@ -238,7 +240,7 @@ public class FileUtil {
 				notReadBytes = lenEnd - hasReadBytes;
 				if (notReadBytes < initTem) buffer = new byte[(int) notReadBytes];
 			}
-			log.info((StringUtils.isEmpty(rangeBytes) ? fileName : fileName + ":" + rangeBytes) + "下载完成");
+			log.info(host + " " + (StringUtils.isEmpty(rangeBytes) ? fileName : fileName + "（" + rangeBytes + "）") + "下载完成");
 		} catch (ClientAbortException e) {
 			// log.error("客户端中断了连接");
 		} catch (IOException e) {
