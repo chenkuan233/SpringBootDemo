@@ -16,7 +16,7 @@ import java.net.URLEncoder;
  * @date 2019/4/17 017 23:56
  */
 @Slf4j
-public class FileUtil {
+public final class FileUtil {
 
 	/**
 	 * 文件上传

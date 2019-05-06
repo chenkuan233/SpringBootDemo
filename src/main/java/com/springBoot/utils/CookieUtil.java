@@ -14,7 +14,7 @@ import java.util.Map;
  * @desc 用于获取cookie
  * @date 2019/4/23 023 10:18
  */
-public class CookieUtil {
+public final class CookieUtil {
 
 	/**
 	 * 获取指定名称cookie

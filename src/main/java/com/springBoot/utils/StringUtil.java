@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
  * @desc 字符串工具类
  * @date 2019/3/22 022 16:50
  */
-public class StringUtil {
+public final class StringUtil {
 
 	/**
 	 * 将null或空字符串转为null,并去掉末尾空格

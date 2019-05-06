@@ -13,7 +13,7 @@ import java.util.Locale;
  * @desc 日期时间工具类
  * @date 2019/1/15 015 17:09
  */
-public class DateUtil {
+public final class DateUtil {
 
 	private static final String DATE_FORMAT = "yyyyMMdd";
 	private static final String DATE_FORMAT_L = "yyyy-MM-dd";

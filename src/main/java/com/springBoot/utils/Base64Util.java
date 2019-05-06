@@ -10,14 +10,13 @@ import java.io.UnsupportedEncodingException;
  * @desc Base64编解码 apache.commons.codec.binary.Base64
  * @date 2019/4/29 029 12:58
  */
-public class Base64Util {
-
-	private static Base64 base64 = new Base64();
+public final class Base64Util {
 
 	/**
 	 * encode 编码
 	 */
 	public static String encode(String code) throws UnsupportedEncodingException {
+		Base64 base64 = new Base64();
 		return base64.encodeToString(code.getBytes("UTF-8"));
 	}
 
@@ -25,6 +24,7 @@ public class Base64Util {
 	 * decode 解码
 	 */
 	public static String decode(String code) throws UnsupportedEncodingException {
+		Base64 base64 = new Base64();
 		return new String(base64.decode(code), "UTF-8");
 	}
 

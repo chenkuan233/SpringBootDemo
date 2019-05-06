@@ -13,7 +13,7 @@ import java.security.NoSuchAlgorithmException;
  * @date 2019/3/22 022 16:02
  */
 @Slf4j
-public class MD5Util {
+public final class MD5Util {
 
 	public static String md5(String text) {
 		try {

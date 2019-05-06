@@ -19,7 +19,7 @@ import java.util.Map;
  * @desc serviceController工具类，核心类
  * @date 2019/4/20 020 18:39
  */
-public class ServiceUtil {
+public final class ServiceUtil {
 
 	private static Gson gson = new Gson();
 
