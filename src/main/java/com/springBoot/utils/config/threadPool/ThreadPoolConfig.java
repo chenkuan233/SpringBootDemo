@@ -42,7 +42,7 @@ public class ThreadPoolConfig {
 		pool.setQueueCapacity(queueCapacity);
 		// 空闲时间
 		pool.setKeepAliveSeconds(keepAliveSeconds);
-		// 设置失败时拒绝策略
+		// 设置失败时拒绝策略 CallerRunsPolicy:由调用线程处理该任务
 		pool.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
 		// 当调度器shutdown被调用时等待当前被调度的任务完成
 		pool.setWaitForTasksToCompleteOnShutdown(waitForTasks);
