@@ -166,7 +166,7 @@ public final class FileUtil {
 	 * @param response HttpServletResponse
 	 * @param file     下载的文件
 	 */
-	public static void downloadFile(HttpServletRequest request, HttpServletResponse response, File file) throws UnsupportedEncodingException {
+	public static void downloadFile(HttpServletRequest request, HttpServletResponse response, File file) throws IOException {
 		// 文件总大小
 		long fileLength = file.length();
 		// 获得客户端的ip地址
@@ -245,6 +245,7 @@ public final class FileUtil {
 			// log.error("客户端中断了连接");
 		} catch (IOException e) {
 			log.error(fileName + "下载失败", e);
+			throw new IOException(e);
 		} finally {
 			if (raf != null) {
 				try {
