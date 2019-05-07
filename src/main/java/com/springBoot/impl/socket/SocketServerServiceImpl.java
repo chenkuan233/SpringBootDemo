@@ -31,7 +31,7 @@ public class SocketServerServiceImpl implements SocketServerService {
 			server = new ServerSocket(port);
 
 			// 如果使用多线程，那就需要线程池，防止并发过高时创建过多线程耗尽资源
-			ExecutorService threadPool = Executors.newFixedThreadPool(100);
+			ExecutorService threadPool = Executors.newFixedThreadPool(50);
 
 			while (true) {
 				// server将一直等待连接的到来
