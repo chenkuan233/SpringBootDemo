@@ -10,7 +10,7 @@ import quickfix.*;
  */
 public class Server {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws ConfigError {
 		Application application = new MyApplication();
 
 		SessionSettings settings = new SessionSettings("quickfix-server.properties");

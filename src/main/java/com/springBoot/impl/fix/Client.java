@@ -11,13 +11,13 @@ import java.util.Date;
 /**
  * @author chenkuan
  * @version v1.0
- * @desc
+ * @desc 客户端
  * @date 2019/5/9 009 14:14
  */
 @Slf4j
 public class Client {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws ConfigError, SessionNotFound, InterruptedException {
 		Application application = new MyApplication();
 
 		SessionSettings settings = new SessionSettings("quickfix-client.properties");
@@ -27,10 +27,9 @@ public class Client {
 
 		Initiator initiator = new SocketInitiator(application, storeFactory, settings, logFactory, messageFactory);
 		initiator.start();
-		// initiator.stop();
 
-		/*SessionID sessionID = new SessionID("FIX.4.4", "chenClient", "chenServer");
-		while (true) {
+		SessionID sessionID = new SessionID("FIX.4.4", "chenClient", "chenServer");
+		for (int i = 0; i < 2; i++) {
 			NewOrderSingle order = new NewOrderSingle();
 			order.set(new ClOrdID("5678"));
 			order.set(new Account("100"));
@@ -41,14 +40,10 @@ public class Client {
 			order.set(new Side(Side.BUY));
 			order.set(new TransactTime(new Date()));
 			order.set(new OrdType(OrdType.LIMIT));
-			try {
-				Session.sendToTarget(order, sessionID);
-				Thread.sleep(3000);
-			} catch (SessionNotFound e) {
-				log.error("SessionNotFound", e);
-			}
-		}*/
-
+			// 发送消息
+			Session.sendToTarget(order, sessionID);
+			Thread.sleep(3000); // 延时3秒再次发送
+		}
 	}
 
 	public static void sendRequest() throws SessionNotFound {
