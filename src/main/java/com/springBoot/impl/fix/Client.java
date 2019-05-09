@@ -29,7 +29,7 @@ public class Client {
 		initiator.start();
 
 		SessionID sessionID = new SessionID("FIX.4.4", "chenClient", "chenServer");
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 10; i++) {
 			NewOrderSingle order = new NewOrderSingle();
 			order.set(new ClOrdID("5678"));
 			order.set(new Account("100"));
@@ -42,7 +42,7 @@ public class Client {
 			order.set(new OrdType(OrdType.LIMIT));
 			// 发送消息
 			Session.sendToTarget(order, sessionID);
-			Thread.sleep(3000); // 延时3秒再次发送
+			Thread.sleep(5000); // 延时5秒再次发送
 		}
 	}
 

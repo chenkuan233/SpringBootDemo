@@ -38,7 +38,6 @@ public class MyApplication extends MessageCracker implements Application {
 					session.generateHeartbeat();
 					break;
 			}
-
 		} catch (FieldNotFound e) {
 			log.error("FieldNotFound", e);
 		}
