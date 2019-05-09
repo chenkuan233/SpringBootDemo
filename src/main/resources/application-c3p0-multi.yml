@@ -33,14 +33,14 @@ spring:
       pool-prepared-statements: false
       # 要启用PSCache，必须配置大于0
       max-open-prepared-statements: -1
-      # 用来检测连接是否有效的sql，要求是一个查询语句.如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用
-      validationQuery: SELECT 'x'
       # 保证安全性，申请连接的时候检测，不影响性能
       testWhileIdle: true
       # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
       testOnBorrow: false
       # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
       testOnReturn: false
+      # 用来检测连接是否有效的sql，要求是一个查询语句.如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用
+      validationQuery: SELECT 'x'
       # 监控统计扩展插件
       filters: stat,wall,slf4j
 
@@ -76,14 +76,14 @@ spring:
       pool-prepared-statements: false
       # 要启用PSCache，必须配置大于0
       max-open-prepared-statements: -1
-      # 用来检测连接是否有效的sql，要求是一个查询语句.如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用
-      validationQuery: SELECT 'x'
       # 保证安全性，申请连接的时候检测，不影响性能
       testWhileIdle: true
       # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
       testOnBorrow: false
       # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
       testOnReturn: false
+      # 用来检测连接是否有效的sql，要求是一个查询语句.如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用
+      validationQuery: SELECT 'x'
       # 监控统计扩展插件
       filters: stat,wall,slf4j
 

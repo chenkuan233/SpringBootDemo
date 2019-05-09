@@ -18,14 +18,16 @@ spring:
       min-pool-size: 5
       # 最大连接池数量
       max-pool-size: 50
-      # 连接最大存活时间
-      max-lifetime: 20000
+      # 连接最大存活时间 单位秒
+      max-lifetime: 60000
       # 登录超时时间 单位秒
       login-timeout: 60
       # 两次连接的超时时间 单位秒
       borrow-connection-timeout: 60
       # xa属性配置
       xa-properties:
+        # druid可视化界面中显示的数据源名称
+        name: db
         url: jdbc:mysql://106.14.119.3:3306/chen?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
         username: root
         password: youqu
@@ -42,16 +44,16 @@ spring:
         timeBetweenEvictionRunsMillis: 60000
         # 是否缓存preparedStatement，也就是PSCache mysql建议false
         poolPreparedStatements: false
-        # 要启用PSCache，必须配置大于0
+        # 要启用PSCache，必须配置大于0 (建议100)
         maxOpenPreparedStatements: -1
-        # 用来检测连接是否有效的sql，要求是一个查询语句.如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用
-        validationQuery: SELECT 'x'
         # 保证安全性，申请连接的时候检测，不影响性能
         testWhileIdle: true
         # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
         testOnBorrow: false
         # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
         testOnReturn: false
+        # 用来检测连接是否有效的sql，要求是一个查询语句.如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用
+        validationQuery: SELECT 'x'
         # 监控统计扩展插件
         filters: stat,slf4j,wall
 
@@ -65,14 +67,16 @@ spring:
       min-pool-size: 5
       # 最大连接池数量
       max-pool-size: 50
-      # 连接最大存活时间
-      max-lifetime: 20000
+      # 连接最大存活时间 单位秒
+      max-lifetime: 60000
       # 登录超时时间 单位秒
       login-timeout: 60
       # 两次连接的超时时间 单位秒
       borrow-connection-timeout: 60
       # xa属性配置
       xa-properties:
+        # druid可视化界面中显示的数据源名称
+        name: db2
         url: jdbc:mysql://106.14.119.3:3306/chen2?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true
         username: root
         password: youqu
@@ -89,16 +93,16 @@ spring:
         timeBetweenEvictionRunsMillis: 60000
         # 是否缓存preparedStatement，也就是PSCache mysql建议false
         poolPreparedStatements: false
-        # 要启用PSCache，必须配置大于0
+        # 要启用PSCache，必须配置大于0 (建议100)
         maxOpenPreparedStatements: -1
-        # 用来检测连接是否有效的sql，要求是一个查询语句.如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用
-        validationQuery: SELECT 'x'
         # 保证安全性，申请连接的时候检测
         testWhileIdle: true
         # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
         testOnBorrow: false
         # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
         testOnReturn: false
+        # 用来检测连接是否有效的sql，要求是一个查询语句.如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用
+        validationQuery: SELECT 'x'
         # 监控统计扩展插件
         filters: stat,slf4j,wall
 
