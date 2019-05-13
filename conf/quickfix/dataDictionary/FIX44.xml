@@ -1,0 +1,12 @@
+<messages>
+    <message>
+        <fields>
+
+            <field number="1001" name="Account" type="STRING"/>
+
+            <field number="1002" name="AdvId" type="STRING"/>
+
+            <field number="1003" name="AdvRefID" type="STRING"/>
+        </fields>
+    </message>
+</messages>

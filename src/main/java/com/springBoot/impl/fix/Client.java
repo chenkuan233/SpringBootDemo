@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import quickfix.*;
 import quickfix.field.*;
 import quickfix.fix44.NewOrderSingle;
-import quickfix.fix44.OrderCancelRequest;
 
 import java.util.Date;
 
@@ -29,7 +28,7 @@ public class Client {
 		initiator.start();
 
 		SessionID sessionID = new SessionID("FIX.4.4", "chenClient", "chenServer");
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 5; i++) {
 			NewOrderSingle order = new NewOrderSingle();
 			order.set(new ClOrdID("5678"));
 			order.set(new Account("100"));
@@ -40,22 +39,11 @@ public class Client {
 			order.set(new Side(Side.BUY));
 			order.set(new TransactTime(new Date()));
 			order.set(new OrdType(OrdType.LIMIT));
+			order.setField(new StringField(1001, "测试字段"));
 			// 发送消息
 			Session.sendToTarget(order, sessionID);
 			Thread.sleep(5000); // 延时5秒再次发送
 		}
-	}
-
-	public static void sendRequest() throws SessionNotFound {
-		OrderCancelRequest message = new OrderCancelRequest(
-				new OrigClOrdID("123"),
-				new ClOrdID("321"),
-				new Side(Side.BUY),
-				new TransactTime(new Date())
-		);
-		message.set(new Text("Cancel My Order!"));
-
-		Session.sendToTarget(message, "CHEN", "SERVER");
 	}
 
 }

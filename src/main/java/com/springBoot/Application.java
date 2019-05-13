@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * MapperScan: 扫描Mapper(或在每个mapper上加上@Mapper注解)
  */
 @SpringBootApplication
-@ServletComponentScan
+@ServletComponentScan // 开启后Servlet、Filter、Listener可以直接通过@WebServlet、@WebFilter、@WebListener注解自动注册，无需其他代码
 @EnableScheduling // 启用定时
 @EnableAsync // 启用异步调用
 @EnableTransactionManagement // 启用事务管理
