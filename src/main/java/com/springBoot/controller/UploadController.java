@@ -1,5 +1,6 @@
 package com.springBoot.controller;
 
+import com.google.gson.Gson;
 import com.springBoot.utils.FileUtil;
 import com.springBoot.utils.MessageUtil;
 import com.springBoot.utils.ServiceUtil;
@@ -31,6 +32,8 @@ public class UploadController {
 	@Value("${upload.tempDir}")
 	private String tempDir;
 
+	private Gson gson = new Gson();
+
 	/**
 	 * 文件上传
 	 *
@@ -39,12 +42,12 @@ public class UploadController {
 	 */
 	@ResponseBody
 	@RequestMapping("/upload/{serviceName}/{funcName}")
-	public Object upload(@RequestParam("file") MultipartFile file, @PathVariable String serviceName, @PathVariable String funcName) throws Exception {
+	public String upload(@RequestParam("file") MultipartFile file, @PathVariable String serviceName, @PathVariable String funcName) throws Exception {
 		// 判断serviceBean是否存在
 		List<String> beanNames = SpringBeanUtil.getBeanNames();
 		if (!beanNames.contains(serviceName)) {
 			log.error("请求无对应服务: " + serviceName + "." + funcName);
-			return MessageUtil.returnData(-1, "请求无对应服务: " + serviceName + "." + funcName);
+			return gson.toJson(MessageUtil.returnData(-1, "请求无对应服务: " + serviceName + "." + funcName));
 		}
 
 		// 获取serviceBean
@@ -55,7 +58,7 @@ public class UploadController {
 		Method method = ServiceUtil.getMethod(clazz, funcName);
 		if (method == null) {
 			log.error("请求无对应方法: " + serviceName + "." + funcName);
-			return MessageUtil.returnData(-1, "请求无对应方法: " + serviceName + "." + funcName);
+			return gson.toJson(MessageUtil.returnData(-1, "请求无对应方法: " + serviceName + "." + funcName));
 		}
 
 		// 获取上传文件原始文件名
@@ -65,7 +68,7 @@ public class UploadController {
 		File tempFile = FileUtil.bytesToFile(file.getBytes(), tempDir, fileName);
 		if (tempFile == null) {
 			log.error(tempDir + fileName + "缓存文件写入失败");
-			return MessageUtil.returnData(-1, file.getOriginalFilename() + "上传失败");
+			return gson.toJson(MessageUtil.returnData(-1, file.getOriginalFilename() + "上传失败"));
 		}
 
 		Object[] params = new Object[]{tempFile};
@@ -76,7 +79,7 @@ public class UploadController {
 		FileUtils.deleteDirectory(new File(tempDir));
 
 		log.info(fileName + " 上传成功");
-		return MessageUtil.returnData(0, obj);
+		return gson.toJson(MessageUtil.returnData(0, obj));
 	}
 
 }

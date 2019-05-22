@@ -51,17 +51,47 @@ function requestService(serviceName, funcName) {
     sendPost(url, data, callback);
 }
 
-// 发送POST请求
+/**
+ * login登录服务
+ * @param username
+ * @param password
+ * @param rememberMe
+ * @param callback
+ */
+function loginService(username, password, rememberMe, callback) {
+    var data = {'username': username, 'password': password, 'rememberMe': rememberMe};
+    var url = getProjectPath() + '/login';
+    // POST请求
+    sendPost(url, data, callback);
+}
+
+/**
+ * 发送POST请求
+ * @param url
+ * @param data
+ * @param callback
+ */
 function sendPost(url, data, callback) {
     sendAjax(url, 'POST', data, callback);
 }
 
-// 发送GET请求
+/**
+ * 发送GET请求
+ * @param url
+ * @param data
+ * @param callback
+ */
 function sendGet(url, data, callback) {
     sendAjax(url, 'GET', data, callback);
 }
 
-// Ajax 请求
+/**
+ * 发送Ajax请求
+ * @param url
+ * @param method
+ * @param data
+ * @param callback
+ */
 function sendAjax(url, method, data, callback) {
     // jquery ajax
     $.ajax({
@@ -69,14 +99,14 @@ function sendAjax(url, method, data, callback) {
         type: method, // 请求方式
         data: data, // 发送到服务器的数据 将自动转换为请求字符串格式
         processData: true, // 默认true 默认情况下，通过data选项传递进来的数据，如果是一个对象(技术上讲只要不是字符串)，都会处理转化成一个查询字符串，以配合默认内容类型 "application/x-www-form-urlencoded"。如果要发送 DOM 树信息或其它不希望转换的信息，请设置为 false
-        dataType: 'json', // 预期服务器返回的数据类型 "json": 返回JSON数据, "text": 返回纯文本字符串
+        dataType: 'text', // 预期服务器返回的数据类型 "json": 返回JSON数据, "text": 返回纯文本字符串
         async: true, // 默认值: true 默认设置下，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为 false
         cache: false, // 默认值: true 设置为false将不缓存此页面
         timeout: 60000, // 设置请求超时时间（毫秒）
         beforeSend: function (xhr) {
         }, // 发送请求前可修改XMLHttpRequest对象的函数，如添加自定义HTTP头
         success: function (data, status, xhr) {
-            handleReturnSuccess(data, callback);
+            handleReturnSuccess(JSON.parse(data), callback);
         },
         error: function (xhr, status, exception) {
             handleReturnError(xhr, status, exception);
@@ -204,7 +234,7 @@ function uploadFile(divId, serviceName, funcName) {
             }
         }, // 上传过程中 position:已经上传完成的字节数 total:总字节数 percentComplete:已完成的比例
         success: function (data) {
-            handleReturnSuccess(data, callback);
+            handleReturnSuccess(JSON.parse(data), callback);
         }, // 上传成功后执行的回调函数
         error: function (xhr, status, error) {
             handleReturnError(xhr, status, error)
@@ -251,7 +281,7 @@ function isEmpty(value) {
 function handleReturnSuccess(data, callback) {
     if (data) {
         if (data.code !== 0) {
-            layer.alert('系统错误: ' + data.data, {icon: 2});
+            layer.alert('错误: ' + data.data, {icon: 2});
             return false;
         } else {
             if (typeof callback === 'function') {
@@ -259,7 +289,7 @@ function handleReturnSuccess(data, callback) {
             }
         }
     } else {
-        layer.alert('系统错误: 无响应数据', {icon: 2});
+        layer.alert('错误: 无响应数据', {icon: 2});
         return false;
     }
 }
@@ -278,11 +308,11 @@ function handleReturnError(xhr, status, error) {
     } else {
         try {
             var responseText = JSON.parse(xhr.responseText);
-            console.log("error: 系统错误", xhr, status, error);
-            layer.alert("error: 系统错误(status: " + responseText.status + ") - " + responseText.message, {icon: 2});
+            console.log("error: 错误", xhr, status, error);
+            layer.alert("error: 错误(status: " + responseText.status + ") - " + responseText.message, {icon: 2});
         } catch (err) {
-            console.log("error: 系统错误", xhr, status, error);
-            layer.alert("error: 系统错误 - " + err, {icon: 2});
+            console.log("error: 错误", xhr, status, error);
+            layer.alert("error: 错误 - " + err, {icon: 2});
         }
     }
 }

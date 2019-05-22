@@ -1,9 +1,9 @@
 // https://127.0.0.1/
 projectPath = window.location.protocol + "//" + window.location.host + '/';
 
-// angularjs
-document.write('<script src="' + projectPath + 'framework/angular/1.4.3/angular.min.js"></script>');
-document.write('<script src="' + projectPath + 'framework/angular/1.4.3/angular-route.min.js"></script>');
+// angularJS
+document.write('<script src="' + projectPath + 'framework/angular/1.7.8/angular.min.js"></script>');
+document.write('<script src="' + projectPath + 'framework/angular/1.7.8/angular-route.min.js"></script>');
 document.write('<script src="' + projectPath + 'framework/angular/directives/angucomplete.js"></script>');
 document.write('<script src="' + projectPath + 'framework/angular/directives/angucomplete-alt.js"></script>');
 

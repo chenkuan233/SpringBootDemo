@@ -294,7 +294,7 @@ public class ShiroCasConfig {
 
 		// 2.不拦截的请求 一般为静态资源、登录登出
 		filterMap.put("/js/**", "anon");
-		filterMap.put("/pages/**/*.js", "anon"); // 页面js
+		// filterMap.put("/pages/**/*.js", "anon"); // 页面js
 		filterMap.put("/css/**", "anon");
 		filterMap.put("/framework/**", "anon");
 		filterMap.put("/images/**", "anon");

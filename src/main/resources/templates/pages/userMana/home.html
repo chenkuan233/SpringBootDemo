@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type">
+    <meta charset="UTF-8">
+    <title>home</title>
+
+    <!--引入公共js-->
+    <script src="../../commonJs.js"></script>
+    <!--引入公共css-->
+    <script src="../../commonCss.js"></script>
+
+    <script src="home.js"></script>
+</head>
+<body ng-app="homeApp" ng-controller="homeController">
+<div>
+    <div>
+        <p><a class="a-class" href="../../index.html">点此跳转首页</a></p>
+        <p>第<input type="number" ng-model="pageNum">页
+            每页显示<input type="number" ng-model="pageSize">条</p>
+        <p><input type="button" ng-click="find(pageNum, pageSize)" value="查询用户"></p>
+    </div>
+    <div>
+        <table border="1" cellspacing="0">
+            <tr>
+                <th>序号</th>
+                <th>id</th>
+                <th>user_name</th>
+                <th>password</th>
+                <th>reg_date</th>
+                <th>reg_time</th>
+                <th>credentials_salt</th>
+                <th>操作</th>
+            </tr>
+            <tr ng-repeat="x in resultList">
+                <td>{{$index + 1}}</td>
+                <td>{{x.id}}</td>
+                <td>{{x.userName}}</td>
+                <td>{{x.password}}</td>
+                <td>{{x.regDate}}</td>
+                <td>{{x.regTime}}</td>
+                <td>{{x.credentialsSalt}}</td>
+                <td><a class="delete-class a-class" ng-click="delete(x.id, $index)">删除</a></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
