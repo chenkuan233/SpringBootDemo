@@ -4,10 +4,6 @@ a {
     text-decoration: none; /*去掉下划线*/
 }
 
-a:hover {
-    background-color: #e5e5e5;
-}
-
 .a-class {
     color: #3f8bc7;
 }

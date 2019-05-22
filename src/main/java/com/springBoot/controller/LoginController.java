@@ -28,14 +28,18 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class LoginController {
 
-	private static final String loginUrl = "login";
+	@Value("${login.loginUrl}")
+	private String loginUrl;
+
+	@Value("${login.indexUrl}")
+	private String indexUrl;
 
 	/**
 	 * 登录请求
 	 */
 	@GetMapping("/login")
 	public String doLogin() {
-		return loginUrl;
+		return "redirect:" + loginUrl;
 	}
 
 	/**
@@ -46,10 +50,9 @@ public class LoginController {
 		Subject subject = SecurityUtils.getSubject();
 		// shiro 默认登出 自动清除权限、session、cookie等
 		subject.logout();
-
 		log.info(request.getRemoteAddr() + " 安全登出");
 		modelMap.addAttribute("errMsg", "安全登出");
-		return loginUrl;
+		return "redirect:" + loginUrl;
 	}
 
 	/**
@@ -87,13 +90,13 @@ public class LoginController {
 		if (subject.isAuthenticated()) {
 			log.info(username + " " + host + " 登录成功");
 			// 将当前用户存入session
-			Session session = subject.getSession();
+			Session subjectSession = subject.getSession();
 			User user = (User) subject.getPrincipal();
-			session.setAttribute("user", user);
-			return "redirect:index.html"; // 重定向访问static静态页面，需加.html
+			subjectSession.setAttribute("user", user);
+			return "redirect:" + indexUrl; // 重定向访问static静态页面，需加.html
 		} else {
 			token.clear();
-			return loginUrl;
+			return "redirect:" + loginUrl;
 		}
 	}
 

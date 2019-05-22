@@ -10,7 +10,7 @@
     <!--引入公共css-->
     <script src="../commonCss.js"></script>
 
-    <script src="js/home.js"></script>
+    <script src="home.js"></script>
 </head>
 <body ng-app="homeApp" ng-controller="homeController">
 <div>
@@ -40,7 +40,7 @@
                 <td>{{x.regDate}}</td>
                 <td>{{x.regTime}}</td>
                 <td>{{x.credentialsSalt}}</td>
-                <td><a class="delete-class" ng-click="delete(x.id, $index)">删除</a></td>
+                <td><a class="delete-class a-class" ng-click="delete(x.id, $index)">删除</a></td>
             </tr>
         </table>
     </div>

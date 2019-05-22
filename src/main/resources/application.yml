@@ -28,7 +28,7 @@ spring:
   servlet:
     multipart:
       # 最大请求大小 默认为10M
-      max-request-size: 1030MB
+      max-request-size: 1024MB
       # multipart文件上传大小限制 默认10MB
       max-file-size: 1024MB
   aop:
@@ -78,7 +78,7 @@ spring:
     lettuce:
       pool:
         # 连接池最大连接数（使用负值表示没有限制）
-        max-active: 200
+        max-active: 100
         # 连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1
         # 连接池中的最大空闲连接
@@ -90,9 +90,18 @@ spring:
   resources:
     # 自定义静态文件路径
     static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/templates/
+  devtools:
+    restart:
+      # 热部署生效
+      enabled: true
+      # 设置重启目录
+      additional-paths: src/main/java
+      # 排除哪个目录的文件不需要restart
+      exclude: WEB-INF/**
+
   thymeleaf:
     mode: HTML
-    # html具有缓存的特点(热部署文件时，设为false，页面不产生缓存，及时更新)
+    # html具有缓存的特点(开发环境设为false，生产环境设为true)
     cache: false
     prefix: classpath:/templates/
     suffix: .html

@@ -7,8 +7,8 @@ document.write('<script src="' + projectPath + 'framework/angular/1.4.3/angular-
 document.write('<script src="' + projectPath + 'framework/angular/directives/angucomplete.js"></script>');
 document.write('<script src="' + projectPath + 'framework/angular/directives/angucomplete-alt.js"></script>');
 
-// jquery1.9
-document.write('<script src="' + projectPath + 'framework/jquery/1.9/jquery.js"></script>');
+// jquery
+document.write('<script src="' + projectPath + 'framework/jquery/3.4.1/jquery-3.4.1.min.js"></script>');
 // jquery.form
 document.write('<script src="' + projectPath + 'framework/jquery/jquery.form.js"></script>');
 
@@ -26,3 +26,6 @@ document.write('<script src="' + projectPath + 'framework/layer/layer.js"></scri
 
 // Base64编码
 document.write('<script src="' + projectPath + 'framework/util/Base64.js"></script>');
+
+// bootstrap
+document.write('<script src="' + projectPath + 'framework/bootstrap/js/bootstrap.min.js"></script>');

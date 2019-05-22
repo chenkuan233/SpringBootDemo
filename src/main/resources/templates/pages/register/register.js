@@ -16,7 +16,7 @@ app.controller('registerController', function ($scope) {
                     layer.msg(result.msg, {icon: 2});
                 } else {
                     layer.confirm('注册成功！是否立即登录？', {icon: 1}, function () {
-                        window.location.href = '../login.html';
+                        window.location.href = '../login/login.html';
                     });
                 }
             })

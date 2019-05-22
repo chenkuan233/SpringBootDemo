@@ -5,7 +5,7 @@
 
 .progress {
     width: 100%;
-    height: 10px;
+    height: 4px;
     background: #e5e5e5;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
@@ -14,7 +14,7 @@
 }
 
 .progress-bar {
-    height: 10px;
+    height: 4px;
     background: #358EF3 repeat-x;
 }
 
@@ -22,13 +22,6 @@
     position: absolute;
     font-size: 12px;
     line-height: 18px;
-}
-
-.progress-bar span.progress-bar-status {
-    left: 50%;
-    top: -23px;
-    margin-left: -15px;
-    color: black;
 }
 
 .upload-file-stateWrap {
@@ -44,7 +37,8 @@
 
 .upload-file-stateWrap span.progress-bar-status {
     top: inherit;
-    bottom: -3px;
+    bottom: -7px;
     left: 60%;
     margin-left: 5px;
+    color: black;
 }
