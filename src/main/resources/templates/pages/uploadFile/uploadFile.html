@@ -11,10 +11,10 @@
 </head>
 <body ng-app="uploadFileApp" ng-controller="uploadFileController">
 <div>
-    <p><a class="a-class" href="../../index.html">点此跳转首页</a></p>
+    <p><a class="a-button" href="../../index.html">点此跳转首页</a></p>
     <div id="uploadFile-upload"></div>
     <div>
-        <p><input type="button" ng-click="find()" value="查询文件列表"></p>
+        <p><input type="button" class="button" ng-click="find()" value="查询文件列表"></p>
     </div>
     <div>
         <table border="1" cellspacing="0" width="70%">
@@ -32,8 +32,8 @@
                 <td>{{x.filePath}}</td>
                 <td>
                     <div>
-                        <a class="blue-class a-class" ng-click="downloadFile(x.filePath)">下载</a>
-                        <a class="delete-class a-class" ng-click="deleteFile(x, $index)">删除</a>
+                        <a class="blue a-hover" ng-click="downloadFile(x.filePath)">下载</a>
+                        <a class="delete a-hover" ng-click="deleteFile(x, $index)">删除</a>
                     </div>
                 </td>
             </tr>

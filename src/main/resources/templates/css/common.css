@@ -1,0 +1,263 @@
+/*a超链接样式*/
+a {
+    cursor: pointer; /*鼠标显示手型*/
+    transition: all 0.5s; /*所有变化在0.5s内渐变完成*/
+    text-decoration: none; /*去掉下划线*/
+}
+
+.a-hover:hover {
+    color: darkseagreen;
+    text-decoration: underline;
+}
+
+.delete {
+    color: tomato;
+}
+
+.blue {
+    color: dodgerblue;
+}
+
+.red {
+    color: tomato;
+}
+
+.green {
+    color: green;
+}
+
+/*默认蓝色按钮*/
+.button {
+    background-color: #1E9FFF;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 1px 1px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+/*绿色按钮*/
+.button-green {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 1px 1px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+/*红色按钮*/
+.button-red {
+    background-color: #d9534f;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 1px 1px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+.button-shadow {
+    box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.button-hover:hover {
+    box-shadow: 0 10px 14px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+/*a标签蓝色按钮*/
+.a-button {
+    background-color: #1E9FFF;
+    border: none;
+    color: white;
+    padding: 4px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 1px 1px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+/*a标签绿色按钮*/
+.a-button-green {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 4px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 1px 1px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+/*a标签红色按钮*/
+.a-button-red {
+    background-color: #d9534f;
+    border: none;
+    color: white;
+    padding: 4px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 1px 1px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+/*一、按钮样式*/
+.buttoncss {
+    font-family: "tahoma", "宋体";
+    font-size: 9pt;
+    color: #003399;
+    border: 1px #003399 solid;
+    color: #006699;
+    border-bottom: #93bee2 1px solid;
+    border-left: #93bee2 1px solid;
+    border-right: #93bee2 1px solid;
+    border-top: #93bee2 1px solid;
+    background-image: url(../images/bluebuttonbg.gif);
+    background-color: #e8f4ff;
+    cursor: hand;
+    font-style: normal;
+    width: 60px;
+    height: 22px;
+}
+
+/*四、选择按钮*/
+.selectbuttoncss {
+    font-family: "tahoma", "宋体";
+    font-size: 9pt;
+    color: #0066cc;
+    border: 1px #93bee2 solid;
+    border-bottom: #93bee2 1px solid;
+    border-left: #93bee2 1px solid;
+    border-right: #93bee2 1px solid;
+    border-top: #93bee2 1px solid;
+    background-image: url(../images/blue_button_bg.gif);
+    background-color: #ffffff;
+    cursor: hand;
+    font-style: normal;
+}
+
+/*六、图像按钮*/
+.imagebutton {
+    cursor: hand; /*改变鼠标形状*/
+}
+
+/*七、页面正文*/
+body {
+    scrollbar-face-color: #ededf3;
+    scrollbar-highlight-color: #ffffff;
+    scrollbar-shadow-color: #93949f;
+    scrollbar-3dlight-color: #ededf3;
+    scrollbar-arrow-color: #082468;
+    scrollbar-track-color: #f7f7f9;
+    scrollbar-darkshadow-color: #ededf3;
+    font-size: 9pt;
+    color: #003366;
+    overflow: auto;
+}
+
+td {
+    font-size: 12px
+}
+
+th {
+    font-size: 12px;
+}
+
+/*八、下拉选择框*/
+select {
+    border-right: #000000 1px solid;
+    border-top: #ffffff 1px solid;
+    font-size: 12px;
+    border-left: #ffffff 1px solid;
+    color: #003366;
+    border-bottom: #000000 1px solid;
+    background-color: #f4f4f4;
+}
+
+/*九、线条文本编辑框*/
+.editbox {
+    background: #ffffff;
+    border: 1px solid #b7b7b7;
+    color: #003366;
+    cursor: text;
+    font-family: "arial";
+    font-size: 9pt;
+    height: 18px;
+    padding: 1px;
+}
+
+/*十、多行文本框*/
+.multieditbox {
+    background: #f8f8f8;
+    border-bottom: #b7b7b7 1px solid;
+    border-left: #b7b7b7 1px solid;
+    border-right: #b7b7b7 1px solid;
+    border-top: #b7b7b7 1px solid;
+    color: #000000;
+    cursor: text;
+    font-family: "arial";
+    font-size: 9pt;
+    padding: 1px;
+}
+
+/*十一、阴影风格的表单*/
+.shadow {
+    position: absolute;
+    z-index: 1000;
+    top: 0px;
+    left: 0px;
+    background: gray;
+    background-color: #ffcc00;
+    filter: progidximagetransform.microsoft.dropshadow(color=#ff404040, offx=2, offy=2, positives=true);
+}
+
+/*十二、只显一条横线的输入框*/
+.logintxt {
+    border-right: #ffffff 0px solid;
+    border-top: #ffffff 0px solid;
+    font-size: 9pt;
+    border-left: #ffffff 0px solid;
+    border-bottom: #c0c0c0 1px solid;
+    background-color: #ffffff
+}
+
+/*十三、没有边框的输入框*/
+.noneinput {
+    text-align: center;
+    width: 99%;
+    height: 99%;
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;
+    background-color: #f6f6f6;
+    border-bottom-style: none;
+}
