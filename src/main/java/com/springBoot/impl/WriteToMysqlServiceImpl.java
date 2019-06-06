@@ -29,7 +29,7 @@ public class WriteToMysqlServiceImpl implements WriteToMysqlService {
 	// @Autowired()
 	// @Qualifier(JdbcTemplateConfig.jdbcTemplate_db2)
 	@Resource(name = JdbcTemplateConfig.jdbcTemplate_db2)
-	private JdbcTemplate db2JdbcTemplate;
+	private JdbcTemplate jdbcTemplateDB2;
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
@@ -58,7 +58,7 @@ public class WriteToMysqlServiceImpl implements WriteToMysqlService {
 		if (CollectionUtils.isNotEmpty(manList)) {
 			try {
 				String sql = "insert into t_man(name,nick) values(?,?)";
-				db2JdbcTemplate.batchUpdate(sql, manList, 1000, (ps, t) -> {
+				jdbcTemplateDB2.batchUpdate(sql, manList, 1000, (ps, t) -> {
 					ps.setString(1, t.getName());
 					ps.setString(2, t.getNick());
 				});
