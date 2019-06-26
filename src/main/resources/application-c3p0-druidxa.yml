@@ -28,8 +28,8 @@ spring:
       xa-properties:
         # druid可视化界面中显示的数据源名称
         name: db
-        url: jdbc:mysql://106.14.119.3:3306/chen?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&useSSL=false&autoReconnect=true&failOverReadOnly=false
-        username: chen
+        url: jdbc:mysql://120.132.116.16:3306/chen?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&useSSL=false&autoReconnect=true&failOverReadOnly=false
+        username: root
         password: 123456
         driverClassName: com.mysql.cj.jdbc.Driver
         # druid连接池初始化连接数
@@ -79,8 +79,8 @@ spring:
       xa-properties:
         # druid可视化界面中显示的数据源名称
         name: db2
-        url: jdbc:mysql://106.14.119.3:3306/chen2?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&useSSL=false&autoReconnect=true&failOverReadOnly=false
-        username: chen
+        url: jdbc:mysql://120.132.116.16:3306/chen2?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&useSSL=false&autoReconnect=true&failOverReadOnly=false
+        username: root
         password: 123456
         driverClassName: com.mysql.cj.jdbc.Driver
         # druid连接池初始化连接数
