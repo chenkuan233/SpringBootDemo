@@ -93,9 +93,9 @@ public class LoginController {
 		if (subject.isAuthenticated()) {
 			log.info(username + " " + host + " 登录成功");
 			// 将当前用户存入session
-			Session subjectSession = subject.getSession();
+			Session session = subject.getSession();
 			User user = (User) subject.getPrincipal();
-			subjectSession.setAttribute("user", user);
+			session.setAttribute("user", user);
 			return gson.toJson(MessageUtil.returnData(0, "登陆成功"));
 		} else {
 			token.clear();

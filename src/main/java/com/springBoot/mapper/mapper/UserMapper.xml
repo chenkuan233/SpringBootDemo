@@ -11,7 +11,7 @@
     </select>
 
     <select id="findAll" resultType="com.springBoot.entity.User">
-        SELECT * from t_user
+        SELECT id,user_name,reg_date,reg_time from t_user
     </select>
 
     <insert id="saveUser" parameterType="map">
