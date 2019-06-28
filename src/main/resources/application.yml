@@ -17,9 +17,12 @@ server:
     key-store-type: PKCS12
     # 密钥别名
     key-alias: tomcat
-#  servlet:
-#    # 打开注释，则通过【http://localhost/springBootDemo】访问
-#    context-path: /springBootDemo
+  servlet:
+    # 打开注释，则通过【http://localhost/springBootDemo】访问
+    # context-path: /springBootDemo
+    session:
+      # 设置session超时时长 单位秒，默认30分钟左右
+      timeout: 1800s
 
 spring:
   # 多个文件之间用,隔开 命名为application-name
