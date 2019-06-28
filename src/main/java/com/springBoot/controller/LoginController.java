@@ -78,13 +78,12 @@ public class LoginController {
 		try {
 			log.info(username + "进行登录验证..验证开始");
 			subject.login(token);
-			log.info(username + "进行登录验证..验证通过");
 		} catch (UnknownAccountException e) {
-			log.error(username + "进行登录验证..验证未通过，未知账户");
-			message = "未知账户";
+			log.error(username + "进行登录验证..验证未通过，用户不存在");
+			message = "用户不存在";
 		} catch (AuthenticationException e) {
-			log.error(username + "进行登录验证..验证未通过，账号密码不匹配");
-			message = "账号密码不匹配";
+			log.error(username + "进行登录验证..验证未通过，密码输入错误");
+			message = "密码输入错误";
 		} catch (Exception e) {
 			log.error("登录出错", e);
 			message = "登录出错";
