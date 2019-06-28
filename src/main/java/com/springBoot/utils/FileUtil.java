@@ -177,12 +177,12 @@ public final class FileUtil {
 		String rangeBytes = request.getHeader("Range");
 		// 客户端需要的第一个字节的位置
 		Long lenStart = 0L;
-		// 客户端需要的字节区间 最后一个字节位置 - 第一个字节的位置
+		// 客户端需要的字节区间 最后一个字节位置 - 第一个字节的位置 + 1
 		Long lenEnd = fileLength;
 		if (StringUtils.isNotEmpty(rangeBytes)) {
 			// 返回码 200 Ok (不使用断点续传方式), 206 Partial Content (使用断点续传方式)
 			response.setStatus(HttpServletResponse.SC_PARTIAL_CONTENT);
-			rangeBytes = rangeBytes.replace("bytes=", "");
+			rangeBytes = rangeBytes.replaceAll("bytes=", "");
 			String startBytes;
 			String endBytes;
 			if (rangeBytes.indexOf('-') == rangeBytes.length() - 1) {
@@ -192,10 +192,10 @@ public final class FileUtil {
 				lenEnd = fileLength - lenStart;
 			} else {
 				// 迅雷等
-				startBytes = rangeBytes.substring(0, rangeBytes.indexOf('-'));
-				endBytes = rangeBytes.substring(rangeBytes.indexOf('-') + 1, rangeBytes.length());
-				lenStart = Long.parseLong(startBytes.trim());
-				lenEnd = Long.parseLong(endBytes.trim()) - lenStart;
+				startBytes = rangeBytes.substring(0, rangeBytes.indexOf('-')).trim();
+				endBytes = rangeBytes.substring(rangeBytes.indexOf('-') + 1).trim();
+				lenStart = Long.parseLong(startBytes);
+				lenEnd = Long.parseLong(endBytes) - lenStart + 1; //字节段包含开始字节和结束字节，需+1得到真实字节段长度
 			}
 			// 通知客户端允许断点续传，响应格式为：Accept-Ranges: bytes
 			response.setHeader("Accept-Ranges", "bytes");

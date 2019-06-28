@@ -19,25 +19,39 @@
     <!-- 输出INFO级别以上的日志到logs/info.log -->
     <appender name="infoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 日志文件名及路径 -->
-        <file>logs/info.log</file>
+        <!--<file>logs/info.log</file>-->
+
         <!-- 日志文件保留个数及备份命名方式 -->
-        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
             <fileNamePattern>logs/info.%i.log</fileNamePattern>
             <minIndex>1</minIndex>
             <maxIndex>10</maxIndex>
-        </rollingPolicy>
+        </rollingPolicy>-->
+
         <!-- 日志文件大小限制 -->
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+        <!--<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
             <maxFileSize>10MB</maxFileSize>
-        </triggeringPolicy>
-        <!-- 日志记录追加方式 -->
-        <append>true</append>
+        </triggeringPolicy>-->
+
+        <!-- 日志记录追加方式 默认true -->
+        <!--<append>true</append>-->
+
+
+        <!--每天生成一个日志文件，保存30天的日志文件-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--文件命名路径及方式-->
+            <fileNamePattern>logs/info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--文件保存最大历史天数-->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
         <!-- 日志文件格式 -->
         <encoder>
             <pattern>
                 %d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} [%t] -> %m%n
             </pattern>
         </encoder>
+
         <!-- 此日志记录级别 -->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
