@@ -28,6 +28,8 @@ public class DataSourceUtil {
 	public static final String sqlSessionTemplate_default = "sqlSessionTemplate";
 	// 数据源配置路径
 	public static final String configPropertiesPrefix_default = "spring.datasource.db";
+	// env读取配置路径
+	public static final String envXaPropPrefix_default = "spring.datasource.db.xa-properties.";
 	// 编译后mapper.xml路径
 	public static final String mapperResourcesPath_default = "classpath:mapper/*Mapper.xml";
 	// 实体类包
@@ -45,6 +47,8 @@ public class DataSourceUtil {
 	public static final String sqlSessionTemplate_db2 = "db2SqlSessionTemplate";
 	// 数据源配置路径
 	public static final String configPropertiesPrefix_db2 = "spring.datasource.db2";
+	// env读取配置路径
+	public static final String envXaPropPrefix_db2 = "spring.datasource.db2.xa-properties.";
 	// 编译后mapper.xml路径
 	public static final String mapperResourcesPath_db2 = "classpath:mapperDB2/*Mapper.xml";
 	// 实体类包
@@ -83,9 +87,25 @@ public class DataSourceUtil {
 	 */
 	public static Properties getXaProperties(Environment env, String prefix) {
 		Properties props = new Properties();
+		props.put("name", env.getProperty(prefix + "name"));
 		props.put("url", env.getProperty(prefix + "url"));
 		props.put("username", env.getProperty(prefix + "username"));
 		props.put("password", env.getProperty(prefix + "password"));
+		props.put("driverClassName", env.getProperty(prefix + "driverClassName"));
+		props.put("initialSize", env.getProperty(prefix + "initialSize"));
+		props.put("minIdle", env.getProperty(prefix + "minIdle"));
+		props.put("maxActive", env.getProperty(prefix + "maxActive"));
+		props.put("maxWait", env.getProperty(prefix + "maxWait"));
+		props.put("minEvictableIdleTimeMillis", env.getProperty(prefix + "minEvictableIdleTimeMillis"));
+		props.put("timeBetweenEvictionRunsMillis", env.getProperty(prefix + "timeBetweenEvictionRunsMillis"));
+		props.put("poolPreparedStatements", env.getProperty(prefix + "poolPreparedStatements"));
+		props.put("maxOpenPreparedStatements", env.getProperty(prefix + "maxOpenPreparedStatements"));
+		props.put("testWhileIdle", env.getProperty(prefix + "testWhileIdle"));
+		props.put("testOnBorrow", env.getProperty(prefix + "testOnBorrow"));
+		props.put("testOnReturn", env.getProperty(prefix + "testOnReturn"));
+		props.put("validationQuery", env.getProperty(prefix + "validationQuery"));
+		props.put("validationQueryTimeout", env.getProperty(prefix + "validationQueryTimeout"));
+		props.put("filters", env.getProperty(prefix + "filters"));
 		return props;
 	}
 

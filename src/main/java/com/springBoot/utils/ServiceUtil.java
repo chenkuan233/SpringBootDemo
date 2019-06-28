@@ -80,7 +80,6 @@ public final class ServiceUtil {
 	 * @param array      request请求方法传入参数
 	 * @param parameters 所请求的方法参数名数组
 	 * @return 参数转为Object[]数组
-	 * @throws Exception
 	 */
 	public static Object[] getMethodParams(JsonArray array, Parameter[] parameters) throws JsonSyntaxException {
 		Object[] params = null;
