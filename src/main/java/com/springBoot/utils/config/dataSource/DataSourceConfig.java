@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jta.atomikos.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +12,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
-import java.util.Properties;
 
 /**
  * @author chenkuan
@@ -29,21 +29,21 @@ public class DataSourceConfig {
 	 * data source
 	 */
 	@Bean(name = DataSourceUtil.dataSourceName_default)
-	//@ConfigurationProperties(prefix = DataSourceUtil.configPropertiesPrefix_default)
+	@ConfigurationProperties(prefix = DataSourceUtil.configPropertiesPrefix_default)
 	@Primary
 	public DataSource dataSource(Environment env) {
 		//return DataSourceBuilder.create().build();
 		//return DruidDataSourceBuilder.create().build();
-		//return new AtomikosDataSourceBean();
+		return new AtomikosDataSourceBean();
 
-		AtomikosDataSourceBean db = new AtomikosDataSourceBean();
-		Properties prop = DataSourceUtil.getXaProperties(env, DataSourceUtil.envXaPropPrefix_default);
-		db.setXaDataSourceClassName(env.getProperty(DataSourceUtil.configPropertiesPrefix_default + ".xa-data-source-class-name"));
-		db.setUniqueResourceName(env.getProperty(DataSourceUtil.configPropertiesPrefix_default + ".unique-resource-name"));
-		db.setMinPoolSize(Integer.parseInt(env.getProperty(DataSourceUtil.configPropertiesPrefix_default + ".min-pool-size")));
-		db.setMaxPoolSize(Integer.parseInt(env.getProperty(DataSourceUtil.configPropertiesPrefix_default + ".max-pool-size")));
-		db.setXaProperties(prop);
-		return db;
+//		AtomikosDataSourceBean db = new AtomikosDataSourceBean();
+//		Properties prop = DataSourceUtil.getXaProperties(env, DataSourceUtil.envXaPropPrefix_default);
+//		db.setXaDataSourceClassName(env.getProperty(DataSourceUtil.configPropertiesPrefix_default + ".xa-data-source-class-name"));
+//		db.setUniqueResourceName(env.getProperty(DataSourceUtil.configPropertiesPrefix_default + ".unique-resource-name"));
+//		db.setMinPoolSize(Integer.parseInt(env.getProperty(DataSourceUtil.configPropertiesPrefix_default + ".min-pool-size")));
+//		db.setMaxPoolSize(Integer.parseInt(env.getProperty(DataSourceUtil.configPropertiesPrefix_default + ".max-pool-size")));
+//		db.setXaProperties(prop);
+//		return db;
 	}
 
 	/**

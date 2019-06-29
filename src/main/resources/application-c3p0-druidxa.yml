@@ -18,6 +18,8 @@ spring:
       min-pool-size: 2
       # 最大连接池数量
       max-pool-size: 10
+      # 连接检查
+      test-query: select 1 from dual
       # xa属性配置
       xa-properties:
         # druid可视化界面中显示的数据源名称
@@ -65,6 +67,8 @@ spring:
       min-pool-size: 2
       # 最大连接池数量
       max-pool-size: 10
+      # 连接检查
+      test-query: select 1 from dual
       # xa属性配置
       xa-properties:
         # druid可视化界面中显示的数据源名称
