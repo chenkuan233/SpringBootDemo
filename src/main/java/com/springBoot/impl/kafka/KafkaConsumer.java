@@ -15,13 +15,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class KafkaConsumer {
 
-	//此方法处理消息
-	@KafkaListener(topics = {"test"})
+	//此方法 消费消息
+	//topics 主题
+	//topicPartitions 分区
+	//groupId 用户组
+	@KafkaListener(topics = {"test"}, groupId = "test")
 	public void listen(ConsumerRecord<String, String> data) {
 		String topic = data.topic(); //消费的topic
-		log.info("-------------message from topic-------------", topic);
-		log.info("partition(分区):", String.valueOf(data.partition())); //消费的topic的分区
-		log.info("offset(偏移位置):", String.valueOf(data.offset())); //消费者的位置
-		log.info("get message from topic(消息):", topic, data.value()); //接收到的消息
+		log.info("-------------message from topic-------------" + topic);
+		log.info("partition(分区):" + String.valueOf(data.partition())); //消费的topic的分区
+		log.info("offset(偏移位置):" + String.valueOf(data.offset())); //消费者的位置
+		log.info("get message from topic(消息):" + data.value()); //接收到的消息
 	}
 }
