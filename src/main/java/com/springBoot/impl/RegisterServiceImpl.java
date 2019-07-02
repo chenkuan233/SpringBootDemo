@@ -4,7 +4,7 @@ import com.springBoot.entity.User;
 import com.springBoot.mapper.mapper.UserMapper;
 import com.springBoot.service.RegisterService;
 import com.springBoot.utils.DateUtil;
-import com.springBoot.utils.MessageUtil;
+import com.springBoot.utils.Response;
 import com.springBoot.utils.UserEncryptUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +48,8 @@ public class RegisterServiceImpl implements RegisterService {
 			log.info("注册用户:" + username);
 		} catch (Exception e) {
 			log.error(username + "注册失败", e);
-			return MessageUtil.message("-1", "注册失败");
+			return Response.message("-1", "注册失败");
 		}
-		return MessageUtil.message("0", "注册成功");
+		return Response.message("0", "注册成功");
 	}
 }

@@ -2,7 +2,7 @@ package com.springBoot.controller;
 
 import com.google.gson.Gson;
 import com.springBoot.utils.FileUtil;
-import com.springBoot.utils.MessageUtil;
+import com.springBoot.utils.Response;
 import com.springBoot.utils.ServiceUtil;
 import com.springBoot.utils.config.applicationContext.SpringBeanUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +47,7 @@ public class UploadController {
 		List<String> beanNames = SpringBeanUtil.getBeanNames();
 		if (!beanNames.contains(serviceName)) {
 			log.error("请求无对应服务: " + serviceName + "." + funcName);
-			return gson.toJson(MessageUtil.returnData(-1, "请求无对应服务: " + serviceName + "." + funcName));
+			return gson.toJson(Response.returnData(-1, "请求无对应服务: " + serviceName + "." + funcName));
 		}
 
 		// 获取serviceBean
@@ -58,7 +58,7 @@ public class UploadController {
 		Method method = ServiceUtil.getMethod(clazz, funcName);
 		if (method == null) {
 			log.error("请求无对应方法: " + serviceName + "." + funcName);
-			return gson.toJson(MessageUtil.returnData(-1, "请求无对应方法: " + serviceName + "." + funcName));
+			return gson.toJson(Response.returnData(-1, "请求无对应方法: " + serviceName + "." + funcName));
 		}
 
 		// 获取上传文件原始文件名
@@ -68,7 +68,7 @@ public class UploadController {
 		File tempFile = FileUtil.bytesToFile(file.getBytes(), tempDir, fileName);
 		if (tempFile == null) {
 			log.error(tempDir + fileName + "缓存文件写入失败");
-			return gson.toJson(MessageUtil.returnData(-1, file.getOriginalFilename() + "上传失败"));
+			return gson.toJson(Response.returnData(-1, file.getOriginalFilename() + "上传失败"));
 		}
 
 		Object[] params = new Object[]{tempFile};
@@ -79,7 +79,7 @@ public class UploadController {
 		FileUtils.deleteDirectory(new File(tempDir));
 
 		log.info(fileName + " 上传成功");
-		return gson.toJson(MessageUtil.returnData(0, obj));
+		return gson.toJson(Response.returnData(0, obj));
 	}
 
 }

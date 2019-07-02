@@ -2,7 +2,7 @@ package com.springBoot.controller;
 
 import com.google.gson.Gson;
 import com.springBoot.entity.User;
-import com.springBoot.utils.MessageUtil;
+import com.springBoot.utils.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -96,10 +96,10 @@ public class LoginController {
 			Session session = subject.getSession();
 			User user = (User) subject.getPrincipal();
 			session.setAttribute("user", user);
-			return gson.toJson(MessageUtil.returnData(0, "登陆成功"));
+			return gson.toJson(Response.returnData(0, "登陆成功"));
 		} else {
 			token.clear();
-			return gson.toJson(MessageUtil.returnData(-1, message));
+			return gson.toJson(Response.returnData(-1, message));
 		}
 	}
 

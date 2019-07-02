@@ -303,6 +303,12 @@
             <version>1.1.7</version>
         </dependency>
 
+        <!-- spring-kafka -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
     </dependencies>
 
     <!--打包配置-->

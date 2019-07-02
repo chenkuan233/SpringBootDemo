@@ -14,7 +14,7 @@ import com.springBoot.mapper.mapperDB2.UserDB2Mapper;
 import com.springBoot.repository.UserRepository;
 import com.springBoot.service.UserService;
 import com.springBoot.utils.DateUtil;
-import com.springBoot.utils.MessageUtil;
+import com.springBoot.utils.Response;
 import com.springBoot.utils.Pageable;
 import com.springBoot.utils.UserEncryptUtil;
 import com.springBoot.utils.annotation.PageQuery;
@@ -181,19 +181,19 @@ public class UserServiceImpl implements UserService {
 		User user = userCommonMapper.selectOne(new User(userName));
 		if (user == null) {
 			log.error("密码修改失败：用户不存在");
-			return MessageUtil.message("1", "用户不存在");
+			return Response.message("1", "用户不存在");
 		}
 		// 校验原密码
 		oldPassword = userEncryptUtil.encrypt(oldPassword, user.getCredentialsSalt());
 		if (!user.getPassword().equals(oldPassword)) {
 			log.error("密码修改失败：用户原密码校验错误");
-			return MessageUtil.message("2", "用户原密码校验错误");
+			return Response.message("2", "用户原密码校验错误");
 		}
 		// 重新加密
 		user = userEncryptUtil.encrypt(user, newPassword);
 		userCommonMapper.updateByPrimaryKey(user);
 		log.info("用户" + user.getUserName() + "密码修改成功");
-		return MessageUtil.message("0", "密码修改成功");
+		return Response.message("0", "密码修改成功");
 	}
 
 	// mybatis查询 findRoleIdByUserId

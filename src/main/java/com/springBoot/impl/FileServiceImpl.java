@@ -5,7 +5,7 @@ import com.springBoot.mapper.mapper.FileMapper;
 import com.springBoot.service.FileService;
 import com.springBoot.utils.DateUtil;
 import com.springBoot.utils.FileUtil;
-import com.springBoot.utils.MessageUtil;
+import com.springBoot.utils.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +48,9 @@ public class FileServiceImpl implements FileService {
 		fileName = FileUtil.upload(in, filePath, fileName);
 		if (StringUtils.isEmpty(fileName)) {
 			log.error(fileName + "上传失败");
-			return MessageUtil.message("-1", fileName + "上传失败");
+			return Response.message("-1", fileName + "上传失败");
 		}
-		return MessageUtil.message("0", filePath + fileName);
+		return Response.message("0", filePath + fileName);
 	}
 
 	@Override
@@ -60,9 +60,9 @@ public class FileServiceImpl implements FileService {
 			String fileName = fileIO.getName();
 			FileInfo file = new FileInfo(fileName, filePath, DateUtil.date(), DateUtil.time());
 			fileMapper.saveFile(file);
-			return MessageUtil.message("0", filePath + "上传成功");
+			return Response.message("0", filePath + "上传成功");
 		} else {
-			return MessageUtil.message("-1", filePath + "不存在");
+			return Response.message("-1", filePath + "不存在");
 		}
 	}
 

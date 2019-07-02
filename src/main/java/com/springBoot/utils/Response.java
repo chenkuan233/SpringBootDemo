@@ -1,5 +1,6 @@
 package com.springBoot.utils;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +10,32 @@ import java.util.Map;
  * @desc 返回消息 0成功
  * @date 2019/2/28 028 14:57
  */
-public final class MessageUtil {
+public final class Response implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	//消息码
+	private String code;
+
+	//消息内容
+	private String msg;
+
+	//数据
+	private Object data;
+
+	public Response() {
+	}
+
+	public Response(String code, String msg) {
+		this.code = code;
+		this.msg = msg;
+	}
+
+	public Response(String code, String msg, Object data) {
+		this.code = code;
+		this.msg = msg;
+		this.data = data;
+	}
 
 	public static Map<String, Object> returnData(Integer code, String data) {
 		Map<String, Object> map = new HashMap<>();
@@ -38,5 +64,29 @@ public final class MessageUtil {
 		map.put("msg", msg);
 		map.put("data", data);
 		return map;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public Object getData() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
 	}
 }
