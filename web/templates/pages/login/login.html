@@ -64,13 +64,15 @@
                                        class="form-password form-control" id="form-password">
                             </div>
                             <div class="form-group">
-                                <input type="checkbox" ng-model="rememberMe" name="rememberMe" class="input-checkbox"
-                                       id="form-rememberMe">
-                                <label for="form-rememberMe">&nbsp;rememberMe</label>
+                                <label class="checkbox-text">
+                                    <input type="checkbox" ng-model="rememberMe" name="rememberMe"
+                                           class="input-checkbox" id="form-rememberMe">
+                                    &nbsp;rememberMe
+                                </label>
                             </div>
                             <button class="login-btn" ng-click="login(username, password, rememberMe)">Sign in</button>
+                            <button class="register-btn" ng-click="toRegister()">Create your account</button>
                         </form>
-                        <p><br><a class="a-button-green" href="../register/register.html">注册</a></p>
                     </div>
                 </div>
             </div>

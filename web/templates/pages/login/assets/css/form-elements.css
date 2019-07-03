@@ -120,3 +120,64 @@ textarea::-webkit-input-placeholder, textarea.form-control::-webkit-input-placeh
     height: 22px;
     float: left;
 }
+
+.checkbox-text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #8f8d8d;
+}
+
+.register-btn {
+    width: 100%;
+    height: 50px;
+    margin: 10px 0 0 0;
+    padding: 0 20px;
+    vertical-align: middle;
+    background: #1E9FFF;
+    border: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 50px;
+    color: #fff;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    text-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -o-transition: all .3s;
+    -moz-transition: all .3s;
+    -webkit-transition: all .3s;
+    -ms-transition: all .3s;
+    transition: all .3s;
+}
+
+.register-btn:hover {
+    opacity: 0.6;
+    color: #fff;
+}
+
+.register-btn:active {
+    outline: 0;
+    opacity: 0.6;
+    color: #fff;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.register-btn:focus {
+    outline: 0;
+    opacity: 0.6;
+    background: #4aaf51;
+    color: #fff;
+}
+
+.register-btn:active:focus, .login-btn.active:focus {
+    outline: 0;
+    opacity: 0.6;
+    background: #4aaf51;
+    color: #fff;
+}

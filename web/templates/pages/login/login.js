@@ -3,6 +3,7 @@ app.controller('loginController', function ($scope, $timeout) {
 
     var constants = new com.springboot.constant.Constants();
 
+    //登陆服务
     $scope.login = function (username, password, rememberMe) {
         if (!username || !password) {
             layer.msg('请输入用户名和密码', {icon: 2});
@@ -15,5 +16,10 @@ app.controller('loginController', function ($scope, $timeout) {
                 window.location.href = getProjectPath() + constants.indexUrl;
             }
         })
+    };
+
+    //跳转注册页面
+    $scope.toRegister = function () {
+        window.location.href = getProjectPath() + constants.registerUrl;
     }
 });
