@@ -92,24 +92,18 @@ spring:
     timeout: 2000
   resources:
     # 自定义静态文件路径
-    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/templates/
+    # static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/templates/
+    # 静态文件的目录置于jar包之外(实时更新)
+    static-locations: file:web/templates/
   devtools:
     restart:
       # 热部署生效
       enabled: true
-      # 设置重启目录
-      additional-paths: src/main/java
+      # 需要实时更新的目录
+      additional-paths: src/java/**
       # 排除哪个目录的文件不需要restart
-      exclude: WEB-INF/**
-
-  thymeleaf:
-    mode: HTML
-    # html具有缓存的特点(开发环境设为false，生产环境设为true)
-    cache: false
-    prefix: classpath:/templates/
-    suffix: .html
-    encoding: UTF-8
-  data:
+      # exclude:
+#  data:
 #    # elasticsearch配置
 #    elasticsearch:
 #      # 集群名称
