@@ -7,8 +7,15 @@ document.write('<script src="' + projectPath + 'framework/angular/1.7.8/angular-
 document.write('<script src="' + projectPath + 'framework/angular/directives/angucomplete.js"></script>');
 document.write('<script src="' + projectPath + 'framework/angular/directives/angucomplete-alt.js"></script>');
 
+//vue.js
+//document.write('<script src="' + projectPath + 'framework/vue/vue.min.js"></script>');
+
+//element-ui
+//document.write('<script src="' + projectPath + 'framework/element-ui/element-ui.js"></script>');
+//document.write('<link href="' + projectPath + 'framework/element-ui/element-ui.css" rel="stylesheet" type="text/css">');
+
 // jquery
-document.write('<script src="' + projectPath + 'framework/jquery/3.4.1/jquery-3.4.1.min.js"></script>');
+document.write('<script src="' + projectPath + 'framework/jquery/jquery-3.4.1.min.js"></script>');
 // jquery.form
 document.write('<script src="' + projectPath + 'framework/jquery/jquery.form.js"></script>');
 
@@ -27,5 +34,8 @@ document.write('<script src="' + projectPath + 'framework/layer/layer.js"></scri
 // Base64编码
 document.write('<script src="' + projectPath + 'framework/util/Base64.js"></script>');
 
-// bootstrap
-document.write('<script src="' + projectPath + 'framework/bootstrap/js/bootstrap.min.js"></script>');
+// 通用样式css
+document.write('<link href="' + projectPath + 'css/common.css" rel="stylesheet" type="text/css">');
+
+// 上传文件样式css
+document.write('<link href="' + projectPath + 'css/upload.css" rel="stylesheet" type="text/css">');

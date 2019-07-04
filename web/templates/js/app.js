@@ -112,34 +112,6 @@ function sendAjax(url, method, data, callback) {
             handleReturnError(xhr, status, exception);
         }
     })
-
-    // angularjs $http
-    /*$http({
-        // 请求地址
-        url: url,
-        // 请求方式
-        method: method,
-        // 请求的数据 message 必须是a=b&c=d的格式 data是post请求的数据，params是get请求的数据
-        data: data,
-        // 请求头 post要加上请求头 默认Content-Type:application/json;charset=UTF-8，post后台接受不到json数据，转为表单提交
-        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8', 'Accept': '*!/!*'},
-        // 是否启用缓存HTTP请求 默认false
-        cache: cache,
-        // 超时时间 毫秒
-        timeout: 10000
-    }).success(function (data, status, headers, config) {
-        if (typeof (callback) === 'function') {
-            callback(data);
-        }
-    }).error(function (data, status, headers, config) {
-        if (0 === status) {
-            console.log("error:响应超时", data, status, headers);
-            layer.alert("error:响应超时", {icon: 2});
-        } else {
-            console.log("error:后台错误", data, status, headers);
-            layer.alert("error:后台错误", {icon: 2});
-        }
-    })*/
 }
 
 /**
