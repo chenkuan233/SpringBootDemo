@@ -1,21 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>注册账号</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>注册你的账号</title>
 
+    <!-- CSS -->
+    <link rel="stylesheet" href="asset/css/bootstrap.min.css">
+    <link rel="stylesheet" href="asset/css/form-elements.css">
+    <link rel="stylesheet" href="asset/css/style.css">
+    <link rel="stylesheet" href="asset/font-awesome/css/font-awesome.min.css">
+
+    <!--公共js css-->
     <script src="../../common.js"></script>
-
-    <script src="register.js"></script>
+    <!--设置动态背景图-->
+    <script src="asset/js/jquery.backstretch.min.js"></script>
+    <script src="asset/js/scripts.js"></script>
 </head>
-<body ng-app="registerApp" ng-controller="registerController">
-<div>
-    <p><a class="a-button" href="../login/login.html">去登陆</a></p>
-    <p>账号 <input type="text" class="input" name="username" ng-model="username"></p>
-    <p>密码 <input type="password" class="input" name="password" ng-model="password"></p>
-    <p>
-        <button class="button button-hover" ng-click="registerAccount(username, password)">注册</button>
-    </p>
+
+<body>
+<div id="registerApp">
+    <!-- Top content -->
+    <div class="top-content inner-bg">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2 text">
+                    <h1>Create your account</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3 form-box">
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h3>Enter your username and password</h3>
+                            <p>输入用户名和密码来注册你的账号:</p>
+                        </div>
+                        <div class="form-top-right">
+                            <i class="fa fa-key"></i>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="form-group">
+                            <label class="sr-only" for="form-username">username</label>
+                            <input type="text" v-model="username" name="username" placeholder="用户名..."
+                                   class="form-username form-control" id="form-username">
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="form-password">password</label>
+                            <input type="password" v-model="password" name="password" placeholder="密码..."
+                                   class="form-password form-control" id="form-password">
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="form-rePassword">password</label>
+                            <input type="password" v-model="rePassword" name="rePassword" placeholder="再次输入密码..."
+                                   class="form-password form-control" id="form-rePassword">
+                        </div>
+                        <button class="register-btn" v-on:click="{{register(username, password, rePassword)}}">
+                            Create your account
+                        </button>
+                        <button class="login-btn" v-on:click="{{toLogin()}}">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
+
+<script src="register.js"></script>
 </body>
 </html>

@@ -8,16 +8,37 @@
     <script src="common.js"></script>
 </head>
 <body>
-<div>
-    <div>
-        <p>登录成功</p>
-        <p>欢迎来到首页index</p>
-        <p><a class="a-hover blue" href="pages/userMana/home.html">点此跳转至home页</a></p>
-        <p><a class="a-hover blue" href="pages/uploadFile/uploadFile.html">点此跳转至uploadFile页</a></p>
+<div id="indexApp">
+
+    <div class="block">
+        <el-carousel trigger="click" height="500px">
+            <el-carousel-item v-for="img in imgList">
+                <el-image :src="img.url" style="width: 100%;"></el-image>
+            </el-carousel-item>
+        </el-carousel>
     </div>
-    <form action="/logout" method="get">
-        <input type="submit" class="button-red button-hover" value="登出"/>
-    </form>
+
+    <el-container>
+        <el-main>
+            <el-row :gutter="20">
+                <el-col :span="12" :offset="6">
+                    <div class="block">
+                        <p>登录成功</p>
+                        <p>欢迎来到首页index</p>
+                        <p><a class="a-hover blue" href="pages/userMana/home.html">点此跳转至home页</a></p>
+                        <p><a class="a-hover blue" href="pages/uploadFile/uploadFile.html">点此跳转至uploadFile页</a></p>
+
+                        <form action="/logout" method="get">
+                            <input type="submit" class="" value="登出"/>
+                        </form>
+                    </div>
+                </el-col>
+            </el-row>
+        </el-main>
+
+    </el-container>
 </div>
+
+<script src="pages/index.js"></script>
 </body>
 </html>

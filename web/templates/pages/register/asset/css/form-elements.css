@@ -63,7 +63,7 @@ textarea::-webkit-input-placeholder, textarea.form-control::-webkit-input-placeh
 .login-btn {
     width: 100%;
     height: 50px;
-    margin: 0;
+    margin: 10px 0 0 0;
     padding: 0 20px;
     vertical-align: middle;
     background: #4aaf51;
@@ -118,7 +118,7 @@ textarea::-webkit-input-placeholder, textarea.form-control::-webkit-input-placeh
 .register-btn {
     width: 100%;
     height: 50px;
-    margin: 10px 0 0 0;
+    margin: 0;
     padding: 0 20px;
     vertical-align: middle;
     background: #1E9FFF;
