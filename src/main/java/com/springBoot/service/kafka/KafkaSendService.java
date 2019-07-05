@@ -11,4 +11,7 @@ import com.springBoot.utils.Response;
 public interface KafkaSendService {
 	//测试发送kafka消息
 	Response sendKafka(String message);
+
+	//测试发送kafka消息
+	Response sendKafkaMany(String topic, Integer total);
 }

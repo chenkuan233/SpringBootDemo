@@ -19,7 +19,7 @@ public class KafkaConsumer {
 	//topics 主题
 	//topicPartitions 分区
 	//groupId 用户组
-	@KafkaListener(topics = {"test"}, groupId = "test")
+	//@KafkaListener(topics = {"test"}, groupId = "test")
 	public void listen(ConsumerRecord<String, String> data) {
 		String topic = data.topic(); //消费的topic
 		log.info("-------------message from topic-------------" + topic);

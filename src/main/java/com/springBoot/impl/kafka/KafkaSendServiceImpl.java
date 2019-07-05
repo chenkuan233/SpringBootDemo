@@ -37,4 +37,21 @@ public class KafkaSendServiceImpl implements KafkaSendService {
 			return new Response("-1", "发送kafka失败");
 		}
 	}
+
+	//测试发送kafka消息
+	@Override
+	public Response sendKafkaMany(String topic, Integer total) {
+		int num = 0;
+		log.info("开始发送---topic:" + topic);
+		try {
+			//topic：主题名称；partition：要发送消息到哪个分区；timestamp：创建消息的时间；key：消息的键；value：消息的值
+			for (int i = 0; i < total; i++) {
+				kafkaTemplate.send(topic, topic + "--testMessage--" + i);
+			}
+		} catch (Exception e) {
+			num++;
+		}
+		log.info("发送kafka完成---成功" + (total - num) + ", 失败---" + num);
+		return new Response("0", "发送kafka成功");
+	}
 }
