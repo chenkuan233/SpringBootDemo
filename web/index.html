@@ -14,7 +14,7 @@
     <!-- 顶部导航栏 -->
     <el-menu :default-active="this.$route.path" router mode="horizontal" @select="handleSelect"
              background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-        <el-menu-item index="/home">首页</el-menu-item>
+        <el-menu-item index="/home" style="margin-left: 5%;">首页</el-menu-item>
         <el-submenu index="2">
             <template slot="title">我的工作台</template>
             <el-menu-item index="2-1">选项1</el-menu-item>
@@ -29,6 +29,9 @@
         </el-submenu>
         <el-menu-item index="3">消息中心</el-menu-item>
         <el-menu-item index="4">个人中心</el-menu-item>
+        <el-menu-item style="float: right;margin-right: 5%;">
+            <el-link @click="logout()">登出</el-link>
+        </el-menu-item>
     </el-menu>
 
     <!-- 路由出口，点击路由的入口后，会在这里渲染出组件 -->
@@ -44,10 +47,6 @@
                 <p>欢迎来到首页index</p>
                 <p><a class="a-hover blue" href="pages/userMana/home.html">点此跳转至home页</a></p>
                 <p><a class="a-hover blue" href="pages/uploadFile/uploadFile.html">点此跳转至uploadFile页</a></p>
-
-                <form action="/logout" method="get">
-                    <input type="submit" class="" value="登出"/>
-                </form>
             </div>
         </el-col>
     </el-row>

@@ -1,3 +1,6 @@
+//常量类
+var constants = new com.springboot.constant.Constants();
+
 //定义全局组件 footer-bar
 Vue.component('footer-bar', {
     template: `
@@ -5,18 +8,15 @@ Vue.component('footer-bar', {
           <hr/>
           <p class="el-dialog--center"><el-link v-on:click="show('没有更多信息')">版权所有@chen</el-link><p>
         </footer>
-      `,
-    data: function () {
-        return {}
-    },
+    `,
     methods: {
-        show: function (value) {
+        show(value) {
             this.$message(value);
         }
     }
 });
 
-//home templates
+//home路由组件
 var home = {
     template: loadPage("pages/templates/home.html"),
     data: function () {
@@ -31,7 +31,7 @@ var home = {
     }
 };
 
-//路由
+//路由配置
 var routes = [
     {path: "/", redirect: "/home"}, //这个表示会默认渲染
     {path: "/home", component: home}
@@ -43,6 +43,12 @@ var vm = new Vue({
     methods: {
         handleSelect(key, keyPath) {
             console.log(key, keyPath);
+        },
+        logout() {
+            vm.$confirm('确认要退出登录吗？', '提示').then(() => {
+                window.location.href = getProjectPath() + constants.logout;
+            }).catch(() => {
+            })
         }
     },
     router: new VueRouter({
