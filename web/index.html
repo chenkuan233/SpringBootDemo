@@ -28,10 +28,10 @@
             </el-submenu>
         </el-submenu>
         <el-menu-item index="3">消息中心</el-menu-item>
-        <el-menu-item index="4">个人中心</el-menu-item>
         <el-menu-item style="float: right;margin-right: 5%;">
             <el-link @click="logout()">登出</el-link>
         </el-menu-item>
+        <el-menu-item index="4" style="float: right;">个人中心</el-menu-item>
     </el-menu>
 
     <!-- 路由出口，点击路由的入口后，会在这里渲染出组件 -->
@@ -54,6 +54,8 @@
     <!--footer组件-->
     <footer-bar></footer-bar>
 
+    <!--回到顶部-->
+    <!--<el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>-->
 </div>
 
 <script src="pages/index.js"></script>

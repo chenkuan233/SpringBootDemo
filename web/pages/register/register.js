@@ -23,7 +23,7 @@ var vm = new Vue({
             }
             requestService('registerService', 'findByUserName', username, function (result) {
                 if (result) {
-                    vm.$message(username + ' 已存在，换一个用户名试试吧');
+                    vm.$message.warning(username + ' 已存在，换个用户名试试吧');
                     return false;
                 }
                 layerLoading();

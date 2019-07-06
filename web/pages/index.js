@@ -19,7 +19,7 @@ Vue.component('footer-bar', {
 //home路由组件
 var home = {
     template: loadPage("pages/templates/home.html"),
-    data: function () {
+    data() {
         return {
             imgList: [
                 {url: "/images/carousel-index/1.jpg"},
@@ -45,7 +45,7 @@ var vm = new Vue({
             console.log(key, keyPath);
         },
         logout() {
-            vm.$confirm('确认要退出登录吗？', '提示').then(() => {
+            vm.$confirm('确认退出登录吗？', '提示', {type: 'warning', roundButton: true}).then(() => {
                 window.location.href = getProjectPath() + constants.logout;
             }).catch(() => {
             })
