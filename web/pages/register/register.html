@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>注册你的账号</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../framework/asset/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../framework/asset/css/style.css">
+    <link rel="stylesheet" href="../../framework/asset/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="register.css">
+
+    <!--公共js css-->
+    <script src="../../common.js"></script>
+    <!--设置动态背景图-->
+    <script src="../../framework/asset/js/jquery.backstretch.min.js"></script>
+    <script src="../../framework/asset/js/scripts.js"></script>
+</head>
+
+<body>
+<div id="registerApp">
+    <!-- Top content -->
+    <div class="top-content inner-bg">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2 text">
+                    <h1>Create your account</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3 form-box">
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h3>Enter your username and password</h3>
+                            <p>输入用户名和密码来注册你的账号:</p>
+                        </div>
+                        <div class="form-top-right">
+                            <i class="fa fa-key"></i>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <div class="form-group">
+                            <label class="sr-only" for="form-username">username</label>
+                            <input type="text" v-model="username" name="username" placeholder="用户名..."
+                                   class="form-username form-control" id="form-username">
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="form-password">password</label>
+                            <input type="password" v-model="password" name="password" placeholder="密码..."
+                                   class="form-password form-control" id="form-password">
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="form-rePassword">password</label>
+                            <input type="password" v-model="rePassword" name="rePassword" placeholder="再次输入密码..."
+                                   class="form-password form-control" id="form-rePassword">
+                        </div>
+                        <button class="register-btn" v-on:click="{{register(username, password, rePassword)}}">
+                            Create your account
+                        </button>
+                        <button class="login-btn" v-on:click="{{toLogin()}}">Login</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="register.js"></script>
+</body>
+</html>

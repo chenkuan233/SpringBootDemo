@@ -11,7 +11,7 @@ spring:
     # 默认数据源
     db:
       # 唯一resource-name
-      unique-resource-name: db
+      unique-resource-name: chen@120.132.116.16
       # 数据源className
       xa-data-source-class-name: com.alibaba.druid.pool.xa.DruidXADataSource
       # 最小连接池数量
@@ -19,11 +19,11 @@ spring:
       # 最大连接池数量
       max-pool-size: 10
       # 连接检查
-      test-query: select 1 from dual
+      # test-query: select 1 from dual
       # xa属性配置
       xa-properties:
         # druid可视化界面中显示的数据源名称
-        name: db
+        name: chen@120.132.116.16
         url: jdbc:mysql://120.132.116.16:3306/chen?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&useSSL=false&autoReconnect=true
         username: root
         password: 123456
@@ -60,7 +60,7 @@ spring:
     # 数据源2
     db2:
       # 唯一resource-name
-      unique-resource-name: db2
+      unique-resource-name: chen2@120.132.116.16
       # 数据源className
       xa-data-source-class-name: com.alibaba.druid.pool.xa.DruidXADataSource
       # 最小连接池数量
@@ -68,11 +68,11 @@ spring:
       # 最大连接池数量
       max-pool-size: 10
       # 连接检查
-      test-query: select 1 from dual
+      # test-query: select 1 from dual
       # xa属性配置
       xa-properties:
         # druid可视化界面中显示的数据源名称
-        name: db2
+        name: chen2@120.132.116.16
         url: jdbc:mysql://120.132.116.16:3306/chen2?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&useSSL=false&autoReconnect=true
         username: root
         password: 123456
