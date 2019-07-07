@@ -6,9 +6,9 @@ $(function () {
      */
     $(".container").css({opacity: 0.9}); // 设置页面透明度
     $.backstretch([
-        "../../framework/asset/img/backgrounds/1.jpg",
-        "../../framework/asset/img/backgrounds/2.jpg",
-        "../../framework/asset/img/backgrounds/3.jpg",
-        "../../framework/asset/img/backgrounds/4.jpg"
+        "/framework/asset/img/backgrounds/1.jpg",
+        "/framework/asset/img/backgrounds/2.jpg",
+        "/framework/asset/img/backgrounds/3.jpg",
+        "/framework/asset/img/backgrounds/4.jpg"
     ], {duration: 4000, fade: 1500});
 });

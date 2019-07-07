@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -17,7 +16,7 @@
         html {
             height: 100%;
             width: 100%;
-            background: url(../images/error/bj.png) repeat;
+            background: url(/images/error/bj.png) repeat;
         }
 
         body {
@@ -136,12 +135,22 @@
         <div class="nr_min">
             <div class="min_top">You can choose:</div>
 
-            <p><div class="min_choose"><a onclick="history.back()">返回上一页面</a></div></p>
+            <p>
+            <div class="min_choose"><a onclick="history.back()">返回上一页面</a></div>
+            </p>
 
-            <p><div class="min_choose"><a href="https://127.0.0.1">返回网站首页</a></div></p>
+            <p>
+            <div class="min_choose"><a onclick="goHome()">返回网站首页</a></div>
+            </p>
         </div>
     </div>
 </div>
+
+<script>
+    function goHome() {
+        window.location.href = window.location.protocol + "//" + window.location.host;
+    }
+</script>
 
 </body>
 </html>

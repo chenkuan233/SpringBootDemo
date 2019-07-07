@@ -11,7 +11,7 @@ var vm = new Vue({
     },
     methods: {
         //登陆服务
-        login: function (username, password, rememberMe) {
+        login(username, password, rememberMe) {
             if (isEmpty(username) || isEmpty(password)) {
                 vm.$message({message: '请输入用户名和密码', type: 'warning'});
                 return false;
@@ -29,7 +29,7 @@ var vm = new Vue({
         },
 
         //跳转注册页面
-        toRegister: function () {
+        toRegister() {
             window.location.href = getProjectPath() + constants.registerUrl;
         }
     },

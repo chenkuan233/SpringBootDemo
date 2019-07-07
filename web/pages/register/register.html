@@ -41,27 +41,29 @@
                             <i class="fa fa-key"></i>
                         </div>
                     </div>
-                    <div class="form-bottom">
-                        <div class="form-group">
-                            <label class="sr-only" for="form-username">username</label>
-                            <input type="text" v-model="username" name="username" placeholder="用户名..."
-                                   class="form-username form-control" id="form-username">
+                    <el-form ref="form" @submit.native.prevent>
+                        <div class="form-bottom">
+                            <div class="form-group">
+                                <label class="sr-only" for="form-username">username</label>
+                                <input type="text" v-model="username" name="username" placeholder="用户名..."
+                                       class="form-username form-control" id="form-username">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="form-password">password</label>
+                                <input type="password" v-model="password" name="password" placeholder="密码..."
+                                       class="form-password form-control" id="form-password">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="form-rePassword">password</label>
+                                <input type="password" v-model="rePassword" name="rePassword" placeholder="确认密码..."
+                                       class="form-password form-control" id="form-rePassword">
+                            </div>
+                            <button class="register-btn" v-on:click="{{register(username, password, rePassword)}}">
+                                Create your account
+                            </button>
+                            <button class="login-btn" v-on:click="{{toLogin()}}">Login</button>
                         </div>
-                        <div class="form-group">
-                            <label class="sr-only" for="form-password">password</label>
-                            <input type="password" v-model="password" name="password" placeholder="密码..."
-                                   class="form-password form-control" id="form-password">
-                        </div>
-                        <div class="form-group">
-                            <label class="sr-only" for="form-rePassword">password</label>
-                            <input type="password" v-model="rePassword" name="rePassword" placeholder="确认密码..."
-                                   class="form-password form-control" id="form-rePassword">
-                        </div>
-                        <button class="register-btn" v-on:click="{{register(username, password, rePassword)}}">
-                            Create your account
-                        </button>
-                        <button class="login-btn" v-on:click="{{toLogin()}}">Login</button>
-                    </div>
+                    </el-form>
                 </div>
             </div>
         </div>
