@@ -6,7 +6,7 @@ Vue.component('footer-bar', {
     template: `
         <footer>
           <hr/>
-          <p class="el-dialog--center"><el-link v-on:click="show('没有更多信息')">版权所有@chen</el-link><p>
+          <p class="el-dialog--center"><el-link v-on:click="show('未完成的功能！')">版权所有@chen</el-link><p>
         </footer>
     `,
     methods: {
@@ -18,7 +18,7 @@ Vue.component('footer-bar', {
 
 //home路由组件
 var home = {
-    template: loadPage("pages/templates/home.html"),
+    template: loadPage("/pages/templates/home.html"),
     data() {
         return {
             imgList: [
@@ -31,10 +31,26 @@ var home = {
     }
 };
 
+//messageCenter路由组件
+var messageCenter = {
+    template: `
+        <div class="el-dialog--center"><h1>未完成的功能！</h1></div>
+    `
+};
+
+//personalCenter路由组件
+var personalCenter = {
+    template: `
+        <div class="el-dialog--center"><h1>未完成的功能！</h1></div>
+    `
+};
+
 //路由配置
 var routes = [
     {path: "/", redirect: "/home"}, //这个表示会默认渲染
-    {path: "/home", component: home}
+    {path: "/home", component: home},
+    {path: "/messageCenter", component: messageCenter},
+    {path: "/personalCenter", component: personalCenter}
 ];
 
 var vm = new Vue({

@@ -51,7 +51,7 @@ function layerLoading(type) {
 
 /**
  * 同步获取页面内容
- * @param url 页面文件相对根目录的路径 例：pages/login/login.html
+ * @param url 页面文件相对根目录的路径 例：/pages/login/login.html
  * @returns {*}
  */
 function loadPage(url) {
