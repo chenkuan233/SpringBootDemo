@@ -20,7 +20,7 @@ public class JdbcTemplateConfig {
 
 	public static final String jdbcTemplate_default = "jdbcTemplate";
 
-	public static final String jdbcTemplate_db2 = "db2JdbcTemplate";
+	public static final String jdbcTemplate_chen2 = "jdbcTemplate_chen2";
 
 	@Bean(name = jdbcTemplate_default)
 	@Singleton
@@ -28,10 +28,9 @@ public class JdbcTemplateConfig {
 		return new JdbcTemplate(dataSource);
 	}
 
-	@Bean(name = jdbcTemplate_db2)
+	@Bean(name = jdbcTemplate_chen2)
 	@Singleton
-	public JdbcTemplate db2JdbcTemplate(@Qualifier(DataSourceUtil.dataSourceName_db2) DataSource dataSource) {
+	public JdbcTemplate jdbcTemplateChen2(@Qualifier(DataSourceUtil.dataSourceName_chen2) DataSource dataSource) {
 		return new JdbcTemplate(dataSource);
 	}
-
 }

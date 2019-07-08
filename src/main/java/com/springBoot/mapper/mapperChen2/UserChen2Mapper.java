@@ -1,4 +1,4 @@
-package com.springBoot.mapper.mapperDB2;
+package com.springBoot.mapper.mapperChen2;
 
 import com.springBoot.entity.User;
 import org.apache.ibatis.annotations.Param;
@@ -11,7 +11,7 @@ import java.util.List;
  * @desc mapper
  * @date 2019/3/4 004 19:38
  */
-public interface UserDB2Mapper {
+public interface UserChen2Mapper {
 
 	User findByUserName(@Param("userName") String userName);
 

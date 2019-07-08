@@ -37,23 +37,8 @@
     <!-- 路由出口，点击路由的入口后，会在这里渲染出组件 -->
     <router-view></router-view>
 
-    <!-- 主题内容 -->
-    <el-row :gutter="20">
-        <el-col :span="12" :offset="6">
-            <div class="block">
-                <p>登录成功</p>
-                <p>欢迎来到首页index</p>
-                <p><a class="a-hover blue" href="pages/userMana/home.html">点此跳转至home页</a></p>
-                <p><a class="a-hover blue" href="pages/uploadFile/uploadFile.html">点此跳转至uploadFile页</a></p>
-            </div>
-        </el-col>
-    </el-row>
-
     <!--footer组件-->
     <footer-bar></footer-bar>
-
-    <!--回到顶部-->
-    <!--<el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>-->
 </div>
 
 <script src="pages/index.js"></script>

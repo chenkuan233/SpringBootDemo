@@ -19,6 +19,6 @@ public class TestServiceImpl implements TestService {
 
 	@Override
 	public String getProperties() {
-		return properties.getProperty("cas.server-url");
+		return properties.getProperty("http.port");
 	}
 }

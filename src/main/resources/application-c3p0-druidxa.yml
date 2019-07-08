@@ -9,7 +9,7 @@ spring:
 
   datasource:
     # 默认数据源
-    db:
+    chen:
       # 唯一resource-name
       unique-resource-name: chen@120.132.116.16
       # 数据源className
@@ -58,7 +58,7 @@ spring:
         filters: stat,slf4j,wall
 
     # 数据源2
-    db2:
+    chen2:
       # 唯一resource-name
       unique-resource-name: chen2@120.132.116.16
       # 数据源className

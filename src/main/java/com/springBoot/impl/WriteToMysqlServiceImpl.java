@@ -27,9 +27,9 @@ public class WriteToMysqlServiceImpl implements WriteToMysqlService {
 
 	// 指定第2数据源
 	// @Autowired()
-	// @Qualifier(JdbcTemplateConfig.jdbcTemplate_db2)
-	@Resource(name = JdbcTemplateConfig.jdbcTemplate_db2)
-	private JdbcTemplate jdbcTemplateDB2;
+	// @Qualifier(JdbcTemplateConfig.jdbcTemplate_chen2)
+	@Resource(name = JdbcTemplateConfig.jdbcTemplate_chen2)
+	private JdbcTemplate jdbcTemplateChen2;
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
@@ -58,7 +58,7 @@ public class WriteToMysqlServiceImpl implements WriteToMysqlService {
 		if (CollectionUtils.isNotEmpty(manList)) {
 			try {
 				String sql = "insert into t_man(name,nick) values(?,?)";
-				jdbcTemplateDB2.batchUpdate(sql, manList, 1000, (ps, t) -> {
+				jdbcTemplateChen2.batchUpdate(sql, manList, 1000, (ps, t) -> {
 					ps.setString(1, t.getName());
 					ps.setString(2, t.getNick());
 				});

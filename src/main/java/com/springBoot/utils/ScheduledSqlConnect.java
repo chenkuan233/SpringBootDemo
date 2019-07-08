@@ -25,16 +25,16 @@ public class ScheduledSqlConnect {
 	private JdbcTemplate jdbcTemplate;
 
 	//第2数据源
-	@Resource(name = JdbcTemplateConfig.jdbcTemplate_db2)
-	private JdbcTemplate jdbcTemplateDB2;
+	@Resource(name = JdbcTemplateConfig.jdbcTemplate_chen2)
+	private JdbcTemplate jdbcTemplateChen2;
 
 	//默认数据源数据库名称
-	@Value("${spring.datasource.db.unique-resource-name}")
-	private String defaultBaseName;
+	@Value("${spring.datasource.chen.unique-resource-name}")
+	private String baseName_default;
 
 	//第2数据源数据库名称
-	@Value("${spring.datasource.db2.unique-resource-name}")
-	private String db2BaseName;
+	@Value("${spring.datasource.chen2.unique-resource-name}")
+	private String baseName_chen2;
 
 	//查询sql
 	private final String sql = "select 1 from dual";
@@ -43,21 +43,21 @@ public class ScheduledSqlConnect {
 	private void queryBaseOne() {
 		try {
 			jdbcTemplate.query(sql, rs -> {
-				//log.info(defaultBaseName + "---执行定时查询---result:" + rs.getInt(1));
+				//log.info(baseName_default + "---执行定时查询---result:" + rs.getInt(1));
 			});
 		} catch (Exception e) {
-			log.error(defaultBaseName + "---执行定时查询---出错");
+			log.error(baseName_default + "---执行定时查询---出错");
 		}
 	}
 
 	//数据源2 执行查询
 	private void queryBaseTwo() {
 		try {
-			jdbcTemplateDB2.query(sql, rs -> {
-				//log.info(db2BaseName + "---执行定时查询---result:" + rs.getInt(1));
+			jdbcTemplateChen2.query(sql, rs -> {
+				//log.info(baseName_chen2 + "---执行定时查询---result:" + rs.getInt(1));
 			});
 		} catch (Exception e) {
-			log.error(db2BaseName + "---执行定时查询---出错");
+			log.error(baseName_chen2 + "---执行定时查询---出错");
 		}
 	}
 

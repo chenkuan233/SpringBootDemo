@@ -10,7 +10,7 @@ import com.springBoot.mapper.mapper.RoleMapper;
 import com.springBoot.mapper.mapper.UserMapper;
 import com.springBoot.mapper.mapper.UserRoleMapper;
 import com.springBoot.mapper.mapper.commonMapper.UserCommonMapper;
-import com.springBoot.mapper.mapperDB2.UserDB2Mapper;
+import com.springBoot.mapper.mapperChen2.UserChen2Mapper;
 import com.springBoot.repository.UserRepository;
 import com.springBoot.service.UserService;
 import com.springBoot.utils.DateUtil;
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
 	private UserEncryptUtil userEncryptUtil;
 
 	@Autowired
-	private UserDB2Mapper userDB2Mapper;
+	private UserChen2Mapper userChen2Mapper;
 
 	@Override
 	public List<User> findAllUser() {
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
 	@PageQuery
 	@Override
 	public Object findAllMapperDB2(Pageable pageable) {
-		List<User> list = userDB2Mapper.findAll();
+		List<User> list = userChen2Mapper.findAll();
 		return list;
 	}
 
@@ -163,7 +163,7 @@ public class UserServiceImpl implements UserService {
 			user.setRegTime(DateUtil.time());
 			// 加密
 			user = userEncryptUtil.encrypt(user);
-			userDB2Mapper.saveUser(user);
+			userChen2Mapper.saveUser(user);
 			log.info("新增用户:" + user.getUserName());
 		}
 	}

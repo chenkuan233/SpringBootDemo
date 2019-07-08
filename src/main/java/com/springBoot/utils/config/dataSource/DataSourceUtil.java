@@ -27,9 +27,9 @@ public class DataSourceUtil {
 	// sqlSessionTemplate Bean name
 	public static final String sqlSessionTemplate_default = "sqlSessionTemplate";
 	// 数据源配置路径
-	public static final String configPropertiesPrefix_default = "spring.datasource.db";
+	public static final String configPropertiesPrefix_default = "spring.datasource.chen";
 	// env读取配置路径
-	public static final String envXaPropPrefix_default = "spring.datasource.db.xa-properties.";
+	public static final String envXaPropPrefix_default = "spring.datasource.chen.xa-properties.";
 	// 编译后mapper.xml路径
 	public static final String mapperResourcesPath_default = "classpath:mapper/*Mapper.xml";
 	// 实体类包
@@ -38,21 +38,21 @@ public class DataSourceUtil {
 	// ##########第2数据源##########
 
 	// dataSource Bean name
-	public static final String dataSourceName_db2 = "db2DataSource";
+	public static final String dataSourceName_chen2 = "dataSource_chen2";
 	// sqlSessionFactory Bean name
-	public static final String sqlSessionFactory_db2 = "db2SqlSessionFactory";
+	public static final String sqlSessionFactory_chen2 = "sqlSessionFactory_chen2";
 	// transactionManager Bean name
-	public static final String transactionManager_db2 = "db2TransactionManager";
+	public static final String transactionManager_chen2 = "transactionManager_chen2";
 	// sqlSessionTemplate Bean name
-	public static final String sqlSessionTemplate_db2 = "db2SqlSessionTemplate";
+	public static final String sqlSessionTemplate_chen2 = "sqlSessionTemplate_chen2";
 	// 数据源配置路径
-	public static final String configPropertiesPrefix_db2 = "spring.datasource.db2";
+	public static final String configPropertiesPrefix_chen2 = "spring.datasource.chen2";
 	// env读取配置路径
-	public static final String envXaPropPrefix_db2 = "spring.datasource.db2.xa-properties.";
+	public static final String envXaPropPrefix_chen2 = "spring.datasource.chen2.xa-properties.";
 	// 编译后mapper.xml路径
-	public static final String mapperResourcesPath_db2 = "classpath:mapperDB2/*Mapper.xml";
+	public static final String mapperResourcesPath_chen2 = "classpath:mapperChen2/*Mapper.xml";
 	// 实体类包
-	public static final String entityPackage_db2 = "com.springBoot.entity";
+	public static final String entityPackage_chen2 = "com.springBoot.entity";
 
 	/**
 	 * getSqlSessionFactory
