@@ -27,6 +27,9 @@ document.write('<script src="' + projectPath + 'js/service.js"></script>');
 // app.js公共方法类
 document.write('<script src="' + projectPath + 'js/app.js"></script>');
 
+// cache.js缓存类
+document.write('<script src="' + projectPath + 'js/cache.js"></script>');
+
 // layer弹出层
 document.write('<script src="' + projectPath + 'framework/layer/layer.js"></script>');
 

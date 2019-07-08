@@ -1,6 +1,9 @@
 //常量类
 var constants = new com.springboot.constant.Constants();
 
+//用户信息
+var userInfo = getCache("userInfo");
+
 //定义全局组件 footer-bar
 Vue.component('footer-bar', {
     template: `
@@ -55,7 +58,9 @@ var routes = [
 
 var vm = new Vue({
     el: "#indexApp",
-    data: {},
+    data: {
+        userInfo: userInfo
+    },
     methods: {
         handleSelect(key, keyPath) {
             console.log(key, keyPath);

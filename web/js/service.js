@@ -279,7 +279,7 @@ function handleReturnError(xhr, status, error) {
     layer.closeAll('loading'); //关闭所有layer loading
     if (status === 'timeout') {
         console.log("error: 响应超时", xhr, status, error);
-        layer.alert("error: 响应超时 - " + status, {icon: 2});
+        layer.alert("error: 服务器响应超时，请稍后再试", {icon: 2});
     } else if (xhr && xhr.status === 403) {
         console.log("error: 登录失效，需要重新登录", xhr, status, error);
         layer.confirm("error: 登录失效，是否重新登录", {icon: 2}, function (index) {
@@ -290,10 +290,12 @@ function handleReturnError(xhr, status, error) {
         try {
             var responseText = JSON.parse(xhr.responseText);
             console.log("error: 错误", xhr, status, error);
-            layer.alert("error: 错误(status: " + responseText.status + ") - " + responseText.message, {icon: 2});
+            console.log("error: 错误(status: " + responseText.status + ") - " + responseText.message);
+            layer.alert("error: 服务异常", {icon: 2});
         } catch (err) {
             console.log("error: 错误", xhr, status, error);
-            layer.alert("error: 错误 - " + err, {icon: 2});
+            console.log("error: 错误 - " + err);
+            layer.alert("error: 服务异常", {icon: 2});
         }
     }
 }

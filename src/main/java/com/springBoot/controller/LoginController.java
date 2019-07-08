@@ -85,9 +85,9 @@ public class LoginController {
 			log.error(username + "进行登录验证..验证未通过，密码输入错误");
 			message = "密码输入错误";
 		} catch (Exception e) {
-			log.error("登录系统发生错误", e);
+			log.error("登录服务异常", e);
 			token.clear();
-			return gson.toJson(Response.returnData(-1, "登录系统发生错误"));
+			return gson.toJson(Response.returnData(-1, "服务异常"));
 		}
 
 		// 验证是否登录成功
@@ -96,8 +96,11 @@ public class LoginController {
 			// 将当前用户存入session
 			Session session = subject.getSession();
 			User user = (User) subject.getPrincipal();
-			session.setAttribute("user", user);
-			return gson.toJson(Response.returnData(0, new Response("0", "登陆成功")));
+			// 去掉密码和加密盐保护安全
+			user.setPassword(null);
+			user.setCredentialsSalt(null);
+			session.setAttribute("userInfo", user);
+			return gson.toJson(Response.returnData(0, new Response("0", user)));
 		} else {
 			token.clear();
 			return gson.toJson(Response.returnData(0, new Response("-1", message)));
