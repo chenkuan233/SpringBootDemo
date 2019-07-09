@@ -1,0 +1,33 @@
+<div>
+    <el-row style="margin-top: 2%;margin-bottom: 2%;">
+        <el-col :span="12" :offset="6">
+            <h3 class="el-dialog--center" style="color: #409EFF;">个人相册管理</h3>
+        </el-col>
+    </el-row>
+    
+    <el-row>
+        <el-col :span="12" :offset="6">
+            <!--相册上传-->
+            <el-upload
+                    action="/upload/fileService/uploadPersonalImage"
+                    list-type="picture-card"
+                    multiple
+                    accept="image/*"
+                    :file-list="fileList"
+                    :on-preview="handlePictureCardPreview"
+                    :before-remove="beforeRemove"
+                    :on-remove="handleRemove"
+                    :on-success="onSuccess"
+                    :on-error="onError"
+                    :on-progress="onProgress"
+                    :on-change="onChange">
+                <i class="el-icon-plus"></i>
+            </el-upload>
+            <!--点击显示大图-->
+            <el-dialog :visible.sync="dialogVisible">
+                <img width="100%" :src="imgUrl" alt="">
+            </el-dialog>
+        </el-col>
+    </el-row>
+
+</div>

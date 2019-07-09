@@ -1,12 +1,12 @@
 package com.springBoot.controller;
 
 import com.google.gson.Gson;
+import com.springBoot.utils.DateUtil;
 import com.springBoot.utils.FileUtil;
 import com.springBoot.utils.Response;
 import com.springBoot.utils.ServiceUtil;
 import com.springBoot.utils.config.applicationContext.SpringBeanUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,9 +65,9 @@ public class UploadController {
 		String fileName = file.getOriginalFilename();
 
 		// 将MultipartFile转为File缓存文件
-		File tempFile = FileUtil.bytesToFile(file.getBytes(), tempDir, fileName);
+		File tempFile = FileUtil.bytesToFile(file.getBytes(), tempDir + DateUtil.date() + "/", fileName);
 		if (tempFile == null) {
-			log.error(tempDir + fileName + "缓存文件写入失败");
+			log.error(tempDir + DateUtil.date() + "/" + fileName + "缓存文件写入失败");
 			return gson.toJson(Response.returnData(-1, file.getOriginalFilename() + "上传失败"));
 		}
 
@@ -75,11 +75,7 @@ public class UploadController {
 		// 执行方法（method) 在指定对象(target)上，使用指定参数(args)
 		Object obj = method.invoke(service, params);
 
-		// 删除缓存文件夹及文件夹下所有文件
-		FileUtils.deleteDirectory(new File(tempDir));
-
 		log.info(fileName + " 上传成功");
 		return gson.toJson(Response.returnData(0, obj));
 	}
-
 }

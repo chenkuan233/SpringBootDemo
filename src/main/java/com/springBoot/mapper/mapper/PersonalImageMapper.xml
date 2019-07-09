@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.springBoot.mapper.mapper.PersonalImageMapper">
+    <delete id="deleteByNameAndUrl" parameterType="map">
+        DELETE FROM t_personal_image WHERE name=#{name} AND url=#{url}
+    </delete>
+
+    <select id="findByUserName" parameterType="map" resultType="com.springBoot.entity.PersonalImage">
+        SELECT * from t_personal_image WHERE user_name=#{userName}
+    </select>
+</mapper>

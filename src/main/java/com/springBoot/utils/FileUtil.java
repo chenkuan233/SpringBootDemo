@@ -257,4 +257,8 @@ public final class FileUtil {
 		}
 	}
 
+	//获取项目根目录，定义文件夹存放路径
+	public static String getUserDir() {
+		return System.getProperty("user.dir") + "/web/";
+	}
 }

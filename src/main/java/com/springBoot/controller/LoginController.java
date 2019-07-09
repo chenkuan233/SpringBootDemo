@@ -3,13 +3,13 @@ package com.springBoot.controller;
 import com.google.gson.Gson;
 import com.springBoot.entity.User;
 import com.springBoot.utils.Response;
+import com.springBoot.utils.SessionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -94,12 +94,11 @@ public class LoginController {
 		if (subject.isAuthenticated()) {
 			log.info(username + " " + host + " 登录成功");
 			// 将当前用户存入session
-			Session session = subject.getSession();
 			User user = (User) subject.getPrincipal();
 			// 去掉密码和加密盐保护安全
 			user.setPassword(null);
 			user.setCredentialsSalt(null);
-			session.setAttribute("userInfo", user);
+			SessionUtil.saveUserInfo(user);
 			return gson.toJson(Response.returnData(0, new Response("0", user)));
 		} else {
 			token.clear();

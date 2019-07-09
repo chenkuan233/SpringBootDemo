@@ -4,10 +4,8 @@ import com.springBoot.entity.Role;
 import com.springBoot.entity.User;
 import com.springBoot.utils.Pageable;
 import com.springBoot.utils.annotation.PageQuery;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -40,23 +38,11 @@ public interface UserService {
 	// mybatis查询
 	User findByUserNameMapper(String userName);
 
-	// mybatis查询，PageHelper分页
-	User findByUserNameAndPasswordMapper(String userName, String password);
-
-	// 通用mapper
-	List<User> findAllMyMapper();
-
 	// 通用mapper 插入
 	void saveUserMyMapper(User user);
 
 	// 第2数据源 插入User
 	void saveUserMapperDB2(User user);
-
-	// 通用mapper 更新User
-	void updateUserMyMapper(User user);
-
-	// 通用mapper 更新User
-	Map<String, String> updatePasswordMyMapper(String userName, String oldPassword, String newPassword);
 
 	// mybatis查询 ByUserNameAndPassword
 	Long findRoleIdByUserId(Long userId);

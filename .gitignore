@@ -26,3 +26,5 @@
 *.log
 logs/
 conf/quickfix/store/
+web/upload/
+temp/

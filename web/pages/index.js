@@ -43,9 +43,67 @@ var messageCenter = {
 
 //personalCenter路由组件
 var personalCenter = {
-    template: `
-        <div class="el-dialog--center"><h1>未完成的功能！</h1></div>
-    `
+    template: loadPage("/pages/templates/personal.html"),
+    data() {
+        return {
+            fileList: [],
+            dialogVisible: false,
+            imgUrl: ''
+        }
+    },
+    methods: {
+        //删除前确认
+        beforeRemove(file, fileList) {
+            return vm.$confirm(`确定移除 ${ file.name }？`);
+        },
+        //执行删除
+        handleRemove(file, fileList) {
+            this.deletePersonalImage(file);
+        },
+        //已上传图片点击 显示大图
+        handlePictureCardPreview(file) {
+            this.dialogVisible = true;
+            this.imgUrl = file.url;
+        },
+        //上传成功
+        onSuccess(response, file, fileList) {
+            response = JSON.parse(response);
+            var code = response.code;
+            var result = response.data;
+            if (code !== 0 || result.code !== '0')
+                this.findPersonalImage();
+        },
+        //上传失败
+        onError(err, file, fileList) {
+            this.findPersonalImage();
+        },
+        //上传中
+        onProgress(event, file, fileList) {
+            console.info(event);
+        },
+        //文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
+        onChange(file, fileList) {
+            console.info(file);
+        },
+        //查询个人的相册
+        findPersonalImage() {
+            var that = this;
+            requestService("fileService", "findPersonalImage", function (result) {
+                that.fileList = result;
+            })
+        },
+        //根据文件name、url删除文件
+        deletePersonalImage(file) {
+            var that = this;
+            requestService("fileService", "deletePersonalImage", file, function (result) {
+                if (result.code !== '0')
+                    that.findPersonalImage();
+            })
+        }
+    },
+    mounted() {
+        this.findPersonalImage();
+    }
 };
 
 //路由配置

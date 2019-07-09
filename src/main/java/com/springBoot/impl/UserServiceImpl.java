@@ -1,7 +1,5 @@
 package com.springBoot.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.springBoot.entity.Permission;
 import com.springBoot.entity.Role;
 import com.springBoot.entity.User;
@@ -14,7 +12,6 @@ import com.springBoot.mapper.mapperChen2.UserChen2Mapper;
 import com.springBoot.repository.UserRepository;
 import com.springBoot.service.UserService;
 import com.springBoot.utils.DateUtil;
-import com.springBoot.utils.Response;
 import com.springBoot.utils.Pageable;
 import com.springBoot.utils.UserEncryptUtil;
 import com.springBoot.utils.annotation.PageQuery;
@@ -24,7 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author chenkuan
@@ -124,21 +124,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// mybatis查询 ByUserNameAndPassword
-	@Override
+	/*@Override
 	public User findByUserNameAndPasswordMapper(String userName, String password) {
 		User user = userCommonMapper.selectOne(new User(userName));
 		password = userEncryptUtil.encrypt(password, user.getCredentialsSalt());
 		return userMapper.findByUserNameAndPassword(userName, password);
-	}
+	}*/
 
 	// 通用mapper 查询，PageHelper分页
-	@Override
+	/*@Override
 	public List<User> findAllMyMapper() {
 		PageHelper.startPage(1, 5);
 		List<User> list = userCommonMapper.selectAll();
 		PageInfo<User> pageInfo = new PageInfo<>(list);
 		return list;
-	}
+	}*/
 
 	// 通用mapper 插入User
 	@Transactional(rollbackFor = Exception.class)
@@ -169,14 +169,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	// 通用mapper 更新User
-	@Override
+	/*@Override
 	public void updateUserMyMapper(User user) {
 		userCommonMapper.updateByPrimaryKey(user);
 		log.info("更新用户:" + user.getUserName());
-	}
+	}*/
 
 	// 通用mapper 修改用户密码
-	@Override
+	/*@Override
 	public Map<String, String> updatePasswordMyMapper(String userName, String oldPassword, String newPassword) {
 		User user = userCommonMapper.selectOne(new User(userName));
 		if (user == null) {
@@ -194,7 +194,7 @@ public class UserServiceImpl implements UserService {
 		userCommonMapper.updateByPrimaryKey(user);
 		log.info("用户" + user.getUserName() + "密码修改成功");
 		return Response.message("0", "密码修改成功");
-	}
+	}*/
 
 	// mybatis查询 findRoleIdByUserId
 	@Override
