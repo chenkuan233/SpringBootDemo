@@ -26,5 +26,4 @@
 *.log
 logs/
 conf/quickfix/store/
-web/upload/
-temp/
+web/fileData/
