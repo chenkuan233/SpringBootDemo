@@ -70,8 +70,12 @@ var personalCenter = {
             response = JSON.parse(response);
             var code = response.code;
             var result = response.data;
-            if (code !== 0 || result.code !== '0')
+            if (code !== 0 || result.code !== '0') {
                 this.findPersonalImage();
+            } else {
+                //上传成功，设置url
+                file.url = result.msg;
+            }
         },
         //上传失败
         onError(err, file, fileList) {
