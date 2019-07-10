@@ -3,24 +3,20 @@ package com.springBoot.utils.config.shiroCas;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
-import org.apache.shiro.cas.CasFilter;
 import org.apache.shiro.cas.CasSubjectFactory;
 import org.apache.shiro.codec.Base64;
+import org.apache.shiro.session.mgt.eis.MemorySessionDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
-import org.jasig.cas.client.session.SingleSignOutFilter;
-import org.jasig.cas.client.session.SingleSignOutHttpSessionListener;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 import javax.servlet.Filter;
@@ -53,9 +49,6 @@ public class ShiroCasConfig {
 	@Value("${cas.service.unauthorizedUrl}")
 	private String unauthorizedUrl;
 
-	@Value("${cas.server-url}")
-	private String casServerUrlPrefix;
-
 	@Value("${cookie.name}")
 	private String cookieName;
 
@@ -64,6 +57,9 @@ public class ShiroCasConfig {
 
 	@Value("${cookie.maxAge}")
 	private int cookieMaxAge;
+
+	@Value("${server.servlet.session.timeout}")
+	private long sessionTimeOut;
 
 	@Bean
 	public EhCacheManager getEhCacheManager() {
@@ -113,35 +109,6 @@ public class ShiroCasConfig {
 	}
 
 	/**
-	 * 注册单点登出listener
-	 */
-	@Bean
-	@Order(Ordered.HIGHEST_PRECEDENCE)
-	public ServletListenerRegistrationBean singleSignOutHttpSessionListener() {
-		ServletListenerRegistrationBean bean = new ServletListenerRegistrationBean();
-		bean.setListener(new SingleSignOutHttpSessionListener());
-		bean.setEnabled(true);
-		return bean;
-	}
-
-	/**
-	 * 注册单点登出filter
-	 */
-	@Bean
-	@Order(Ordered.HIGHEST_PRECEDENCE)
-	public FilterRegistrationBean singleSignOutFilter() {
-		FilterRegistrationBean bean = new FilterRegistrationBean();
-		bean.setName("singleSignOutFilter");
-		SingleSignOutFilter singleSignOutFilter = new SingleSignOutFilter();
-		singleSignOutFilter.setCasServerUrlPrefix(casServerUrlPrefix);
-		singleSignOutFilter.setIgnoreInitConfiguration(true);
-		bean.setFilter(singleSignOutFilter);
-		bean.addUrlPatterns("/*");
-		bean.setEnabled(true);
-		return bean;
-	}
-
-	/**
 	 * 注册DelegatingFilterProxy（Shiro）
 	 */
 	@Bean
@@ -166,16 +133,32 @@ public class ShiroCasConfig {
 	}
 
 	/**
-	 * 主要用来开启shiro aop注解支持. 使用代理方式;所以需要开启代码支持
-	 * 会导致环绕通知失效
+	 * 配置sessionDAO
 	 */
-	/*@Bean
-	@DependsOn("lifecycleBeanPostProcessor")
-	public DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator() {
-		DefaultAdvisorAutoProxyCreator daap = new DefaultAdvisorAutoProxyCreator();
-		daap.setProxyTargetClass(true);
-		return daap;
-	}*/
+	@Bean
+	public MemorySessionDAO sessionDAO() {
+		return new MemorySessionDAO();
+	}
+
+	/**
+	 * 配置sessionManager
+	 * DefaultWebSessionManager：用于Web环境的实现，可以替代ServletContainerSessionManager，自己维护着会话
+	 */
+	@Bean
+	public DefaultWebSessionManager sessionManager() {
+		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+		//注入sessionDao
+		sessionManager.setSessionDAO(sessionDAO());
+		//设置全局会话超时时间,单位毫秒(默认1800000)
+		sessionManager.setGlobalSessionTimeout(60000 * sessionTimeOut);
+		//session有效性检测时间间隔,单位毫秒
+		sessionManager.setSessionValidationInterval(60000 * 5);
+		//是否开启session定时扫描，校验session是否有效
+		sessionManager.setSessionValidationSchedulerEnabled(true);
+		//删除失效session
+		sessionManager.setDeleteInvalidSessions(true);
+		return sessionManager;
+	}
 
 	/**
 	 * securityManager 可以管理其他组件
@@ -185,8 +168,10 @@ public class ShiroCasConfig {
 		DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
 		// 设置realm
 		manager.setRealm(myShiroCasRealm);
-		// 用户授权/认证信息Cache, 采用EhCache 缓存
+		// 用户授权/认证信息Cache, 采用EhCache缓存
 		manager.setCacheManager(getEhCacheManager());
+		// 注入session管理器
+		manager.setSessionManager(sessionManager());
 		// 指定 SubjectFactory
 		manager.setSubjectFactory(new CasSubjectFactory());
 		// 注入记住我管理器
@@ -199,29 +184,6 @@ public class ShiroCasConfig {
 		AuthorizationAttributeSourceAdvisor aasa = new AuthorizationAttributeSourceAdvisor();
 		aasa.setSecurityManager(securityManager);
 		return aasa;
-	}
-
-	/**
-	 * ShiroDialect，为了在thymeleaf里使用shiro的标签的bean
-	 */
-	/*@Bean
-	public ShiroDialect shiroDialect() {
-		return new ShiroDialect();
-	}*/
-
-	/**
-	 * CAS过滤器
-	 */
-	@Bean(name = "casFilter")
-	public CasFilter getCasFilter() {
-		CasFilter casFilter = new CasFilter();
-		casFilter.setName("casFilter");
-		casFilter.setEnabled(true);
-		casFilter.setLoginUrl(loginUrl);
-		casFilter.setSuccessUrl(loginSuccessUrl);
-		// 登录失败后跳转的URL，也就是 Shiro 执行 CasRealm 的 doGetAuthenticationInfo 方法向CasServer验证tiket
-		casFilter.setFailureUrl(loginUrl); // 我们选择认证失败后再打开登录页面
-		return casFilter;
 	}
 
 	/**
@@ -245,7 +207,7 @@ public class ShiroCasConfig {
 	 * 然后读取数据库相关配置，配置到 shiroFilterFactoryBean 的访问规则中。实际项目中，请使用自己的Service来处理业务逻辑。
 	 */
 	@Bean(name = "shiroFilter")
-	public ShiroFilterFactoryBean shiroFilter(DefaultWebSecurityManager securityManager, CasFilter casFilter) {
+	public ShiroFilterFactoryBean shiroFilter(DefaultWebSecurityManager securityManager) {
 
 		log.info("##################读取权限规则，加载到shiroFilter中##################");
 		// String loginUrl = casServerUrlPrefix + "/login?service=" + shiroServerUrlPrefix + "/cas";
@@ -261,7 +223,7 @@ public class ShiroCasConfig {
 
 		// 添加自定义Filter到shiroFilter中
 		Map<String, Filter> myFilters = new LinkedHashMap<>();
-		myFilters.put("casFilter", casFilter);
+		//myFilters.put("casFilter", casFilter);
 		myFilters.put("myUserFilter", new MyUserFilter()); // 继承UserFilter
 		shiroFilterFactoryBean.setFilters(myFilters);
 
@@ -290,7 +252,7 @@ public class ShiroCasConfig {
 		// url匹配通配符支持：? * **,分别表示匹配1个，匹配0-n个（不含子路径），匹配下级所有路径
 
 		// 1.shiro集成cas后，首先添加该规则
-		filterMap.put("/cas", "casFilter");
+		//filterMap.put("/cas", "casFilter");
 
 		// 2.不拦截的请求 一般为静态资源、登录登出
 		filterMap.put("/css/**", "anon");
@@ -298,8 +260,7 @@ public class ShiroCasConfig {
 		filterMap.put("/framework/**", "anon");
 		filterMap.put("/images/**", "anon");
 		filterMap.put("/js/**", "anon");
-		filterMap.put("/*.js", "anon"); // 根目录js类
-		// filterMap.put("/pages/**/*.js", "anon"); // 页面js
+		filterMap.put("/**.js", "anon"); // 所有js文件
 		filterMap.put("/login", "anon"); // 登录请求服务
 		filterMap.put("/pages/login/**", "anon"); // 登录页面
 		filterMap.put("/pages/register/**", "anon"); // 注册页面
@@ -325,5 +286,4 @@ public class ShiroCasConfig {
 
 		return filterMap;
 	}
-
 }

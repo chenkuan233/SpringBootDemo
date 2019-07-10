@@ -2,6 +2,7 @@ package com.springBoot.utils.config.redis;
 
 import com.alibaba.fastjson.parser.ParserConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -33,6 +34,10 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
+
+	//redis数据默认过期时间（天）
+	@Value("${redis.durationOfDays}")
+	private long durationOfDays;
 
 	/**
 	 * 重写Redis序列化方式，使用Json方式:
@@ -96,7 +101,7 @@ public class RedisConfig extends CachingConfigurerSupport {
 	public RedisCacheConfiguration redisCacheConfiguration() {
 		FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
 		RedisCacheConfiguration cacheConfig = RedisCacheConfiguration.defaultCacheConfig();
-		cacheConfig = cacheConfig.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer)).entryTtl(Duration.ofDays(30));
+		cacheConfig = cacheConfig.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer)).entryTtl(Duration.ofDays(durationOfDays));
 		return cacheConfig;
 	}
 

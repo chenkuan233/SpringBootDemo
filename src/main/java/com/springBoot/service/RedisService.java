@@ -2,6 +2,7 @@ package com.springBoot.service;
 
 import com.springBoot.entity.User;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,6 +15,8 @@ public interface RedisService {
 	boolean saveString(String key, String value);
 
 	boolean saveUser(String key, User user);
+
+	boolean saveList(String key, List<User> userList);
 
 	Object getByKey(String key);
 

@@ -1,6 +1,8 @@
 /**
  * ######缓存数据操作类######
- * 使用sessionStorage保存当前会话数据
+ * 使用localStorage持久化保存当前会话数据
+ * localStorage在勾选rememberMe后登陆依然可获得userInfo
+ * sessionStorage关闭浏览器后信息丢失
  */
 
 /**
@@ -9,7 +11,7 @@
  * @param value
  */
 function setCache(key, value) {
-    sessionStorage.setItem(key, JSON.stringify(value));
+    localStorage.setItem(key, JSON.stringify(value));
 }
 
 /**
@@ -18,7 +20,7 @@ function setCache(key, value) {
  * @returns {any}
  */
 function getCache(key) {
-    return JSON.parse(sessionStorage.getItem(key));
+    return JSON.parse(localStorage.getItem(key));
 }
 
 /**
@@ -26,14 +28,14 @@ function getCache(key) {
  * @param key
  */
 function removeCache(key) {
-    sessionStorage.removeItem(key);
+    localStorage.removeItem(key);
 }
 
 /**
  * 清除所有缓存数据
  */
 function clearAllCache() {
-    sessionStorage.clear();
+    localStorage.clear();
 }
 
 /**
@@ -41,7 +43,7 @@ function clearAllCache() {
  * @returns {number}
  */
 function getCacheLength() {
-    return sessionStorage.length;
+    return localStorage.length;
 }
 
 /**
@@ -50,7 +52,7 @@ function getCacheLength() {
  * @returns {string | null}
  */
 function getKeyByIndex(index) {
-    return sessionStorage.key(index);
+    return localStorage.key(index);
 }
 
 /**
@@ -68,7 +70,7 @@ function getCacheByIndex(index) {
  * @returns {Array}
  */
 function getAllKeys() {
-    var length = sessionStorage.length;
+    var length = getCacheLength();
     var keys = [];
     for (var i = 0; i < length; i++) {
         keys[i] = getKeyByIndex(i);

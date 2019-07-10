@@ -67,11 +67,11 @@ public class MyShiroCasRealm extends CasRealm {
 			// 权限信息对象info,用来存放查出的用户的所有的角色（role）及权限（permission）
 			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 			// 给用户添加角色（让shiro去验证）
-			Set<String> roleNames = new HashSet<>();
+			/*Set<String> roleNames = new HashSet<>();
 			if ("admin".equals(user.getUserName())) {
 				roleNames.add("admin");
 			}
-			info.setRoles(roleNames);
+			info.setRoles(roleNames);*/
 			return info;
 		}
 		// 返回null的话，就会导致任何用户访问被拦截的请求时，都会自动跳转到unauthorizedUrl指定的地址

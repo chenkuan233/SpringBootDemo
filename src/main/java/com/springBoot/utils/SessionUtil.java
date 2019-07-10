@@ -1,6 +1,7 @@
 package com.springBoot.utils;
 
 import com.springBoot.entity.User;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 
@@ -10,12 +11,13 @@ import java.util.Collection;
 /**
  * @author chenkuan
  * @version v1.0
- * @desc session工具
+ * @desc session工具 当前登陆用户session
  * @date 2019/7/8 008 17:11
  */
+@Slf4j
 public class SessionUtil {
 
-	private static final String userInfo = "userInfo";
+	public static final String userInfo = "userInfo";
 
 	/**
 	 * 存储
@@ -69,18 +71,23 @@ public class SessionUtil {
 		return session.getAttributeKeys();
 	}
 
-	//保存登陆用户信息
-	public static void saveUserInfo(User user) {
-		set(userInfo, user);
-	}
-
-	//获取登陆用户信息
+	//获取当前登陆用户信息
 	public static User getUserInfo() {
-		return (User) get(userInfo);
+		User user = (User) SecurityUtils.getSubject().getPrincipal();
+		if (user == null) {
+			//从session中取
+			user = (User) get(userInfo);
+		}
+		return user;
 	}
 
 	//获取登陆用户名
 	public static String getUserName() {
-		return getUserInfo().getUserName();
+		User user = getUserInfo();
+		if (user == null) {
+			log.warn("sessionId：" + getSessionId() + "---下的登录用户信息为null");
+			return "";
+		}
+		return user.getUserName();
 	}
 }

@@ -10,6 +10,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -93,12 +94,14 @@ public class LoginController {
 		// 验证是否登录成功
 		if (subject.isAuthenticated()) {
 			log.info(username + " " + host + " 登录成功");
-			// 将当前用户存入session
+			// 将当前用户返回前端
 			User user = (User) subject.getPrincipal();
 			// 去掉密码和加密盐保护安全
 			user.setPassword(null);
 			user.setCredentialsSalt(null);
-			SessionUtil.saveUserInfo(user);
+			//保存到session
+			Session session = subject.getSession();
+			session.setAttribute(SessionUtil.userInfo, user);
 			return gson.toJson(Response.returnData(0, new Response("0", user)));
 		} else {
 			token.clear();

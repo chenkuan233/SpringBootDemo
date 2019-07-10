@@ -67,7 +67,8 @@ var personalCenter = {
         },
         //上传成功
         onSuccess(response, file, fileList) {
-            response = JSON.parse(response);
+            response = handleResponse(response);
+            if (!response) return false;
             var code = response.code;
             var result = response.data;
             if (code !== 0 || result.code !== '0') {

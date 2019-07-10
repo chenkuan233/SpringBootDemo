@@ -6,6 +6,7 @@ import com.springBoot.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,6 +29,11 @@ public class RedisServiceImpl implements RedisService {
 	@Override
 	public boolean saveUser(String key, User user) {
 		return redisUtil.set(key, user);
+	}
+
+	@Override
+	public boolean saveList(String key, List<User> userList) {
+		return redisUtil.set(key, userList);
 	}
 
 	@Override

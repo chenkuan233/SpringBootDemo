@@ -328,3 +328,21 @@ function downloadFile(filePath) {
     // 提交表单
     form.submit().remove();
 }
+
+/**
+ * 处理响应 反序列化
+ * @param response
+ * return response对象
+ */
+function handleResponse(response) {
+    try {
+        response = JSON.parse(response);
+        return response;
+    } catch {
+        layer.alert("error: 响应错误，请重新登录", {icon: 2}, function (index) {
+            window.open(getProjectPath());
+            layer.close(index);
+        })
+    }
+    return '';
+}
