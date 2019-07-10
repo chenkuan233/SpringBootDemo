@@ -16,6 +16,17 @@ var vm = new Vue({
                 vm.$message.warning('请输入用户名和密码');
                 return false;
             }
+            const reg_username = /^[a-zA-Z][a-zA-Z0-9_]{3,15}$/;
+            if (!reg_username.test(username)) {
+                vm.$message.warning('账号必须以字母开头，最少4位最多16位，允许字母数字下划线');
+                return false;
+            }
+            const reg_password = /^[a-zA-Z]\w{5,17}$/;
+            if (!reg_password.test(password)) {
+                vm.$message.warning('密码必须以字母开头，最少6位最多18位，允许字母数字下划线');
+                this.password = this.rePassword = undefined;
+                return false;
+            }
             if (password !== rePassword) {
                 vm.$message.warning('两次密码不一致');
                 this.rePassword = undefined;

@@ -61,8 +61,8 @@ public class ScheduledSqlConnect {
 		}
 	}
 
-	//定时任务 初始延时10分钟，每10分钟执行一次
-	@Scheduled(initialDelay = 10 * 60 * 1000, fixedDelay = 10 * 60 * 1000)
+	//定时任务 初始延时5分钟，每10分钟执行一次
+	@Scheduled(initialDelay = 5 * 60 * 1000, fixedDelay = 10 * 60 * 1000)
 	public void task() {
 		queryBaseOne();
 		queryBaseTwo();
