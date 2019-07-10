@@ -24,12 +24,10 @@ var vm = new Vue({
             const reg_password = /^[a-zA-Z]\w{5,17}$/;
             if (!reg_password.test(password)) {
                 vm.$message.warning('密码必须以字母开头，最少6位最多18位，允许字母数字下划线');
-                this.password = this.rePassword = undefined;
                 return false;
             }
             if (password !== rePassword) {
                 vm.$message.warning('两次密码不一致');
-                this.rePassword = undefined;
                 return false;
             }
             requestService('registerService', 'findByUserName', username, function (result) {
