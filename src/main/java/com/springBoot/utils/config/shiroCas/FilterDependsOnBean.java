@@ -1,6 +1,7 @@
 package com.springBoot.utils.config.shiroCas;
 
 import com.springBoot.utils.RedisUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
  * @desc 获取redisUtil实例
  * @date 2019/7/10 010 9:23
  */
+@Slf4j
 @Component
 @DependsOn(value = {"redisUtil", "shiroCasConfig"})
 public class FilterDependsOnBean {
@@ -40,12 +42,22 @@ public class FilterDependsOnBean {
 	@Value("${isOpenShiro}")
 	public void setIsOpenShiro(Boolean isOpenShiro) {
 		if (isOpenShiro == null) isOpenShiro = true;
+		if (isOpenShiro) {
+			log.info("######shiro权限认证---开启");
+		} else {
+			log.info("######shiro权限认证---关闭");
+		}
 		FilterDependsOnBean.isOpenShiro = isOpenShiro;
 	}
 
 	@Value("${singleLogon}")
 	public void setSingleLogon(Integer singleLogon) {
 		if (singleLogon == null) singleLogon = 0;
+		if (singleLogon > 0) {
+			log.info("######单点登录---开启，同时允许在线数---" + singleLogon);
+		} else {
+			log.info("######单点登录---关闭");
+		}
 		FilterDependsOnBean.singleLogon = singleLogon;
 	}
 }
