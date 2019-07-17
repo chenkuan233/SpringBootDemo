@@ -1,4 +1,4 @@
-package com.springBoot.utils.config.https;
+package com.springBoot.utils.config.httpServer;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
@@ -9,7 +9,6 @@ import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -19,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @desc https配置，增加http访问自动跳转到https
  * @date 2019/3/27 027 15:25
  */
-@Configuration
+//@Configuration
 public class HttpsConfig extends WebMvcConfigurerAdapter {
 
 	@Value("${server.port}")
@@ -55,7 +54,7 @@ public class HttpsConfig extends WebMvcConfigurerAdapter {
 		};
 
 		tomcat.addAdditionalTomcatConnectors(getHttpConnector());
-		tomcat.addConnectorCustomizers(getConnectorCustomizer());
+		// tomcat.addConnectorCustomizers(getConnectorCustomizer());
 		return tomcat;
 	}
 

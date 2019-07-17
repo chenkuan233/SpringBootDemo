@@ -1,5 +1,5 @@
 server:
-  port: 443
+  port: 8080
   tomcat:
     # 编码
     uri-encoding: UTF-8
@@ -8,15 +8,15 @@ server:
     # 最小备用线程数，tomcat启动时的初始化的线程数
     min-spare-threads: 10
   # 启用https
-  ssl:
-    # 密钥证书路径
-    key-store: classpath:keystore.p12
-    # 密钥库密码
-    key-store-password: 123456
-    # 密钥库类型
-    key-store-type: PKCS12
-    # 密钥别名
-    key-alias: tomcat
+#  ssl:
+#    # 密钥证书路径
+#    key-store: classpath:keystore.p12
+#    # 密钥库密码
+#    key-store-password: 123456
+#    # 密钥库类型
+#    key-store-type: PKCS12
+#    # 密钥别名
+#    key-alias: tomcat
   servlet:
     # 打开注释，则通过【http://localhost/springBootDemo】访问
     # context-path: /springBootDemo

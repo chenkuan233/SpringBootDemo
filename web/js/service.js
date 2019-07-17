@@ -11,11 +11,20 @@ function getProtocol() {
 }
 
 /**
- * IP 127.0.0.1
+ * IP 127.0.0.1:443
+ * 自带端口号
  * @returns {string}
  */
 function getHost() {
     return window.location.host;
+}
+
+/**
+ * 端口号 443
+ * @returns {string}
+ */
+function getPort() {
+    return window.location.port;
 }
 
 /**
@@ -28,7 +37,7 @@ function getPathName() {
 }
 
 /**
- * 访问地址 https://127.0.0.1
+ * 访问地址 https://127.0.0.1:443
  * @returns {string}
  */
 function getProjectPath() {
