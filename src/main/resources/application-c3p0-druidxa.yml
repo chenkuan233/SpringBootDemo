@@ -17,7 +17,7 @@ spring:
       # 数据源className
       xa-data-source-class-name: com.alibaba.druid.pool.xa.DruidXADataSource
       # 最小连接池数量
-      min-pool-size: 2
+      min-pool-size: 1
       # 最大连接池数量
       max-pool-size: 10
       # 连接检查
@@ -31,31 +31,33 @@ spring:
         password: 123456
         driverClassName: com.mysql.cj.jdbc.Driver
         # druid连接池初始化连接数
-        initialSize: 2
+        initialSize: 1
         # 最小空闲值
-        minIdle: 2
+        minIdle: 0
         # 最大连接池数量
         maxActive: 10
         # 获取连接时最大等待时间 单位毫秒
         maxWait: 60000
-        # 连接在连接池中最小生存的时间 毫秒
-        minEvictableIdleTimeMillis: 30000
+        # 连接在连接池中最小生存的时间 毫秒,此处设置为半小时
+        minEvictableIdleTimeMillis: 1800000
+        # 一个连接在池中最大生存的时间 毫秒,此处设置为7天。
+        maxEvictableIdleTimeMillis: 25200000
         # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接 单位毫秒
         timeBetweenEvictionRunsMillis: 60000
         # 是否缓存preparedStatement，也就是PSCache mysql建议false
-        poolPreparedStatements: false
+        poolPreparedStatements: true
         # 要启用PSCache，必须配置大于0 (建议100)
-        maxOpenPreparedStatements: -1
+        maxOpenPreparedStatements: 100
+        # 用来检测连接是否有效的sql，要求是一个查询语句.如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用
+        validationQuery: select 1 from dual
+        # 用来检测连接是否有效的sql的超时时间 秒
+        validationQueryTimeout: 5
         # 空闲时检测，保证安全性，配合timeBetweenEvictionRunsMillis
         testWhileIdle: true
         # 获取连接时检测，执行validationQuery检测连接是否有效，做了这个配置会降低性能
         testOnBorrow: false
         # 连接放回连接池时检测，执行validationQuery检测连接是否有效，做了这个配置会降低性能
         testOnReturn: false
-        # 用来检测连接是否有效的sql，要求是一个查询语句.如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用
-        validationQuery: select 1 from dual
-        # 用来检测连接是否有效的sql的超时时间 毫秒
-        validationQueryTimeout: 10000
         # 监控统计扩展插件
         filters: stat,slf4j,wall
 
@@ -66,7 +68,7 @@ spring:
       # 数据源className
       xa-data-source-class-name: com.alibaba.druid.pool.xa.DruidXADataSource
       # 最小连接池数量
-      min-pool-size: 2
+      min-pool-size: 1
       # 最大连接池数量
       max-pool-size: 10
       # 连接检查
@@ -80,31 +82,33 @@ spring:
         password: 123456
         driverClassName: com.mysql.cj.jdbc.Driver
         # druid连接池初始化连接数
-        initialSize: 2
+        initialSize: 1
         # 最小空闲值
-        minIdle: 2
+        minIdle: 0
         # 最大连接池数量
         maxActive: 10
         # 获取连接时最大等待时间 单位毫秒
         maxWait: 60000
-        # 连接在连接池中最小生存的时间 毫秒
-        minEvictableIdleTimeMillis: 30000
+        # 连接在连接池中最小生存的时间 毫秒,此处设置为半小时
+        minEvictableIdleTimeMillis: 1800000
+        # 一个连接在池中最大生存的时间 毫秒,此处设置为7天。
+        maxEvictableIdleTimeMillis: 25200000
         # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接 单位毫秒
         timeBetweenEvictionRunsMillis: 60000
         # 是否缓存preparedStatement，也就是PSCache mysql建议false
-        poolPreparedStatements: false
+        poolPreparedStatements: true
         # 要启用PSCache，必须配置大于0 (建议100)
-        maxOpenPreparedStatements: -1
+        maxOpenPreparedStatements: 100
+        # 用来检测连接是否有效的sql，要求是一个查询语句.如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用
+        validationQuery: select 1 from dual
+        # 用来检测连接是否有效的sql的超时时间 秒
+        validationQueryTimeout: 5
         # 空闲时检测，保证安全性，配合timeBetweenEvictionRunsMillis
         testWhileIdle: true
         # 获取连接时检测，执行validationQuery检测连接是否有效，做了这个配置会降低性能
         testOnBorrow: false
         # 连接放回连接池时检测，执行validationQuery检测连接是否有效，做了这个配置会降低性能
         testOnReturn: false
-        # 用来检测连接是否有效的sql，要求是一个查询语句.如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用
-        validationQuery: select 1 from dual
-        # 用来检测连接是否有效的sql的超时时间 毫秒
-        validationQueryTimeout: 10000
         # 监控统计扩展插件
         filters: stat,slf4j,wall
 
