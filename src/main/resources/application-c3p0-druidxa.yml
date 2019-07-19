@@ -6,8 +6,10 @@ spring:
     atomikos:
       properties:
         enable-logging: true
+    transaction-manager-id: txManager
 
   datasource:
+    type: com.alibaba.druid.pool.xa.DruidXADataSource
     # 默认数据源
     chen:
       # 唯一resource-name
@@ -24,7 +26,7 @@ spring:
       xa-properties:
         # druid可视化界面中显示的数据源名称
         name: chen@120.132.116.16
-        url: jdbc:mysql://120.132.116.16:3306/chen?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&useSSL=false&autoReconnect=true
+        url: jdbc:mysql://120.132.116.16:3306/chen?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&autoReconnect=true&useSSL=false&pinGlobalTxToPhysicalConnection=true
         username: root
         password: 123456
         driverClassName: com.mysql.cj.jdbc.Driver
@@ -73,7 +75,7 @@ spring:
       xa-properties:
         # druid可视化界面中显示的数据源名称
         name: chen2@120.132.116.16
-        url: jdbc:mysql://120.132.116.16:3306/chen2?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&useSSL=false&autoReconnect=true
+        url: jdbc:mysql://120.132.116.16:3306/chen2?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&autoReconnect=true&useSSL=false&pinGlobalTxToPhysicalConnection=true
         username: root
         password: 123456
         driverClassName: com.mysql.cj.jdbc.Driver

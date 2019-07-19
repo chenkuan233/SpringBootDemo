@@ -91,7 +91,7 @@ public class MyUserFilter extends UserFilter {
 		if (singleLogon > 0) {
 			//开启单点登录
 			//如果队列里的sessionId数超出最大会话数，开始踢人，踢出最早登陆的
-			while (sessionList.size() > singleLogon) {
+			while (sessionList.size() > singleLogon && sessionCollection.size() > singleLogon) {
 				log.info("---" + username + "的sessionId长度：" + sessionList.size() + ", 超出限制, 开始踢人---");
 				Serializable outSessionId = sessionList.get(0); //获取最早的sessionId
 				//获取sessionId的session对象

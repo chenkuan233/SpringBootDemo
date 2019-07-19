@@ -8,10 +8,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.cache.Cache;
+import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +34,9 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @Controller
 public class LoginController {
+
+	@Autowired
+	private AuthenticatingRealm authenticatingRealm;
 
 	@Value("${login.loginUrl}")
 	private String loginUrl;
@@ -52,9 +59,15 @@ public class LoginController {
 	 */
 	@GetMapping("/logout")
 	public String doLogout(HttpServletRequest request, HttpServletResponse response) {
+		String username = SessionUtil.getUserName();
 		Subject subject = SecurityUtils.getSubject();
-		// shiro 默认登出 自动清除权限、session、cookie等
+		//shiro 默认登出 自动清除权限、session、cookie等
 		subject.logout();
+		//从realm中获取到info缓存，将当前登出的对象在缓存中清除
+		Cache<Object, AuthenticationInfo> authenticationInfoCache = authenticatingRealm.getAuthenticationCache();
+		if (authenticationInfoCache != null)
+			authenticationInfoCache.remove(username);
+
 		log.info(request.getRemoteAddr() + " 安全登出");
 		return "redirect:" + loginUrl;
 	}

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Singleton;
+
 /**
  * @author chenkuan
  * @version v1.0
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @DependsOn(value = {"redisUtil", "shiroCasConfig"})
+@Singleton
 public class FilterDependsOnBean {
 
 	public static RedisUtil redisUtil;

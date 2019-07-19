@@ -45,13 +45,49 @@ var messageCenter = {
 var personalCenter = {
     template: loadPage("/pages/templates/personal.html"),
     data() {
+        //自定义密码校验
+        const reg_password = /^[a-zA-Z]\w{5,17}$/;
+        var validatePass = (rule, value, callback) => {
+            if (!reg_password.test(value)) {
+                callback(new Error('密码必须以字母开头，最少6位最多18位，允许字母数字下划线'));
+                return false;
+            }
+            callback();
+        };
+        var validateConPass = (rule, value, callback) => {
+            if (this.formEntity.conPassword !== this.formEntity.password) {
+                callback(new Error('两次密码不一致'));
+                return false;
+            }
+            if (!reg_password.test(value)) {
+                callback(new Error('密码必须以字母开头，最少6位最多18位，允许字母数字下划线'));
+                return false;
+            }
+            callback();
+        };
         return {
+            tabPosition: 'left',
             fileList: [],
             dialogVisible: false,
-            imgUrl: ''
+            imgUrl: '',
+            formEntity: {},
+            rules: {
+                oldPassword: [
+                    {required: true, message: '请输入原密码', trigger: 'blur'}
+                ],
+                password: [
+                    {required: true, message: '请输入新密码', trigger: 'blur'},
+                    {validator: validatePass, trigger: 'blur'}
+                ],
+                conPassword: [
+                    {required: true, message: '请确认密码', trigger: 'blur'},
+                    {validator: validateConPass, trigger: 'blur'}
+                ]
+            }
         }
     },
     methods: {
+        //##########个人相册##########
         //删除前确认
         beforeRemove(file, fileList) {
             return vm.$confirm(`确定移除 ${ file.name }？`);
@@ -104,6 +140,34 @@ var personalCenter = {
                 if (result.code !== '0')
                     that.findPersonalImage();
             })
+        },
+
+        //############密码修改##############
+        //提交
+        submitForm(formName, formEntity) {
+            this.$refs[formName].validate((valid) => {
+                if (!valid) {
+                    return false;
+                }
+                var that = this;
+                requestService('personalService', 'changePassword', formEntity, function (result) {
+                    if (result.code !== '0') {
+                        that.$message.error(result.msg);
+                        return false;
+                    } else {
+                        that.$alert('密码修改成功，请重新登陆', '提示', {
+                            confirmButtonText: '确定',
+                            callback: () => {
+                                window.location.href = getProjectPath() + constants.logout;
+                            }
+                        });
+                    }
+                })
+            })
+        },
+        //重置
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
         }
     },
     mounted() {

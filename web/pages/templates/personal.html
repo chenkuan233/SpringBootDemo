@@ -1,32 +1,65 @@
 <div>
     <el-row style="margin-top: 2%;margin-bottom: 2%;">
         <el-col :span="12" :offset="6">
-            <h3 class="el-dialog--center" style="color: #409EFF;">个人相册管理</h3>
+            <h3 class="el-dialog--center" style="color: #409EFF;">个人中心</h3>
         </el-col>
     </el-row>
-    
+
     <el-row>
-        <el-col :span="12" :offset="6">
-            <!--相册上传-->
-            <el-upload
-                    action="/upload/fileService/uploadPersonalImage"
-                    list-type="picture-card"
-                    multiple
-                    accept="image/*"
-                    :file-list="fileList"
-                    :on-preview="handlePictureCardPreview"
-                    :before-remove="beforeRemove"
-                    :on-remove="handleRemove"
-                    :on-success="onSuccess"
-                    :on-error="onError"
-                    :on-progress="onProgress"
-                    :on-change="onChange">
-                <i class="el-icon-plus"></i>
-            </el-upload>
-            <!--点击显示大图-->
-            <el-dialog :visible.sync="dialogVisible">
-                <img width="100%" :src="imgUrl" alt="">
-            </el-dialog>
+        <el-col :span="16" :offset="4">
+            <div class="el-dialog--center">
+                <el-radio-group v-model="tabPosition" style="margin-bottom: 30px;">
+                    <el-radio-button label="top">top</el-radio-button>
+                    <el-radio-button label="bottom">bottom</el-radio-button>
+                    <el-radio-button label="left">left</el-radio-button>
+                    <el-radio-button label="right">right</el-radio-button>
+                </el-radio-group>
+            </div>
+
+            <el-tabs :tab-position="tabPosition" type="border-card">
+                <el-tab-pane label="个人相册">
+                    <!--相册上传-->
+                    <el-upload
+                            action="/upload/fileService/uploadPersonalImage"
+                            list-type="picture-card"
+                            multiple
+                            accept="image/*"
+                            :file-list="fileList"
+                            :on-preview="handlePictureCardPreview"
+                            :before-remove="beforeRemove"
+                            :on-remove="handleRemove"
+                            :on-success="onSuccess"
+                            :on-error="onError"
+                            :on-progress="onProgress"
+                            :on-change="onChange">
+                        <i class="el-icon-plus"></i>
+                    </el-upload>
+                    <!--点击显示大图-->
+                    <el-dialog :visible.sync="dialogVisible">
+                        <img width="100%" :src="imgUrl" alt="">
+                    </el-dialog>
+                </el-tab-pane>
+
+                <el-tab-pane label="修改密码">
+                    <el-form :model="formEntity" :rules="rules" ref="ruleForm" label-width="100px">
+                        <el-form-item label="原密码" prop="oldPassword">
+                            <el-input v-model="formEntity.oldPassword" placeholder="请输入原密码"></el-input>
+                        </el-form-item>
+                        <el-form-item label="新密码" prop="password">
+                            <el-input type="password" v-model="formEntity.password" placeholder="请输入新密码"></el-input>
+                        </el-form-item>
+                        <el-form-item label="确认密码" prop="conPassword">
+                            <el-input type="password" v-model="formEntity.conPassword" placeholder="请确认新密码"></el-input>
+                        </el-form-item>
+
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('ruleForm',formEntity)">确认修改</el-button>
+                            <el-button @click="resetForm('ruleForm')">重置</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-tab-pane>
+            </el-tabs>
+
         </el-col>
     </el-row>
 

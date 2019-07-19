@@ -129,7 +129,7 @@ public class FileServiceImpl implements FileService {
 		try {
 			FileUtils.forceDelete(new File(FileUtil.getUserDir() + personalImage.getUrl()));
 		} catch (FileNotFoundException e) {
-			log.info("[删除文件] -- " + personalImage.getUrl() + "不存在");
+			log.warn("[删除文件] -- " + personalImage.getUrl() + "不存在");
 		} catch (IOException e) {
 			return new Response("-1", "删除失败");
 		}

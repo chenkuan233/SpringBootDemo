@@ -22,7 +22,7 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // 数据库自增
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 
@@ -47,11 +47,14 @@ public class User implements Serializable {
 	@NotNull
 	private String credentialsSalt;
 
+	//原密码
+	@Transient
+	private String oldPassword;
+
 	public User() {
 	}
 
 	public User(@NotNull String userName) {
 		this.userName = userName;
 	}
-
 }
