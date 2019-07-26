@@ -23,7 +23,7 @@ var vm = new Vue({
                     vm.$message.error(result.msg)
                 } else {
                     //登录成功
-                    setCache("userInfo", result.data); //缓存用户信息
+                    saveUserInfoCache(result.data); //缓存用户信息
                     window.location.href = getProjectPath() + constants.indexUrl;
                 }
             })

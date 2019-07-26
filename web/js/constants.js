@@ -12,4 +12,7 @@ com.springboot.constant.Constants = function () {
 
     //登出服务
     this.logout = '/logout';
+
+    //websocket测试页面
+    this.websocketPage = '/pages/testCenter/websocket.html';
 };

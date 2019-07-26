@@ -5,6 +5,8 @@
  * sessionStorage关闭浏览器后信息丢失
  */
 
+var userInfoFlag = "userInfo";
+
 /**
  * 保存缓存数据
  * @param key
@@ -76,4 +78,33 @@ function getAllKeys() {
         keys[i] = getKeyByIndex(i);
     }
     return keys;
+}
+
+/**
+ * 保存用户信息到缓存
+ * @param userInfo
+ */
+function saveUserInfoCache(userInfo) {
+    setCache(userInfoFlag, userInfo);
+}
+
+/**
+ * 获取当前登陆用户信息
+ * @returns {any}
+ */
+function getUserInfoCache() {
+    return getCache(userInfoFlag);
+}
+
+/**
+ * 获取当前登陆用户名称
+ * @returns {*}
+ */
+function getUserNameCache() {
+    const userInfo = getUserInfoCache();
+    if (userInfo !== undefined && userInfo !== null) {
+        return userInfo.userName;
+    } else {
+        return null;
+    }
 }

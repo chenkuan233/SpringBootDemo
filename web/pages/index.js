@@ -2,7 +2,7 @@
 var constants = new com.springboot.constant.Constants();
 
 //用户信息
-var userInfo = getCache("userInfo");
+var userInfo = getUserInfoCache();
 
 //定义全局组件 footer-bar
 Vue.component('footer-bar', {
@@ -66,7 +66,7 @@ var personalCenter = {
             callback();
         };
         return {
-            tabPosition: 'left',
+            tabPosition: 'top',
             fileList: [],
             dialogVisible: false,
             imgUrl: '',
@@ -175,12 +175,31 @@ var personalCenter = {
     }
 };
 
+//功能测试路由组件
+var testCenter = {
+    template: loadPage("/pages/templates/testCenter.html"),
+    data() {
+        return {
+            drawer: false
+        }
+    },
+    methods: {
+        openDrawer() {
+            this.drawer = true;
+        },
+        toWebsocketPage() {
+            window.open(getProjectPath() + constants.websocketPage)
+        }
+    }
+};
+
 //路由配置
 var routes = [
     {path: "/", redirect: "/home"}, //这个表示会默认渲染
     {path: "/home", component: home},
     {path: "/messageCenter", component: messageCenter},
-    {path: "/personalCenter", component: personalCenter}
+    {path: "/personalCenter", component: personalCenter},
+    {path: "/testCenter", component: testCenter}
 ];
 
 var vm = new Vue({
