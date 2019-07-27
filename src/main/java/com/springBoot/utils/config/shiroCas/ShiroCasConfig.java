@@ -152,7 +152,7 @@ public class ShiroCasConfig {
 		//设置全局会话超时时间,单位毫秒(默认1800000)
 		sessionManager.setGlobalSessionTimeout(60000 * sessionTimeOut);
 		//session有效性检测时间间隔,单位毫秒
-		sessionManager.setSessionValidationInterval(60000 * 10);
+		sessionManager.setSessionValidationInterval(60000 * 30);
 		//是否开启session定时扫描，校验session是否有效
 		sessionManager.setSessionValidationSchedulerEnabled(true);
 		//删除失效session

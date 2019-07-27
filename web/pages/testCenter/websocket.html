@@ -13,10 +13,6 @@
     <el-row>
         <el-col :span="12" :offset="6">
             <div style="margin-top: 10%;">
-                <el-button round @click="startWebsocket()">发起连接</el-button>
-                <el-button type="primary" round @click="websocketSend()">给[admin]发送消息</el-button>
-            </div>
-            <div style="margin-top: 10%;">
                 <el-switch
                         style="display: block"
                         v-model="socketStatus"
@@ -24,8 +20,11 @@
                         inactive-color="#ff4949"
                         active-text="已连接"
                         inactive-text="未连接"
-                        disabled>
+                        :change="changeSocketStatus(socketStatus)">
                 </el-switch>
+            </div>
+            <div style="margin-top: 10%;">
+                <el-button type="primary" round @click="websocketSend()">给[admin]发送消息</el-button>
             </div>
         </el-col>
     </el-row>
