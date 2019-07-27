@@ -1,7 +1,8 @@
-package com.springBoot.impl.fix;
+package com.springBoot.testmodule.fix;
 
 import org.apache.log4j.PropertyConfigurator;
 import quickfix.*;
+import quickfix.mina.acceptor.DynamicAcceptorSessionProvider;
 import quickfix.mina.acceptor.DynamicAcceptorSessionProvider.TemplateMapping;
 
 import java.net.InetSocketAddress;
@@ -10,19 +11,19 @@ import java.util.*;
 /**
  * @author chenkuan
  * @version v1.0
- * @desc 客户端
- * @date 2019/5/9 009 12:00
+ * @desc 服务启动主类(线程)
+ * @date 2019/5/9 009 9:31
  */
-public class FixClient {
+public class FixServer {
 
-	private static SocketInitiator initiator = null;
+	private static ThreadedSocketAcceptor acceptor = null;
 
 	private static final String SETTING_ACCEPTOR_TEMPLATE = "AcceptorTemplate";
 	private static final String SETTING_SOCKET_ACCEPT_ADDRESS = "SocketAcceptAddress";
 	private static final String SETTING_SOCKET_ACCEPT_PORT = "SocketAcceptPort";
 
-	public static SocketInitiator getInitiator() {
-		return initiator;
+	public static ThreadedSocketAcceptor getAcceptor() {
+		return acceptor;
 	}
 
 	private final Map<InetSocketAddress, List<TemplateMapping>> dynamicSessionMappings = new HashMap<>();
@@ -31,7 +32,7 @@ public class FixClient {
 		return dynamicSessionMappings;
 	}
 
-	public FixClient() {
+	public FixServer() {
 	}
 
 	/**
@@ -39,7 +40,7 @@ public class FixClient {
 	 *
 	 * @param propFile
 	 */
-	public FixClient(String propFile) throws ConfigError, FieldConvertError {
+	public FixServer(String propFile) throws ConfigError, FieldConvertError {
 		// 设置配置文件
 		SessionSettings settings = new SessionSettings(propFile);
 
@@ -57,24 +58,24 @@ public class FixClient {
 
 		MessageFactory messageFactory = new DefaultMessageFactory();
 
-		initiator = new SocketInitiator(application, storeFactory, settings, logFactory, messageFactory);
+		acceptor = new ThreadedSocketAcceptor(application, storeFactory, settings, logFactory, messageFactory);
 
-		// configureDynamicSessions(settings, application, storeFactory, logFactory, messageFactory);
+		configureDynamicSessions(settings, application, storeFactory, logFactory, messageFactory);
 	}
 
 	private void startServer() throws RuntimeError, ConfigError {
-		initiator.start();
+		acceptor.start();
 	}
 
 	public void stop() {
-		initiator.stop();
+		acceptor.stop();
 	}
 
 	/**
 	 * 被调用的start方法
 	 */
 	public static void start() throws ConfigError, FieldConvertError {
-		FixClient servercom = new FixClient("quickfix-client.properties");
+		FixServer servercom = new FixServer("quickfix-server.properties");
 		servercom.startServer();
 	}
 
@@ -86,8 +87,8 @@ public class FixClient {
 	public static void main(String[] args) throws ConfigError, FieldConvertError {
 		// 配置LOG日记
 		PropertyConfigurator.configure("logback.xml");
-		FixClient fixClient = new FixClient("quickfix-client.properties");
-		fixClient.startServer();
+		FixServer fixServer = new FixServer("quickfix-server.properties");
+		fixServer.startServer();
 	}
 
 	/**
@@ -117,13 +118,13 @@ public class FixClient {
 			}
 		}
 
-		/*for (Map.Entry<InetSocketAddress, List<TemplateMapping>> entry : dynamicSessionMappings.entrySet()) {
-			initiator.setSessionProvider(
+		for (Map.Entry<InetSocketAddress, List<TemplateMapping>> entry : dynamicSessionMappings.entrySet()) {
+			acceptor.setSessionProvider(
 					entry.getKey(),
 					new DynamicAcceptorSessionProvider(settings, entry
 							.getValue(), application, messageStoreFactory,
 							logFactory, messageFactory));
-		}*/
+		}
 	}
 
 	private boolean isSessionTemplate(SessionSettings settings, SessionID sessionID) throws ConfigError, FieldConvertError {

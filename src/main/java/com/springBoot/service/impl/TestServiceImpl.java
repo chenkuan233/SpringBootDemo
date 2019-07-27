@@ -1,4 +1,4 @@
-package com.springBoot.impl;
+package com.springBoot.service.impl;
 
 import com.springBoot.service.TestService;
 import com.springBoot.utils.PropertiesUtil;

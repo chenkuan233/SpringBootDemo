@@ -1,4 +1,4 @@
-package com.springBoot.impl;
+package com.springBoot.service.impl;
 
 import com.springBoot.entity.FileInfo;
 import com.springBoot.entity.PersonalImage;

@@ -1,10 +1,9 @@
-package com.springBoot.impl;
+package com.springBoot.service.impl;
 
 import com.springBoot.entity.Item;
 import com.springBoot.service.ElasticsearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.stereotype.Service;
 
 /**
  * @author chenkuan
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
  * @desc 测试Elasticsearch
  * @date 2019/4/11 011 11:22
  */
-// @Service("elasticsearchService")
+//@Service("elasticsearchService")
 public class ElasticsearchServiceImpl implements ElasticsearchService {
 
 	@Autowired

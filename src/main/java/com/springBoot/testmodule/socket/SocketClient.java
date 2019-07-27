@@ -1,6 +1,5 @@
-package com.springBoot.impl.socket;
+package com.springBoot.testmodule.socket;
 
-import com.springBoot.service.socket.SocketClientService;
 import com.springBoot.utils.SocketUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,8 +16,8 @@ import java.net.Socket;
  * @date 2019/5/6 006 10:00
  */
 @Slf4j
-@Service("socketClientService")
-public class SocketClientServiceImpl implements SocketClientService {
+@Service
+public class SocketClient {
 
 	public static void main(String[] args) throws IOException {
 		// 要连接的服务端IP地址和端口
@@ -50,5 +49,4 @@ public class SocketClientServiceImpl implements SocketClientService {
 		// 关闭连接
 		SocketUtil.close(in, out, socket);
 	}
-
 }

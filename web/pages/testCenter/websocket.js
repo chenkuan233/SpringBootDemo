@@ -10,24 +10,31 @@ window.onbeforeunload = function () {
 
 var vm = new Vue({
     el: "#websocketApp",
-    data: {},
+    data: {
+        socketStatus: false
+    },
     methods: {
+        //初始化websocket
         startWebsocket() {
             if ('WebSocket' in window) {
+                if (websocket && websocket.readyState === websocket.OPEN) return;
+                //初始化连接
                 websocket = new WebSocket("ws://" + getHost() + "/websocket/" + username);
             } else {
                 vm.$message.error('当前浏览器 Not support websocket');
-                return false;
+                return;
             }
 
             //连接发生错误的回调方法
             websocket.onerror = function () {
                 vm.$message.error('WebSocket连接发生错误');
+                vm.socketStatus = false;
             };
 
             //连接成功建立的回调方法
             websocket.onopen = function () {
                 vm.$message.success('WebSocket连接成功');
+                vm.socketStatus = true;
             };
 
             //接收到消息的回调方法
@@ -38,7 +45,24 @@ var vm = new Vue({
             //连接关闭的回调方法
             websocket.onclose = function () {
                 vm.$message.warning("WebSocket连接关闭");
+                vm.socketStatus = false;
             };
         },
+
+        //发送消息 点击事件
+        websocketSend() {
+            vm.sendMessageTo('admin', '来自[' + username + ']的测试消息');
+        },
+
+        //发送指定消息
+        sendMessageTo(to, message) {
+            if (!(websocket && websocket.readyState === websocket.OPEN)) {
+                vm.$message.error("WebSocket未连接，请重新连接");
+                return;
+            }
+            const data = "['" + to + "', '" + message + "']";
+            websocket.send(data);
+            vm.$message('给[' + to + ']发送消息');
+        }
     }
 });

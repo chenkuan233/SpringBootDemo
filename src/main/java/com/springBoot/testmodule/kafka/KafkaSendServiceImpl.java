@@ -1,6 +1,6 @@
-package com.springBoot.impl.kafka;
+package com.springBoot.testmodule.kafka;
 
-import com.springBoot.service.kafka.KafkaSendService;
+import com.springBoot.service.KafkaSendService;
 import com.springBoot.utils.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

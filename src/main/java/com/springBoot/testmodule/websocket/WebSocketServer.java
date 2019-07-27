@@ -1,7 +1,9 @@
-package com.springBoot.impl.websocket;
+package com.springBoot.testmodule.websocket;
 
-import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -17,10 +19,11 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 @ServerEndpoint("/websocket/{username}")
-public class WebSocket {
+@Component
+public class WebSocketServer {
 
 	private static int onlineCount = 0;
-	private static Map<String, WebSocket> clients = new ConcurrentHashMap<>();
+	private static Map<String, WebSocketServer> clients = new ConcurrentHashMap<>();
 	private Session session;
 	private String username;
 
@@ -42,11 +45,14 @@ public class WebSocket {
 
 	@OnMessage
 	public void onMessage(String message) {
-		JSONObject jsonTo = JSONObject.parseObject(message);
-		if (!"All".equals(jsonTo.get("To"))) {
-			sendMessageTo("给" + jsonTo.get("To") + "的测试消息", jsonTo.get("To").toString());
+		log.info("接收消息---" + username + "：" + message);
+		JsonArray jsonArray = new JsonParser().parse(message).getAsJsonArray();
+		String to = jsonArray.get(0).getAsString();
+		String msg = jsonArray.get(1).getAsString();
+		if ("All".equals(to)) {
+			sendMessageAll(msg);
 		} else {
-			sendMessageAll("给所有人的测试消息");
+			sendMessageTo(to, msg);
 		}
 	}
 
@@ -56,17 +62,19 @@ public class WebSocket {
 	}
 
 	//给指定客户端发送消息
-	public void sendMessageTo(String message, String toClient) {
-		for (WebSocket item : clients.values()) {
-			if (item.username.equals(toClient))
-				item.session.getAsyncRemote().sendText(message);
+	public void sendMessageTo(String toClient, String message) {
+		WebSocketServer socketServer = clients.get(toClient);
+		if (socketServer != null) {
+			socketServer.session.getAsyncRemote().sendText(message);
+			log.info("给[" + socketServer.username + "]推送消息：" + message);
 		}
 	}
 
 	//给所有客户端发送消息
 	public void sendMessageAll(String message) {
-		for (WebSocket item : clients.values()) {
+		for (WebSocketServer item : clients.values()) {
 			item.session.getAsyncRemote().sendText(message);
+			log.info("给[" + item.username + "]推送消息：" + message);
 		}
 	}
 
@@ -76,7 +84,7 @@ public class WebSocket {
 	}
 
 	//获取所有客户端
-	public static Map<String, WebSocket> getClients() {
+	public static Map<String, WebSocketServer> getClients() {
 		return clients;
 	}
 

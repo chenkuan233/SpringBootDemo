@@ -1,6 +1,5 @@
-package com.springBoot.impl.socket;
+package com.springBoot.testmodule.socket;
 
-import com.springBoot.service.socket.SocketServerService;
 import com.springBoot.utils.SocketUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,8 +19,8 @@ import java.util.concurrent.Executors;
  * @date 2019/5/6 006 10:00
  */
 @Slf4j
-@Service("socketServerService")
-public class SocketServerServiceImpl implements SocketServerService {
+@Service
+public class SocketServer {
 
 	public static void main(String[] args) {
 		ServerSocket server = null;
@@ -80,5 +79,4 @@ public class SocketServerServiceImpl implements SocketServerService {
 			}
 		}
 	}
-
 }

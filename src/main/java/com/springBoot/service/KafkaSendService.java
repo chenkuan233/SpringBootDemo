@@ -1,4 +1,4 @@
-package com.springBoot.service.kafka;
+package com.springBoot.service;
 
 import com.springBoot.utils.Response;
 
