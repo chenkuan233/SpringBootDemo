@@ -24,8 +24,8 @@ public class WebSocketServer {
 
 	private static int onlineCount = 0;
 	private static Map<String, WebSocketServer> clients = new ConcurrentHashMap<>();
-	private Session session;
 	private String username;
+	private Session session;
 
 	@OnOpen
 	public void onOpen(@PathParam("username") String username, Session session) {
@@ -45,7 +45,6 @@ public class WebSocketServer {
 
 	@OnMessage
 	public void onMessage(String message) {
-		log.info("接收消息---" + username + "：" + message);
 		JsonArray jsonArray = new JsonParser().parse(message).getAsJsonArray();
 		String to = jsonArray.get(0).getAsString();
 		String msg = jsonArray.get(1).getAsString();
@@ -67,6 +66,10 @@ public class WebSocketServer {
 		if (socketServer != null) {
 			socketServer.session.getAsyncRemote().sendText(message);
 			log.info("给[" + socketServer.username + "]推送消息：" + message);
+		} else {
+			if (this.session != null) {
+				this.session.getAsyncRemote().sendText(toClient + "不在线，消息未发送");
+			}
 		}
 	}
 
